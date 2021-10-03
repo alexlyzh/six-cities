@@ -5,7 +5,7 @@ interface Props {
   cardsCount: number,
 }
 
-function Main(props: Props) {
+function Main(props: Props): JSX.Element {
   const {cardsCount} = props;
   const indexes = new Array(cardsCount).fill(null).map((el, i) => i);
 

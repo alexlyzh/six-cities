@@ -1,4 +1,4 @@
-function Header() {
+function Header(): JSX.Element {
   return (
     <header className="header">
       <div className="container">
