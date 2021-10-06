@@ -1,9 +1,9 @@
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import Main from '../main/main';
-import PageNotFound from '../page-not-found/page-not-found';
-import Favorites from '../favorites/favorites';
-import Login from '../login/login';
-import Property from '../property/property';
+import MainPage from '../main/main-page';
+import NotFoundPage from '../page-not-found/not-found-page';
+import FavoritesPage from '../favorites/favorites-page';
+import LoginPage from '../login/login-page';
+import OfferPage from '../property/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
 
@@ -16,22 +16,22 @@ function App({ cardsCount }: Props): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <Main cardsCount={cardsCount}/>
+          <MainPage cardsCount={cardsCount}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <Login/>
+          <LoginPage/>
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.FAVORITES}
-          render={() => <Favorites/>}
+          render={() => <FavoritesPage/>}
           authorizationStatus={AuthorizationStatus.NO_AUTH}
         />
-        <Route exact path={AppRoute.PROPERTY}>
-          <Property/>
+        <Route exact path={AppRoute.OFFER}>
+          <OfferPage/>
         </Route>
         <Route>
-          <PageNotFound/>
+          <NotFoundPage/>
         </Route>
       </Switch>
     </BrowserRouter>

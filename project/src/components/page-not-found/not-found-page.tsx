@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../constants';
 
-function PageNotFound(): JSX.Element {
+function NotFoundPage(): JSX.Element {
   return (
     <div style={{
       textAlign: 'center',
@@ -24,4 +24,4 @@ function PageNotFound(): JSX.Element {
   );
 }
 
-export default PageNotFound;
+export default NotFoundPage;
