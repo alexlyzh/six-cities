@@ -6,7 +6,7 @@ interface PrivateRouteProps extends RouteProps {
   authorizationStatus: AuthorizationStatus,
 }
 
-function PrivateRoute (props: PrivateRouteProps) {
+function PrivateRoute (props: PrivateRouteProps): JSX.Element {
   const {exact, path, render, authorizationStatus} = props;
 
   return (
