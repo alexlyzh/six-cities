@@ -6,17 +6,22 @@ import LoginPage from '../login-page/login-page';
 import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
+import {Offers} from '../../types/offers';
+import {Comments} from '../../types/comments';
 
-interface Props {
-  cardsCount: number,
+type AppProps = {
+  offers: Offers,
+  comments: Comments,
 }
 
-function App({ cardsCount }: Props): JSX.Element {
+function App({ offers, comments }: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <MainPage cardsCount={cardsCount}/>
+          <MainPage
+            offers={offers}
+          />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginPage/>

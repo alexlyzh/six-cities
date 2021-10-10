@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-
-const CARDS_COUNT = 5;
+import {offers, comments} from './mock/mock';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App cardsCount={CARDS_COUNT} />
+    <App
+      offers={offers}
+      comments={comments}
+    />
   </React.StrictMode>,
   document.getElementById('root'));

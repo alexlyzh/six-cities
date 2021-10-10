@@ -1,13 +1,13 @@
-import {user} from './user';
+import {User} from './user';
 
-type comment = {
+type Comment = {
   id: number,
   comment: string,
   date: string,
   rating: number,
-  user: user,
+  user: User,
 }
 
-type comments = comment[];
+type Comments = Comment[];
 
-export type { comments };
+export type { Comments };

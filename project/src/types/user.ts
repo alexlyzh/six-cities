@@ -1,8 +1,8 @@
-type user = {
+type User = {
   avatarUrl: string,
   id: number,
   isPro: boolean,
   name: string,
 }
 
-export type { user };
+export type { User };

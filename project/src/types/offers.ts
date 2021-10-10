@@ -1,27 +1,27 @@
-import {user} from './user';
+import {User} from './user';
 
-type location = {
+type Location = {
   latitude: number,
   longitude: number,
   zoom: number,
 }
 
-type city = {
-  location: location,
+type City = {
+  location: Location,
   name: string,
 }
 
-type offer = {
+type Offer = {
   id: number,
   bedrooms: number,
-  city: city,
+  city: City,
   description: string,
   goods: string[],
-  host: user,
+  host: User,
   images: string[],
   isFavorite: boolean,
-  isPremium: true,
-  location: location,
+  isPremium: boolean,
+  location: Location,
   maxAdults: number,
   previewImage: string,
   price: number,
@@ -30,6 +30,6 @@ type offer = {
   type: string,
 }
 
-type offers = offer[];
+type Offers = Offer[];
 
-export type { offers };
+export type { Offers };

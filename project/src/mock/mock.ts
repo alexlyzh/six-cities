@@ -64,7 +64,7 @@ const offers = [
     previewImage: 'img/room.jpg',
     price: 80,
     rating: 4,
-    title: 'Beautiful & luxurious studio at great location',
+    title: 'Wood and stone place',
     type: 'private room',
   },
   {
@@ -98,7 +98,7 @@ const offers = [
     previewImage: 'img/apartment-02.jpg',
     price: 132,
     rating: 5,
-    title: 'Beautiful & luxurious studio at great location',
+    title: 'Canal View Prinsengracht',
     type: 'private room',
   },
   {
@@ -132,7 +132,7 @@ const offers = [
     previewImage: 'img/apartment-03.jpg',
     price: 180,
     rating: 2,
-    title: 'Beautiful & luxurious studio at great location',
+    title: 'Nice, cozy, warm big bed apartment',
     type: 'apartment',
   },
 ];

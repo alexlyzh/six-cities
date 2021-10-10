@@ -1,13 +1,13 @@
-import PlaceCard from '../place-card/place-card';
 import Header from '../header/header';
+import {Offers} from '../../types/offers';
+import {OffersList} from '../offers-list/offers-list';
 
-interface Props {
-  cardsCount: number,
+type MainPageProps = {
+  offers: Offers,
 }
 
-function MainPage(props: Props): JSX.Element {
-  const {cardsCount} = props;
-  const indexes = new Array(cardsCount).fill(null).map((el, i) => i);
+function MainPage(props: MainPageProps): JSX.Element {
+  const { offers } = props;
 
   return (
     <div className="page page--gray page--main">
@@ -73,7 +73,7 @@ function MainPage(props: Props): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
 
-                {indexes.map((item) => <PlaceCard key={item} />)}
+                <OffersList offers={offers} />
 
               </div>
             </section>
