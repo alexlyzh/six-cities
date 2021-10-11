@@ -1,3 +1,4 @@
+//import {useState} from 'react';
 import OfferCard from '../offer-card/offer-card';
 import {Offers} from '../../types/offers';
 
@@ -6,6 +7,8 @@ type OffersListProps = {
 }
 
 function OffersList({ offers }: OffersListProps): JSX.Element {
+  //const [focusedOffer, setFocusedOffer] = useState(null);
+
   return (
     <>
       {
@@ -15,6 +18,7 @@ function OffersList({ offers }: OffersListProps): JSX.Element {
           return (
             <OfferCard
               key={id}
+              id={id}
               previewImage={previewImage}
               isPremium={isPremium}
               price={price}

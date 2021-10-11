@@ -32,4 +32,15 @@ type Offer = {
 
 type Offers = Offer[];
 
-export type { Offers };
+type OfferProps = {
+  id: number,
+  previewImage: string,
+  isPremium?: boolean,
+  price: number,
+  title: string,
+  type: string,
+  isFavorite: boolean,
+  rating: number,
+}
+
+export type { Offer, Offers, OfferProps };

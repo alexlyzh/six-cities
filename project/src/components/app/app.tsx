@@ -29,8 +29,8 @@ function App({ offers, comments }: AppProps): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.FAVORITES}
-          render={() => <FavoritesPage/>}
-          authorizationStatus={AuthorizationStatus.NO_AUTH}
+          render={() => <FavoritesPage offers={offers}/>}
+          authorizationStatus={AuthorizationStatus.AUTH}
         />
         <Route exact path={AppRoute.OFFER}>
           <OfferPage/>
