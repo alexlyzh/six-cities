@@ -3,22 +3,18 @@ import {OfferProps} from '../../types/offers';
 import {AppRoute, FAVORITE_OFFER_CLASSNAME} from '../../constants';
 import {getWidthStyle, capitalize} from '../../utils';
 
-function PremiumMark(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>);
-}
-
 function OfferCard(props: OfferProps): JSX.Element {
   const {id, previewImage, isFavorite, isPremium, price, title, type, rating } = props;
 
   return (
     <article className="cities__place-card place-card">
-      {isPremium && <PremiumMark/>}
+      {isPremium ?
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div> : null}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`${AppRoute.OFFER}${id}`}>
+        <Link to={`${AppRoute.OFFER}/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"/>
         </Link>
       </div>
@@ -42,7 +38,7 @@ function OfferCard(props: OfferProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.OFFER}${id}`}>{title}</Link>
+          <Link to={`${AppRoute.OFFER}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{capitalize(type)}</p>
       </div>

@@ -4,7 +4,7 @@ enum AppRoute {
   ROOT = '/',
   LOGIN = '/login',
   FAVORITES = '/favorites',
-  OFFER = '/offer/',
+  OFFER = '/offer',
 }
 
 enum AuthorizationStatus {

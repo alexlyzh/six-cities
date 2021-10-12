@@ -10,13 +10,15 @@ type FavoritesPageProps = {
 }
 
 function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
+  const favorites = offers.filter((offer) => offer.isFavorite);
+
   return (
     <div className="page">
       <Header/>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          {offers.length ? <Favorites offers={offers}/> : <FavoritesEmpty/>}
+          {favorites.length ? <Favorites offers={favorites}/> : <FavoritesEmpty/>}
         </div>
       </main>
       <footer className="footer container">

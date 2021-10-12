@@ -32,9 +32,20 @@ function App({ offers, comments }: AppProps): JSX.Element {
           render={() => <FavoritesPage offers={offers}/>}
           authorizationStatus={AuthorizationStatus.AUTH}
         />
-        <Route exact path={AppRoute.OFFER}>
-          <OfferPage/>
-        </Route>
+        <Route
+          exact
+          path={`${AppRoute.OFFER}/:id`}
+          render={(serviceProps) => {
+            const id = Number(serviceProps.match.params.id);
+            const offer = offers.find((item) => item.id === id) || null;
+            return (
+              <OfferPage
+                offer={offer}
+                comments={comments}
+                authorizationStatus={AuthorizationStatus.AUTH}
+              />);
+          }}
+        />
         <Route>
           <NotFoundPage/>
         </Route>

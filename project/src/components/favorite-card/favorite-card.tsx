@@ -9,7 +9,7 @@ function FavoriteCard(props: OfferProps): JSX.Element {
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={`${AppRoute.OFFER}${id}`}>
+        <Link to={`${AppRoute.OFFER}/${id}`}>
           <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place"/>
         </Link>
       </div>
@@ -33,7 +33,7 @@ function FavoriteCard(props: OfferProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.OFFER}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{capitalize(type)}</p>
       </div>

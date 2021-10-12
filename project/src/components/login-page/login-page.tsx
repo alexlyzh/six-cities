@@ -1,4 +1,6 @@
+import {Link} from 'react-router-dom';
 import Header from '../header/header';
+import {AppRoute} from '../../constants';
 
 function LoginPage(): JSX.Element {
   return (
@@ -23,9 +25,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link to={AppRoute.ROOT} className="locations__item-link">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

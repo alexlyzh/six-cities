@@ -34,13 +34,16 @@ type Offers = Offer[];
 
 type OfferProps = {
   id: number,
-  previewImage: string,
-  isPremium?: boolean,
   price: number,
   title: string,
   type: string,
   isFavorite: boolean,
   rating: number,
+  previewImage?: string,
+  images?: string[],
+  isPremium?: boolean,
+  bedrooms?: number,
+  maxAdults?: number,
 }
 
 export type { Offer, Offers, OfferProps };

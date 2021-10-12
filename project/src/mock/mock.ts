@@ -31,7 +31,7 @@ const offers = [
     price: 120,
     rating: 4.8,
     title: 'Beautiful & luxurious studio at great location',
-    type: 'axpartment',
+    type: 'apartment',
   },
   {
     id: 2,
