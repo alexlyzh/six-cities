@@ -6,11 +6,11 @@ import LoginPage from '../login-page/login-page';
 import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
-import {Offers} from '../../types/offers';
+import {Offer} from '../../types/offers';
 import {Comments} from '../../types/comments';
 
 type AppProps = {
-  offers: Offers,
+  offers: Offer[],
   comments: Comments,
 }
 
@@ -34,10 +34,10 @@ function App({ offers, comments }: AppProps): JSX.Element {
         />
         <Route
           exact
-          path={`${AppRoute.OFFER}/:id`}
+          path={AppRoute.OFFER}
           render={(serviceProps) => {
             const id = Number(serviceProps.match.params.id);
-            const offer = offers.find((item) => item.id === id) || null;
+            const offer = offers.find((item) => item.id === id);
             return (
               <OfferPage
                 offer={offer}

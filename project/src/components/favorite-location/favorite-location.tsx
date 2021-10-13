@@ -1,40 +1,29 @@
 import {Link} from 'react-router-dom';
-import {FavoriteCard} from '../favorite-card/favorite-card';
+import OfferCard from '../offer-card/offer-card';
 import {AppRoute} from '../../constants';
-import {FavoritesPageProps} from '../favorites-page/favorites-page';
-import {capitalize} from '../../utils';
+import {Offer} from '../../types/offers';
 
-type FavoriteLocationProps = FavoritesPageProps & {
+type FavoriteLocationProps = {
+  offers: Offer[],
   cityName: string,
 }
 
-function FavoriteLocation(props: FavoriteLocationProps): JSX.Element {
-  const {offers, cityName} = props;
-
+function FavoriteLocation({offers, cityName}: FavoriteLocationProps): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link to={AppRoute.ROOT} className="locations__item-link">
-            <span>{capitalize(cityName)}</span>
+            <span>{cityName}</span>
           </Link>
         </div>
       </div>
       <div className="favorites__places">
-        {offers.map((offer) => {
-          const {id, previewImage, price, rating, title, type, isFavorite} = offer;
-          return (
-            <FavoriteCard
-              key={id}
-              id={id}
-              previewImage={previewImage}
-              price={price}
-              title={title}
-              type={type}
-              isFavorite={isFavorite}
-              rating={rating}
-            />);
-        })}
+        {offers.map((offer) => (
+          <OfferCard
+            key={offer.id}
+            offer={offer}
+          />))}
       </div>
     </li>
   );

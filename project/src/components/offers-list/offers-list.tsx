@@ -1,34 +1,18 @@
-//import {useState} from 'react';
 import OfferCard from '../offer-card/offer-card';
-import {Offers} from '../../types/offers';
+import {Offer} from '../../types/offers';
 
 type OffersListProps = {
-  offers: Offers,
+  offers: Offer[],
 }
 
-function OffersList({ offers }: OffersListProps): JSX.Element {
-  //const [focusedOffer, setFocusedOffer] = useState(null);
-
+function OffersList(props: OffersListProps): JSX.Element {
   return (
     <>
-      {
-        offers.map((offer) => {
-          const {id, previewImage, isFavorite, isPremium, price, title, type, rating } = offer;
-
-          return (
-            <OfferCard
-              key={id}
-              id={id}
-              previewImage={previewImage}
-              isPremium={isPremium}
-              price={price}
-              title={title}
-              type={type}
-              isFavorite={isFavorite}
-              rating={rating}
-            />);
-        })
-      }
+      {props.offers.map((offer) => (
+        <OfferCard
+          key={offer.id}
+          offer={offer}
+        />))}
     </>);
 }
 

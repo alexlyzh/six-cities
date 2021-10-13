@@ -3,15 +3,13 @@ import FeedbackForm from '../feedback-form/feedback-form';
 import {Comments} from '../../types/comments';
 import {Offer} from '../../types/offers';
 import {Redirect} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../constants';
-import {capitalize, getWidthStyle} from '../../utils';
-
-const FAVORITE_BUTTON_CLASSNAME = 'property__bookmark-button--active';
+import {AppRoute, AuthorizationStatus, OfferType} from '../../constants';
+import {getWidthByRating} from '../../utils';
 
 type OfferPageProps = {
   authorizationStatus: string,
   comments: Comments,
-  offer: Offer | null,
+  offer?: Offer,
 }
 
 function OfferPage(props: OfferPageProps): JSX.Element {
@@ -63,7 +61,7 @@ function OfferPage(props: OfferPageProps): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite ? FAVORITE_BUTTON_CLASSNAME : ''} button`} type="button">
+                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"/>
                   </svg>
@@ -72,14 +70,14 @@ function OfferPage(props: OfferPageProps): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${getWidthStyle(rating)}%`}}/>
+                  <span style={{width: `${getWidthByRating(rating)}%`}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {capitalize(type)}
+                  { OfferType[type] }
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   {`${bedrooms} Bedrooms`}

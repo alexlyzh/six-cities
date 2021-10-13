@@ -65,7 +65,7 @@ const offers = [
     price: 80,
     rating: 4,
     title: 'Wood and stone place',
-    type: 'private room',
+    type: 'hotel',
   },
   {
     id: 3,
@@ -87,7 +87,7 @@ const offers = [
       name: 'Alex',
     },
     images: ['img/1.png', 'img/2.png'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     location: {
       latitude: 52.35514938496378,
@@ -99,7 +99,7 @@ const offers = [
     price: 132,
     rating: 5,
     title: 'Canal View Prinsengracht',
-    type: 'private room',
+    type: 'room',
   },
   {
     id: 4,
@@ -121,7 +121,7 @@ const offers = [
       name: 'Keks',
     },
     images: ['img/1.png', 'img/2.png'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     location: {
       latitude: 52.35514938496378,
@@ -133,7 +133,7 @@ const offers = [
     price: 180,
     rating: 2,
     title: 'Nice, cozy, warm big bed apartment',
-    type: 'apartment',
+    type: 'house',
   },
 ];
 

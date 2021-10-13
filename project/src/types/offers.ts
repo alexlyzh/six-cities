@@ -30,8 +30,6 @@ type Offer = {
   type: string,
 }
 
-type Offers = Offer[];
-
 type OfferProps = {
   id: number,
   price: number,
@@ -46,4 +44,4 @@ type OfferProps = {
   maxAdults?: number,
 }
 
-export type { Offer, Offers, OfferProps };
+export type { Offer, OfferProps };
