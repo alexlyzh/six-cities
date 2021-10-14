@@ -1,13 +1,15 @@
-import PlaceCard from '../place-card/place-card';
+import {Link} from 'react-router-dom';
 import Header from '../header/header';
+import {Offer} from '../../types/offers';
+import {OffersList} from '../offers-list/offers-list';
+import {AppRoute} from '../../constants';
 
-interface Props {
-  cardsCount: number,
+type MainPageProps = {
+  offers: Offer[],
 }
 
-function MainPage(props: Props): JSX.Element {
-  const {cardsCount} = props;
-  const indexes = new Array(cardsCount).fill(null).map((el, i) => i);
+function MainPage(props: MainPageProps): JSX.Element {
+  const { offers } = props;
 
   return (
     <div className="page page--gray page--main">
@@ -19,34 +21,34 @@ function MainPage(props: Props): JSX.Element {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link to={AppRoute.ROOT} className="locations__item-link tabs__item">
                   <span>Paris</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link to={AppRoute.ROOT} className="locations__item-link tabs__item">
                   <span>Cologne</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link to={AppRoute.ROOT} className="locations__item-link tabs__item">
                   <span>Brussels</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
+                <Link to={AppRoute.ROOT} className="locations__item-link tabs__item tabs__item--active">
                   <span>Amsterdam</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link to={AppRoute.ROOT} className="locations__item-link tabs__item">
                   <span>Hamburg</span>
-                </a>
+                </Link>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
+                <Link to={AppRoute.ROOT} className="locations__item-link tabs__item">
                   <span>Dusseldorf</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </section>
@@ -73,7 +75,7 @@ function MainPage(props: Props): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
 
-                {indexes.map((item) => <PlaceCard key={item} />)}
+                <OffersList offers={offers} />
 
               </div>
             </section>
