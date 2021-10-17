@@ -8,8 +8,8 @@ import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
 import {offers, mockAmsterdam} from '../../mock/mock';
 import NotFoundPage from '../not-found-page/not-found-page';
-import {useState} from 'react';
 import Map from '../map/map';
+import useSelectedOffer from '../../hooks/useSelectedOffer';
 
 type OfferPageProps = {
   authorizationStatus: string,
@@ -18,12 +18,7 @@ type OfferPageProps = {
 }
 
 function OfferPage(props: OfferPageProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
-
-  const onOfferHover = (idOffer: number): void => {
-    const currentPoint = nearOffers.find((item) => item.id === idOffer);
-    setSelectedOffer(currentPoint);
-  };
+  const [selectedOffer, onOfferHover] = useSelectedOffer(offers);
 
   if (!props.offer) {
     return <NotFoundPage/>;

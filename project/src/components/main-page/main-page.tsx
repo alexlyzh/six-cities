@@ -5,7 +5,7 @@ import {OffersList} from '../offers-list/offers-list';
 import {AppRoute, MapHeightByPageName, PageName} from '../../constants';
 import Map from '../map/map';
 import {mockAmsterdam} from '../../mock/mock';
-import {useState} from 'react';
+import useSelectedOffer from '../../hooks/useSelectedOffer';
 
 type MainPageProps = {
   offers: Offer[],
@@ -13,12 +13,7 @@ type MainPageProps = {
 
 function MainPage(props: MainPageProps): JSX.Element {
   const { offers } = props;
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
-
-  const onOfferHover = (id: number): void => {
-    const currentPoint = offers.find((offer) => offer.id === id);
-    setSelectedOffer(currentPoint);
-  };
+  const [selectedOffer, onOfferHover] = useSelectedOffer(offers);
 
   return (
     <div className="page page--gray page--main">
