@@ -2,7 +2,10 @@ import {Link} from 'react-router-dom';
 import Header from '../header/header';
 import {Offer} from '../../types/offers';
 import {OffersList} from '../offers-list/offers-list';
-import {AppRoute} from '../../constants';
+import {AppRoute, MapHeightByPageName, PageName} from '../../constants';
+import Map from '../map/map';
+import {mockAmsterdam} from '../../mock/mock';
+import {useState} from 'react';
 
 type MainPageProps = {
   offers: Offer[],
@@ -10,6 +13,12 @@ type MainPageProps = {
 
 function MainPage(props: MainPageProps): JSX.Element {
   const { offers } = props;
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
+
+  const onOfferHover = (id: number) => {
+    const currentPoint = offers.find((offer) => offer.id === id);
+    setSelectedOffer(currentPoint);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -75,12 +84,23 @@ function MainPage(props: MainPageProps): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
 
-                <OffersList offers={offers} />
+                <OffersList
+                  offers={offers}
+                  pageName={PageName.ROOT}
+                  onOfferHover={onOfferHover}
+                />
 
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"/>
+              <section className="cities__map map">
+                <Map
+                  city={mockAmsterdam}
+                  offers={offers}
+                  mapHeight={MapHeightByPageName[PageName.ROOT]}
+                  selectedOffer={selectedOffer}
+                />
+              </section>
             </div>
           </div>
         </div>

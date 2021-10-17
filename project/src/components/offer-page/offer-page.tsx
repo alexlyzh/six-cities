@@ -1,6 +1,6 @@
 import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
-import {Comments} from '../../types/comments';
+import {Comment} from '../../types/comments';
 import {Offer} from '../../types/offers';
 import {Redirect} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus, OfferType} from '../../constants';
@@ -8,7 +8,7 @@ import {getWidthByRating} from '../../utils';
 
 type OfferPageProps = {
   authorizationStatus: string,
-  comments: Comments,
+  comments: Comment[],
   offer?: Offer,
 }
 
@@ -52,10 +52,10 @@ function OfferPage(props: OfferPageProps): JSX.Element {
           <div className="property__container container">
             <div className="property__wrapper">
 
-              {isPremium ?
+              {isPremium &&
                 <div className="property__mark">
                   <span>Premium</span>
-                </div> : null}
+                </div>}
 
               <div className="property__name-wrapper">
                 <h1 className="property__name">
