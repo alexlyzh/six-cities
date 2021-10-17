@@ -3,8 +3,11 @@ import FeedbackForm from '../feedback-form/feedback-form';
 import {Comment} from '../../types/comments';
 import {Offer} from '../../types/offers';
 import {Redirect} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus, OfferType} from '../../constants';
+import {AppRoute, AuthorizationStatus, MapHeightByPageName, OfferType, PageName} from '../../constants';
 import {getWidthByRating} from '../../utils';
+import ReviewList from '../review-list/review-list';
+import Map from '../map/map';
+import {mockAmsterdam, offers} from '../../mock/mock';
 
 type OfferPageProps = {
   authorizationStatus: string,
@@ -19,7 +22,8 @@ function OfferPage(props: OfferPageProps): JSX.Element {
     return <Redirect to={AppRoute.ROOT}/>;
   }
 
-  const { isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
+  const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
+  const nearOffers = offers.filter((offer) => offer.id !== id);
 
   return (
     <div className="page">
@@ -93,96 +97,49 @@ function OfferPage(props: OfferPageProps): JSX.Element {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
+                  {offer.goods.map((good) => (
+                    <li key={good} className="property__inside-item">
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                  <div className={`property__avatar-wrapper ${offer.host.isPro ? 'property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
-                      Angelina
+                    {offer.host.name}
                   </span>
+                  {offer.host.isPro &&
                   <span className="property__user-status">
                       Pro
-                  </span>
+                  </span>}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The
-                    building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the
-                    bustle of the city comes to rest in this alley flowery and colorful.
+                    {offer.description}
                   </p>
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"/>
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: '80%'}}/>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The
-                        building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
 
-                {authorizationStatus === AuthorizationStatus.AUTH ? <FeedbackForm/> : null}
+                <ReviewList comments={comments}/>
+                {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm/>}
 
               </section>
             </div>
           </div>
-          <section className="property__map map"/>
+          <section className="property__map map">
+            <Map
+              city={mockAmsterdam}
+              offers={nearOffers}
+              mapHeight={MapHeightByPageName[PageName.ROOT]}
+              selectedOffer={selectedOffer}
+            />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
