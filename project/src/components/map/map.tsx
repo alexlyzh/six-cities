@@ -9,8 +9,8 @@ import {MapMarkerURL} from '../../constants';
 type MapProps = {
   city: City,
   offers: Offer[],
-  selectedOffer: Offer | undefined,
   mapHeight: string,
+  selectedOffer?: Offer | undefined,
 };
 
 const defaultCustomIcon = new Icon({

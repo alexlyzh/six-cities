@@ -9,7 +9,6 @@ import {OffersList} from '../offers-list/offers-list';
 import {offers, mockAmsterdam} from '../../mock/mock';
 import NotFoundPage from '../not-found-page/not-found-page';
 import Map from '../map/map';
-import useSelectedOffer from '../../hooks/useSelectedOffer';
 
 type OfferPageProps = {
   authorizationStatus: string,
@@ -18,8 +17,6 @@ type OfferPageProps = {
 }
 
 function OfferPage(props: OfferPageProps): JSX.Element {
-  const [selectedOffer, onOfferHover] = useSelectedOffer(offers);
-
   if (!props.offer) {
     return <NotFoundPage/>;
   }
@@ -126,9 +123,9 @@ function OfferPage(props: OfferPageProps): JSX.Element {
           <section className="property__map map">
             <Map
               city={mockAmsterdam}
-              offers={nearOffers}
+              offers={offers}
               mapHeight={MapHeightByPageName[PageName.OFFER]}
-              selectedOffer={selectedOffer}
+              selectedOffer={offer}
             />
           </section>
         </section>
@@ -140,7 +137,6 @@ function OfferPage(props: OfferPageProps): JSX.Element {
               <OffersList
                 offers={nearOffers}
                 pageName={PageName.OFFER}
-                onOfferHover={onOfferHover}
               />
 
             </div>
