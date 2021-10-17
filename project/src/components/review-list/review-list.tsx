@@ -6,6 +6,10 @@ type ReviewListProps = {
 }
 
 function ReviewList({comments}: ReviewListProps): JSX.Element {
+  comments = comments
+    .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+    .slice(0, 10);
+
   return (
     <>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
