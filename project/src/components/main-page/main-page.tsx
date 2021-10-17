@@ -15,7 +15,7 @@ function MainPage(props: MainPageProps): JSX.Element {
   const { offers } = props;
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
 
-  const onOfferHover = (id: number) => {
+  const onOfferHover = (id: number): void => {
     const currentPoint = offers.find((offer) => offer.id === id);
     setSelectedOffer(currentPoint);
   };

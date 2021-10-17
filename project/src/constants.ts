@@ -45,6 +45,13 @@ const OfferCardStyleByPageName: OfferCardStyle = {
     imageWidth: 150,
     imageHeight: 110,
   },
+  [PageName.OFFER]: {
+    className: 'near-places__card',
+    imageClassName: 'near-places__image-wrapper',
+    infoClassName: '',
+    imageWidth: 260,
+    imageHeight: 200,
+  },
 } as const;
 
 const MapMarkerURL = {
