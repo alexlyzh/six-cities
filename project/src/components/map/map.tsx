@@ -4,7 +4,8 @@ import {Icon, Marker} from 'leaflet';
 import useMap from '../../hooks/useMap';
 import {City, Offer} from '../../types/offers';
 
-import {MapMarkerURL} from '../../constants';
+import {AppRoute, MapMarkerURL} from '../../constants';
+import {generatePath, useHistory} from 'react-router-dom';
 
 type MapProps = {
   city: City,
@@ -29,6 +30,7 @@ function Map(props: MapProps): JSX.Element {
   const {city, offers, selectedOffer, className} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  const history = useHistory();
 
   useEffect(() => {
     const markers: Marker[] = [];
@@ -40,11 +42,13 @@ function Map(props: MapProps): JSX.Element {
           lng: offer.location.longitude,
         });
 
+        const {id} = offer;
+        marker.on('click', () => history.push(generatePath(AppRoute.OFFER, {id})));
         markers.push(marker);
 
         marker
           .setIcon(
-            selectedOffer && offer.id === selectedOffer.id
+            offer.id === selectedOffer?.id
               ? currentCustomIcon
               : defaultCustomIcon,
           )
@@ -52,7 +56,7 @@ function Map(props: MapProps): JSX.Element {
       });
     }
     return () => markers.forEach((marker) => marker.remove());
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, selectedOffer, history]);
 
   return (
     <section className={`${className} map`}>

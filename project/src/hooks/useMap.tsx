@@ -27,6 +27,10 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
 
       setMap(instance);
     }
+
+    return () => {
+      map?.remove();
+    };
   }, [mapRef, map, city]);
 
   return map;
