@@ -9,8 +9,8 @@ import {MapMarkerURL} from '../../constants';
 type MapProps = {
   city: City,
   offers: Offer[],
-  mapHeight: string,
   selectedOffer?: Offer | undefined,
+  className: string,
 };
 
 const defaultCustomIcon = new Icon({
@@ -26,17 +26,21 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, selectedOffer, mapHeight} = props;
+  const {city, offers, selectedOffer, className} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
+    const markers: Marker[] = [];
+
     if (map) {
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         });
+
+        markers.push(marker);
 
         marker
           .setIcon(
@@ -47,9 +51,14 @@ function Map(props: MapProps): JSX.Element {
           .addTo(map);
       });
     }
+    return () => markers.forEach((marker) => marker.remove());
   }, [map, offers, selectedOffer]);
 
-  return <div style={{height: mapHeight}} ref={mapRef}/>;
+  return (
+    <section className={`${className} map`}>
+      <div style={{height: '100%'}} ref={mapRef}/>
+    </section>
+  );
 }
 
 export default Map;

@@ -1,16 +1,18 @@
 import OfferCard from '../offer-card/offer-card';
 import {Offer} from '../../types/offers';
-import {OfferCardStyleByPageName} from '../../constants';
 
 type OffersListProps = {
   offers: Offer[],
-  pageName: string,
-  onOfferHover?: (id: number) => void;
+  className: string,
+  imageClassName: string,
+  infoClassName: string,
+  imageWidth: number,
+  imageHeight: number,
+  onChangeSelectedOffer?: (id: number | null) => void,
 }
 
 function OffersList(props: OffersListProps): JSX.Element {
-  const { offers, pageName, onOfferHover } = props;
-  const {className, imageClassName, infoClassName, imageWidth, imageHeight} = OfferCardStyleByPageName[pageName];
+  const { offers, onChangeSelectedOffer, className, imageClassName, infoClassName, imageWidth, imageHeight } = props;
 
   return (
     <>
@@ -23,7 +25,7 @@ function OffersList(props: OffersListProps): JSX.Element {
           infoClassName={infoClassName}
           imageHeight={imageHeight}
           imageWidth={imageWidth}
-          onOfferHover={onOfferHover}
+          onChangeSelectedOffer={onChangeSelectedOffer}
         />))}
     </>);
 }

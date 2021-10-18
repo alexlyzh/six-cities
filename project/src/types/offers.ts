@@ -30,14 +30,4 @@ type Offer = {
   type: string,
 }
 
-type OfferCardStyle = {
-  [key: string]: {
-    className: string,
-    imageClassName: string,
-    infoClassName: string,
-    imageWidth: number,
-    imageHeight: number,
-  }
-}
-
-export type { Offer, City, Location, OfferCardStyle };
+export type { Offer, City, Location };

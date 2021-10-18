@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {AppRoute, PageName} from '../../constants';
+import {AppRoute} from '../../constants';
 import {Offer} from '../../types/offers';
 import {OffersList} from '../offers-list/offers-list';
 
@@ -21,7 +21,11 @@ function FavoriteLocation({offers, cityName}: FavoriteLocationProps): JSX.Elemen
       <div className="favorites__places">
         <OffersList
           offers={offers}
-          pageName={PageName.FAVORITES}
+          className={'favorites__card'}
+          imageClassName={'favorites__image-wrapper'}
+          infoClassName={'favorites__card-info'}
+          imageWidth={150}
+          imageHeight={110}
         />
       </div>
     </li>

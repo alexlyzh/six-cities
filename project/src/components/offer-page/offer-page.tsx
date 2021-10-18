@@ -2,7 +2,7 @@ import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
 import {Comment} from '../../types/comments';
 import {Offer} from '../../types/offers';
-import {MapHeightByPageName, AuthorizationStatus, OfferType, PageName} from '../../constants';
+import {AuthorizationStatus, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
@@ -120,14 +120,12 @@ function OfferPage(props: OfferPageProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="property__map map">
-            <Map
-              city={mockAmsterdam}
-              offers={offers}
-              mapHeight={MapHeightByPageName[PageName.OFFER]}
-              selectedOffer={offer}
-            />
-          </section>
+          <Map
+            city={mockAmsterdam}
+            offers={offers}
+            selectedOffer={offer}
+            className={'property__map'}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -136,7 +134,11 @@ function OfferPage(props: OfferPageProps): JSX.Element {
 
               <OffersList
                 offers={nearOffers}
-                pageName={PageName.OFFER}
+                className={'near-places__card'}
+                imageClassName={'near-places__image-wrapper'}
+                infoClassName={''}
+                imageWidth={260}
+                imageHeight={200}
               />
 
             </div>

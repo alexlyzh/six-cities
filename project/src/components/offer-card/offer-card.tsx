@@ -10,17 +10,18 @@ type OfferCardProps = {
   infoClassName: string,
   imageWidth: number,
   imageHeight: number,
-  onOfferHover?: (id: number) => void,
+  onChangeSelectedOffer?: (id: number | null) => void,
 }
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const { id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
-  const { className, imageClassName, infoClassName, imageWidth, imageHeight, onOfferHover } = props;
+  const { className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeSelectedOffer } = props;
 
   return (
     <article
       className={`${className} place-card`}
-      onMouseEnter={() => onOfferHover && onOfferHover(props.offer.id)}
+      onMouseEnter={() => onChangeSelectedOffer && onChangeSelectedOffer(props.offer.id)}
+      onMouseLeave={() => onChangeSelectedOffer && onChangeSelectedOffer(null)}
     >
       {isPremium &&
         <div className="place-card__mark">

@@ -1,16 +1,8 @@
-import {OfferCardStyle} from './types/offers';
-
 const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
   FAVORITES: '/favorites',
   OFFER: '/offer/:id',
-} as const;
-
-const PageName = {
-  ROOT: 'root',
-  FAVORITES: 'favorites',
-  OFFER: 'offer',
 } as const;
 
 enum AuthorizationStatus {
@@ -30,47 +22,15 @@ const OfferType: {[key: string]: string} = {
   hotel: 'Hotel',
 } as const;
 
-const OfferCardStyleByPageName: OfferCardStyle = {
-  [PageName.ROOT]: {
-    className: 'cities__place-card',
-    imageClassName: 'cities__image-wrapper',
-    infoClassName: '',
-    imageWidth: 260,
-    imageHeight: 200,
-  },
-  [PageName.FAVORITES]: {
-    className: 'favorites__card',
-    imageClassName: 'favorites__image-wrapper',
-    infoClassName: 'favorites__card-info',
-    imageWidth: 150,
-    imageHeight: 110,
-  },
-  [PageName.OFFER]: {
-    className: 'near-places__card',
-    imageClassName: 'near-places__image-wrapper',
-    infoClassName: '',
-    imageWidth: 260,
-    imageHeight: 200,
-  },
-} as const;
-
 const MapMarkerURL = {
   DEFAULT: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
   CURRENT: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
 } as const;
-
-const MapHeightByPageName = {
-  [PageName.ROOT]: '700px',
-  [PageName.OFFER]: '580px',
-};
 
 export {
   AppRoute,
   AuthorizationStatus,
   Rating,
   OfferType,
-  MapMarkerURL,
-  MapHeightByPageName,
-  OfferCardStyleByPageName,
-  PageName
+  MapMarkerURL
 };
