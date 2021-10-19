@@ -21,9 +21,9 @@ function FavoriteLocation({offers, cityName}: FavoriteLocationProps): JSX.Elemen
       <div className="favorites__places">
         <OffersList
           offers={offers}
-          className={'favorites__card'}
-          imageClassName={'favorites__image-wrapper'}
-          infoClassName={'favorites__card-info'}
+          className="favorites__card"
+          imageClassName="favorites__image-wrapper"
+          infoClassName="favorites__card-info"
           imageWidth={150}
           imageHeight={110}
         />

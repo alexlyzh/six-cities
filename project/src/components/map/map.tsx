@@ -37,12 +37,12 @@ function Map(props: MapProps): JSX.Element {
 
     if (map) {
       offers.forEach((offer) => {
+        const {id, location} = offer;
         const marker = new Marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude,
+          lat: location.latitude,
+          lng: location.longitude,
         });
 
-        const {id} = offer;
         marker.on('click', () => history.push(generatePath(AppRoute.OFFER, {id})));
         markers.push(marker);
 

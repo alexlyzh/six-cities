@@ -5,7 +5,7 @@ type OffersListProps = {
   offers: Offer[],
   className: string,
   imageClassName: string,
-  infoClassName: string,
+  infoClassName?: string,
   imageWidth: number,
   imageHeight: number,
   onChangeSelectedOffer?: (id: number | null) => void,

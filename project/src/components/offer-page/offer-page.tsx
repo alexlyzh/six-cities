@@ -124,7 +124,7 @@ function OfferPage(props: OfferPageProps): JSX.Element {
             city={mockAmsterdam}
             offers={offers}
             selectedOffer={offer}
-            className={'property__map'}
+            className="property__map"
           />
         </section>
         <div className="container">
@@ -134,9 +134,8 @@ function OfferPage(props: OfferPageProps): JSX.Element {
 
               <OffersList
                 offers={nearOffers}
-                className={'near-places__card'}
-                imageClassName={'near-places__image-wrapper'}
-                infoClassName={''}
+                className="near-places__card"
+                imageClassName="near-places__image-wrapper"
                 imageWidth={260}
                 imageHeight={200}
               />
