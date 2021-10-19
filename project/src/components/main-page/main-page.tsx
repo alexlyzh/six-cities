@@ -80,9 +80,8 @@ function MainPage(props: MainPageProps): JSX.Element {
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
                   offers={offers}
-                  className={'cities__place-card'}
-                  imageClassName={'cities__image-wrapper'}
-                  infoClassName={''}
+                  className="cities__place-card"
+                  imageClassName="cities__image-wrapper"
                   imageWidth={260}
                   imageHeight={200}
                   onChangeSelectedOffer={onChangeSelectedOffer}
@@ -94,7 +93,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                 city={mockAmsterdam}
                 offers={offers}
                 selectedOffer={selectedOffer}
-                className={'cities__map'}
+                className="cities__map"
               />
             </div>
           </div>
