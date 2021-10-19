@@ -8,6 +8,4 @@ type Comment = {
   user: User,
 }
 
-type Comments = Comment[];
-
-export type { Comments };
+export type { Comment };

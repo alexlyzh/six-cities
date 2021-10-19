@@ -7,11 +7,11 @@ import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offers';
-import {Comments} from '../../types/comments';
+import {Comment} from '../../types/comments';
 
 type AppProps = {
   offers: Offer[],
-  comments: Comments,
+  comments: Comment[],
 }
 
 function App({ offers, comments }: AppProps): JSX.Element {

@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
-import OfferCard from '../offer-card/offer-card';
 import {AppRoute} from '../../constants';
 import {Offer} from '../../types/offers';
+import {OffersList} from '../offers-list/offers-list';
 
 type FavoriteLocationProps = {
   offers: Offer[],
@@ -19,11 +19,14 @@ function FavoriteLocation({offers, cityName}: FavoriteLocationProps): JSX.Elemen
         </div>
       </div>
       <div className="favorites__places">
-        {offers.map((offer) => (
-          <OfferCard
-            key={offer.id}
-            offer={offer}
-          />))}
+        <OffersList
+          offers={offers}
+          className={'favorites__card'}
+          imageClassName={'favorites__image-wrapper'}
+          infoClassName={'favorites__card-info'}
+          imageWidth={150}
+          imageHeight={110}
+        />
       </div>
     </li>
   );

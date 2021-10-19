@@ -30,18 +30,4 @@ type Offer = {
   type: string,
 }
 
-type OfferProps = {
-  id: number,
-  price: number,
-  title: string,
-  type: string,
-  isFavorite: boolean,
-  rating: number,
-  previewImage?: string,
-  images?: string[],
-  isPremium?: boolean,
-  bedrooms?: number,
-  maxAdults?: number,
-}
-
-export type { Offer, OfferProps };
+export type { Offer, City, Location };

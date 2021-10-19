@@ -3,6 +3,9 @@ import Header from '../header/header';
 import {Offer} from '../../types/offers';
 import {OffersList} from '../offers-list/offers-list';
 import {AppRoute} from '../../constants';
+import Map from '../map/map';
+import {mockAmsterdam} from '../../mock/mock';
+import useSelectedOffer from '../../hooks/useSelectedOffer';
 
 type MainPageProps = {
   offers: Offer[],
@@ -10,6 +13,7 @@ type MainPageProps = {
 
 function MainPage(props: MainPageProps): JSX.Element {
   const { offers } = props;
+  const [selectedOffer, onChangeSelectedOffer] = useSelectedOffer(offers);
 
   return (
     <div className="page page--gray page--main">
@@ -74,13 +78,24 @@ function MainPage(props: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-
-                <OffersList offers={offers} />
-
+                <OffersList
+                  offers={offers}
+                  className={'cities__place-card'}
+                  imageClassName={'cities__image-wrapper'}
+                  infoClassName={''}
+                  imageWidth={260}
+                  imageHeight={200}
+                  onChangeSelectedOffer={onChangeSelectedOffer}
+                />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"/>
+              <Map
+                city={mockAmsterdam}
+                offers={offers}
+                selectedOffer={selectedOffer}
+                className={'cities__map'}
+              />
             </div>
           </div>
         </div>

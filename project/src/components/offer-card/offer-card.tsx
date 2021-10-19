@@ -1,31 +1,39 @@
-import {generatePath, Link, useLocation} from 'react-router-dom';
+import {generatePath, Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
-import {AppRoute, OfferType, LocationClassNamePrefix, LocationPreviewSize} from '../../constants';
+import {AppRoute, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
 
 type OfferCardProps = {
   offer: Offer,
+  className: string,
+  imageClassName: string,
+  infoClassName: string,
+  imageWidth: number,
+  imageHeight: number,
+  onChangeSelectedOffer?: (id: number | null) => void,
 }
 
 function OfferCard(props: OfferCardProps): JSX.Element {
-  const {id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
-  const pathname = useLocation().pathname;
-  const prefix = LocationClassNamePrefix[pathname];
-  const previewSize = LocationPreviewSize[pathname];
+  const { id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
+  const { className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeSelectedOffer } = props;
 
   return (
-    <article className={`${prefix}__place-card place-card`}>
-      {isPremium ?
+    <article
+      className={`${className} place-card`}
+      onMouseEnter={() => onChangeSelectedOffer && onChangeSelectedOffer(props.offer.id)}
+      onMouseLeave={() => onChangeSelectedOffer && onChangeSelectedOffer(null)}
+    >
+      {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
-        </div> : null}
+        </div>}
 
-      <div className={`${prefix}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${imageClassName} place-card__image-wrapper`}>
         <Link to={`${generatePath(AppRoute.OFFER,{id})}`}>
-          <img className="place-card__image" src={previewImage} width={previewSize.width} height={previewSize.height} alt="Place"/>
+          <img className="place-card__image" src={previewImage} width={imageWidth} height={imageHeight} alt="Place"/>
         </Link>
       </div>
-      <div className={`${pathname === AppRoute.FAVORITES ? 'favorites__card-info' : ''} place-card__info`}>
+      <div className={`${infoClassName} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
