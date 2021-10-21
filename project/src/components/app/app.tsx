@@ -6,22 +6,28 @@ import LoginPage from '../login-page/login-page';
 import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
-import {Offer} from '../../types/offers';
 import {Comment} from '../../types/comments';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
 
 type AppProps = {
-  offers: Offer[],
   comments: Comment[],
 }
 
-function App({ offers, comments }: AppProps): JSX.Element {
+const mapStateToProps = ({offers}: State) => ({
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = AppProps & PropsFromRedux;
+
+function App({ offers, comments }: ConnectedComponentProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <MainPage
-            offers={offers}
-          />
+          <MainPage offers={offers}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginPage/>
@@ -54,4 +60,4 @@ function App({ offers, comments }: AppProps): JSX.Element {
   );
 }
 
-export default App;
+export default connector(App);

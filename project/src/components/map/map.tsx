@@ -10,7 +10,7 @@ import {generatePath, useHistory} from 'react-router-dom';
 type MapProps = {
   city: City,
   offers: Offer[],
-  selectedOffer?: Offer | undefined,
+  highlightedOffer?: Offer | undefined,
   className: string,
 };
 
@@ -27,7 +27,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, selectedOffer, className} = props;
+  const {city, offers, highlightedOffer, className} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const history = useHistory();
@@ -48,7 +48,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            offer.id === selectedOffer?.id
+            offer.id === highlightedOffer?.id
               ? currentCustomIcon
               : defaultCustomIcon,
           )
@@ -56,7 +56,7 @@ function Map(props: MapProps): JSX.Element {
       });
     }
     return () => markers.forEach((marker) => marker.remove());
-  }, [map, offers, selectedOffer, history]);
+  }, [map, offers, highlightedOffer, history]);
 
   return (
     <section className={`${className} map`}>
