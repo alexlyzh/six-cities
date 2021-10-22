@@ -1,5 +1,12 @@
 const INITIAL_CITY_NAME = 'Paris';
 
+const SortType = {
+  POPULAR: 'POPULAR',
+  PRICE_DESCENDING: 'PRICE_DESCENDING',
+  PRICE_ASCENDING: 'PRICE_ASCENDING',
+  TOP_RATED: 'TOP_RATED',
+};
+
 const appCityNames = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 const AppRoute = {
@@ -38,5 +45,6 @@ export {
   OfferType,
   MapMarkerURL,
   INITIAL_CITY_NAME,
-  appCityNames
+  appCityNames,
+  SortType
 };

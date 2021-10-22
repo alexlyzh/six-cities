@@ -8,14 +8,18 @@ import {appCityNames} from '../../constants';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import MainEmpty from './main-empty';
+import SortForm from '../sort-form/sort-form';
+import {Sort} from '../../utils';
+
 
 type MainPageProps = {
   offers: Offer[],
 };
 
-const mapStateToProps = ({selectedCity, highlightedOffer}: State) => ({
+const mapStateToProps = ({selectedCity, highlightedOffer, currentSort}: State) => ({
   selectedCity,
   highlightedOffer,
+  currentSort,
 });
 
 const connector = connect(mapStateToProps);
@@ -24,9 +28,9 @@ type ConnectedComponentProps = MainPageProps & PropsFromRedux;
 
 const getOffersInCity = (offers: Offer[], cityName: string) => offers.filter((offer) => offer.city.name === cityName);
 
-function MainPage({offers, selectedCity, highlightedOffer}: ConnectedComponentProps): JSX.Element {
-
-  const offersInCity = getOffersInCity(offers, selectedCity);
+function MainPage({offers, selectedCity, highlightedOffer, currentSort}: ConnectedComponentProps): JSX.Element {
+  const sortedOffers = Sort[currentSort](offers);
+  const offersInCity = getOffersInCity(sortedOffers, selectedCity);
 
   return (
     <div className="page page--gray page--main">
@@ -44,21 +48,7 @@ function MainPage({offers, selectedCity, highlightedOffer}: ConnectedComponentPr
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{offersInCity.length} places to stay in {selectedCity}</b>
-                <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex={0}>
-                    Popular
-                    <svg className="places__sorting-arrow" width="7" height="4">
-                      <use xlinkHref="#icon-arrow-select"/>
-                    </svg>
-                  </span>
-                  <ul className="places__options places__options--custom">
-                    <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                    <li className="places__option" tabIndex={0}>Price: low to high</li>
-                    <li className="places__option" tabIndex={0}>Price: high to low</li>
-                    <li className="places__option" tabIndex={0}>Top rated first</li>
-                  </ul>
-                </form>
+                <SortForm/>
                 <div className="cities__places-list places__list tabs__content">
                   <OffersList
                     offers={offersInCity}

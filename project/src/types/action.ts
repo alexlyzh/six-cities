@@ -4,6 +4,7 @@ enum ActionType {
   ChangeCity = 'ChangeCity',
   GetAllOffers = 'GetAllOffers',
   ChangeHighlightedOffer = 'ChangeHighlightedOffer',
+  ChangeSort = 'ChangeSort',
 }
 
 type ChangeCityAction = {
@@ -16,14 +17,25 @@ type GetAllOffersAction = {
   payload: Offer[],
 };
 
-type ChangeHighlightedOffer = {
+type ChangeHighlightedOfferAction = {
   type: ActionType.ChangeHighlightedOffer,
   payload: number | null,
 };
 
+type ChangeSortAction = {
+  type: ActionType.ChangeSort,
+  payload: string,
+};
+
 type Actions = ChangeCityAction |
   GetAllOffersAction |
-  ChangeHighlightedOffer;
+  ChangeHighlightedOfferAction |
+  ChangeSortAction;
 
 export {ActionType};
-export type {Actions, ChangeCityAction, GetAllOffersAction, ChangeHighlightedOffer};
+export type {Actions,
+  ChangeCityAction,
+  GetAllOffersAction,
+  ChangeHighlightedOfferAction,
+  ChangeSortAction
+};
