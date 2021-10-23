@@ -24,6 +24,7 @@ function SortForm({currentSort, onSortChange}: PropsFromRedux): JSX.Element {
 
   const onSortOptionClick = (sortType: string): void => {
     (sortType !== currentSort) && onSortChange(sortType);
+    setIsOpen(false);
   };
 
   return (
@@ -43,10 +44,7 @@ function SortForm({currentSort, onSortChange}: PropsFromRedux): JSX.Element {
           <li
             key={sortType}
             className={`places__option ${currentSort === SortType[sortType] ? 'places__option--active' : ''}`}
-            onClick={() => {
-              onSortOptionClick(SortType[sortType]);
-              setIsOpen(false);
-            }}
+            onClick={() => onSortOptionClick(SortType[sortType])}
             tabIndex={0}
           >{SortType[sortType]}
           </li>
