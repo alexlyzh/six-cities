@@ -2,10 +2,6 @@ import {generatePath, Link} from 'react-router-dom';
 import {Offer} from '../../types/offers';
 import {AppRoute, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
-import {Dispatch} from '@reduxjs/toolkit';
-import {Actions} from '../../types/action';
-import {changeHighlightedOffer} from '../../store/actions/actions';
-import {connect, ConnectedProps} from 'react-redux';
 
 type OfferCardProps = {
   offer: Offer,
@@ -14,27 +10,18 @@ type OfferCardProps = {
   infoClassName?: string,
   imageWidth: number,
   imageHeight: number,
+  onChangeHighlightedOffer?: (id: number | null) => void,
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onChangeHighlightedOffer(id: number | null) {
-    dispatch(changeHighlightedOffer(id));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = OfferCardProps & PropsFromRedux;
-
-function OfferCard(props: ConnectedComponentProps): JSX.Element {
+function OfferCard(props: OfferCardProps): JSX.Element {
   const { id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
   const { className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
 
   return (
     <article
       className={`${className} place-card`}
-      onMouseEnter={() => onChangeHighlightedOffer(id)}
-      onMouseLeave={() => onChangeHighlightedOffer(null)}
+      onMouseEnter={() => onChangeHighlightedOffer && onChangeHighlightedOffer(id)}
+      onMouseLeave={() => onChangeHighlightedOffer && onChangeHighlightedOffer(null)}
     >
       {isPremium &&
         <div className="place-card__mark">
@@ -74,4 +61,4 @@ function OfferCard(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export default connector(OfferCard);
+export default OfferCard;

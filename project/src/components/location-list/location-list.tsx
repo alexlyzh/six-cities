@@ -1,8 +1,7 @@
 import {Dispatch} from '@reduxjs/toolkit';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
-import {Actions} from '../../types/action';
-import {changeCity} from '../../store/actions/actions';
+import {Actions, changeCity} from '../../store/actions/actions';
 
 type LocationListProps = {
   cityNames: string[],

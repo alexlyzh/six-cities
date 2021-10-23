@@ -10,15 +10,15 @@ import {connect, ConnectedProps} from 'react-redux';
 import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
 import {Sort} from '../../utils';
+import useHighlightedOffer from '../../hooks/useHighlightedOffer';
 
 
 type MainPageProps = {
   offers: Offer[],
 };
 
-const mapStateToProps = ({selectedCity, highlightedOffer, currentSort}: State) => ({
+const mapStateToProps = ({selectedCity, currentSort}: State) => ({
   selectedCity,
-  highlightedOffer,
   currentSort,
 });
 
@@ -28,9 +28,10 @@ type ConnectedComponentProps = MainPageProps & PropsFromRedux;
 
 const getOffersInCity = (offers: Offer[], cityName: string) => offers.filter((offer) => offer.city.name === cityName);
 
-function MainPage({offers, selectedCity, highlightedOffer, currentSort}: ConnectedComponentProps): JSX.Element {
+function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = Sort[currentSort](offers);
   const offersInCity = getOffersInCity(sortedOffers, selectedCity);
+  const [highlightedOffer, onChangeHighlightedOffer] = useHighlightedOffer(offersInCity);
 
   return (
     <div className="page page--gray page--main">
@@ -56,6 +57,7 @@ function MainPage({offers, selectedCity, highlightedOffer, currentSort}: Connect
                     imageClassName="cities__image-wrapper"
                     imageWidth={260}
                     imageHeight={200}
+                    onChangeHighlightedOffer={onChangeHighlightedOffer}
                   />
                 </div>
               </section> :

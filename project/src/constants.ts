@@ -1,10 +1,10 @@
 const INITIAL_CITY_NAME = 'Paris';
 
-const SortType = {
-  POPULAR: 'POPULAR',
-  PRICE_DESCENDING: 'PRICE_DESCENDING',
-  PRICE_ASCENDING: 'PRICE_ASCENDING',
-  TOP_RATED: 'TOP_RATED',
+const SortType: {[key: string]: string} = {
+  POPULAR: 'Popular',
+  PRICE_DESCENDING: 'Price: high to low',
+  PRICE_ASCENDING: 'Price: low to high',
+  TOP_RATED: 'Top rated first',
 };
 
 const appCityNames = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

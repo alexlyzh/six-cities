@@ -8,10 +8,11 @@ type OffersListProps = {
   infoClassName?: string,
   imageWidth: number,
   imageHeight: number,
+  onChangeHighlightedOffer?: (id: number | null) => void,
 }
 
 function OffersList(props: OffersListProps): JSX.Element {
-  const { offers, className, imageClassName, infoClassName, imageWidth, imageHeight } = props;
+  const { offers, className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
 
   return (
     <>
@@ -24,6 +25,7 @@ function OffersList(props: OffersListProps): JSX.Element {
           infoClassName={infoClassName}
           imageHeight={imageHeight}
           imageWidth={imageWidth}
+          onChangeHighlightedOffer={onChangeHighlightedOffer}
         />))}
     </>);
 }

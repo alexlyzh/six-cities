@@ -1,30 +1,30 @@
-import {
-  ActionType,
-  ChangeCityAction,
-  ChangeHighlightedOfferAction,
-  ChangeSortAction,
-  GetAllOffersAction
-} from '../../types/action';
 import {Offer} from '../../types/offers';
 
-const changeCity = (city: string): ChangeCityAction => ({
+enum ActionType {
+  ChangeCity = 'ChangeCity',
+  GetAllOffers = 'GetAllOffers',
+  ChangeSort = 'ChangeSort',
+}
+
+const changeCity = (city: string) => ({
   type: ActionType.ChangeCity,
   payload: city,
-});
+} as const);
 
-const getOffers = (offers: Offer[]): GetAllOffersAction => ({
+const getOffers = (offers: Offer[]) => ({
   type: ActionType.GetAllOffers,
   payload: offers,
-});
+} as const);
 
-const changeHighlightedOffer = (id: number | null): ChangeHighlightedOfferAction => ({
-  type: ActionType.ChangeHighlightedOffer,
-  payload: id,
-});
-
-const changeSort = (sort: string): ChangeSortAction => ({
+const changeSort = (sort: string) => ({
   type: ActionType.ChangeSort,
   payload: sort,
-});
+} as const);
 
-export {changeCity, getOffers, changeHighlightedOffer, changeSort};
+type Actions =
+  | ReturnType<typeof changeCity>
+  | ReturnType<typeof getOffers>
+  | ReturnType<typeof changeSort>;
+
+export {changeCity, getOffers, changeSort, ActionType};
+export type {Actions};
