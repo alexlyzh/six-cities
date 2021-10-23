@@ -123,7 +123,7 @@ function OfferPage(props: OfferPageProps): JSX.Element {
           <Map
             city={mockAmsterdam}
             offers={offers}
-            selectedOffer={offer}
+            highlightedOffer={offer}
             className="property__map"
           />
         </section>
