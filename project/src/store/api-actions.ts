@@ -15,7 +15,6 @@ const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<OfferBackend[]>(APIRoute.GetOffers);
     const offers = data.map((offer) => Adapter.offerToClient(offer));
-    console.log(offers) // eslint-disable-line
     dispatch(loadOffers(offers));
   };
 

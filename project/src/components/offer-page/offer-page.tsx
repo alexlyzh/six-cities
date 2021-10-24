@@ -37,8 +37,6 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
   const {authorizationStatus, comments, offer, offers, selectedCity} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
-  console.log(offer) //eslint-disable-line
-
   const nearOffers = getOffersInCity(offers, selectedCity)
     .filter((item) => item.id !== id)
     .slice(0, MAX_NEAR_OFFERS)

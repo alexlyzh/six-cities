@@ -36,9 +36,9 @@ type Offer = {
 }
 
 type HostBackend = {
-  avatar_url: string, // eslint-disable-line
+  'avatar_url': string,
   id: number,
-  is_pro: boolean, // eslint-disable-line
+  'is_pro': boolean,
   name: string,
 }
 
@@ -50,11 +50,11 @@ type OfferBackend = {
   goods: string[],
   host: HostBackend,
   images: string[],
-  is_favorite: boolean, // eslint-disable-line
-  is_premium: boolean, // eslint-disable-line
+  'is_favorite': boolean,
+  'is_premium': boolean,
   location: Location,
-  max_adults: number, // eslint-disable-line
-  preview_image: string, // eslint-disable-line
+  'max_adults': number,
+  'preview_image': string,
   price: number,
   rating: number,
   title: string,
