@@ -48,8 +48,8 @@ function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedC
         <Route
           exact
           path={AppRoute.OFFER}
-          render={(serviceProps) => {
-            const id = Number(serviceProps.match.params.id);
+          render={(renderProps) => {
+            const id = Number(renderProps.match.params.id);
             const offer = offers.find((item) => item.id === id);
             return (
               <OfferPage

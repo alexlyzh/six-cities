@@ -3,13 +3,12 @@ import LocationList from '../location-list/location-list';
 import {Offer} from '../../types/offers';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
-import {mockAmsterdam} from '../../mock/mock';
 import {appCityNames} from '../../constants';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
-import {Sort} from '../../utils';
+import {getOffersInCity, Sort} from '../../utils';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
 
 
@@ -26,11 +25,11 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = MainPageProps & PropsFromRedux;
 
-const getOffersInCity = (offers: Offer[], cityName: string) => offers.filter((offer) => offer.city.name === cityName);
-
 function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = Sort[currentSort](offers);
   const offersInCity = getOffersInCity(sortedOffers, selectedCity);
+  const currentCity = offersInCity[0]?.city;
+
   const [highlightedOffer, onChangeHighlightedOffer] = useHighlightedOffer(offersInCity);
 
   return (
@@ -39,9 +38,7 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
       <main className={`page__main page__main--index ${!offersInCity.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-
           <LocationList cityNames={appCityNames}/>
-
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -67,7 +64,7 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
             <div className="cities__right-section">
               {offersInCity.length ?
                 <Map
-                  city={mockAmsterdam}
+                  city={currentCity}
                   offers={offersInCity}
                   highlightedOffer={highlightedOffer}
                   className="cities__map"

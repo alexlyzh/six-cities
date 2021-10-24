@@ -22,7 +22,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = LocationListProps & PropsFromRedux;
 
 function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponentProps) {
-
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">

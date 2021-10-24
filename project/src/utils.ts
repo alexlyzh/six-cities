@@ -10,4 +10,6 @@ const Sort = {
   [SortType.TOP_RATED]: (offers: Offer[]): Offer[] => offers.slice().sort((a, b) => b.rating - a.rating),
 };
 
-export {getWidthByRating, Sort};
+const getOffersInCity = (offers: Offer[], cityName: string): Offer[] => offers.filter((offer) => offer.city.name === cityName);
+
+export {getWidthByRating, Sort, getOffersInCity};

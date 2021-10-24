@@ -7,7 +7,7 @@ const SortType: {[key: string]: string} = {
   TOP_RATED: 'Top rated first',
 };
 
-const appCityNames = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const appCityNames = [ 'Paris', 'Dusseldorf', 'Brussels', 'Cologne', 'Hamburg', 'Amsterdam' ];
 
 const AppRoute = {
   ROOT: '/',

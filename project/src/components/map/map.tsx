@@ -58,6 +58,11 @@ function Map(props: MapProps): JSX.Element {
     return () => markers.forEach((marker) => marker.remove());
   }, [map, offers, highlightedOffer, history]);
 
+  useEffect(() => {
+    const {location} = city;
+    map?.setView([location.latitude, location.longitude]);
+  });
+
   return (
     <section className={`${className} map`}>
       <div style={{height: '100%'}} ref={mapRef}/>

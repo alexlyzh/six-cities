@@ -1,9 +1,10 @@
 import {ThunkActionResult, loadOffers, requireAuthorization, requireLogout} from './actions';
 import {APIRoute} from '../constants';
 import {AuthorizationStatus} from '../constants';
-import {Offer} from '../types/offers';
 import {Token} from '../services/token';
 import {saveToken, dropToken} from '../services/token';
+import Adapter from '../services/adapter';
+import {OfferBackend} from '../types/offers';
 
 type AuthData = {
   login: string,
@@ -12,15 +13,20 @@ type AuthData = {
 
 const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Offer[]>(APIRoute.GetOffers);
-    dispatch(loadOffers(data));
+    const {data} = await api.get<OfferBackend[]>(APIRoute.GetOffers);
+    const offers = data.map((offer) => Adapter.offerToClient(offer));
+    console.log(offers) // eslint-disable-line
+    dispatch(loadOffers(offers));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
-      .then(() => {
+      .then((response) => {
         dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+      })
+      .catch((error) => {
+        throw new Error(error);
       });
   };
 
