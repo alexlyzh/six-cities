@@ -16,9 +16,22 @@ const AppRoute = {
   OFFER: '/offer/:id',
 } as const;
 
+const APIRoute = {
+  GetOffers: '/hotels',
+  GetOffer: '/hotels/:id',
+  GetNearOffers: '/hotels/:hotel_id/nearby',
+  GetFavorites: '/favorite',
+  PostFavorite: '/favorite/:hotel_id/:status',
+  GetComments: '/comments/:hotel_id',
+  PostComment: '/comments/:hotel_id',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
 enum AuthorizationStatus {
   AUTH = 'auth',
   NO_AUTH = 'no-auth',
+  UNKNOWN = 'unknown',
 }
 
 const Rating = {
@@ -46,5 +59,6 @@ export {
   MapMarkerURL,
   INITIAL_CITY_NAME,
   appCityNames,
-  SortType
+  SortType,
+  APIRoute
 };
