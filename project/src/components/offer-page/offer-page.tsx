@@ -3,28 +3,44 @@ import FeedbackForm from '../feedback-form/feedback-form';
 import {Comment} from '../../types/comments';
 import {Offer} from '../../types/offers';
 import {AuthorizationStatus, OfferType} from '../../constants';
-import {getWidthByRating} from '../../utils';
+import {getOffersInCity, getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
-import {offers, mockAmsterdam} from '../../mock/mock';
 import NotFoundPage from '../not-found-page/not-found-page';
 import Map from '../map/map';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
+
+const MAX_IMAGES_COUNT = 6;
+const MAX_NEAR_OFFERS = 3;
 
 type OfferPageProps = {
-  authorizationStatus: string,
   comments: Comment[],
   offer?: Offer,
 }
 
-function OfferPage(props: OfferPageProps): JSX.Element {
+const mapStateToProps = ({selectedCity, offers, authorizationStatus}: State) => ({
+  selectedCity,
+  offers,
+  authorizationStatus,
+});
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = OfferPageProps & PropsFromRedux;
+
+function OfferPage(props: ConnectedComponentProps): JSX.Element {
   if (!props.offer) {
     return <NotFoundPage/>;
   }
 
-  const {authorizationStatus, comments, offer} = props;
+  const {authorizationStatus, comments, offer, offers, selectedCity} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
-  const nearOffers = offers.filter((item) => item.id !== id);
+  const nearOffers = getOffersInCity(offers, selectedCity)
+    .filter((item) => item.id !== id)
+    .slice(0, MAX_NEAR_OFFERS)
+    .concat(offer);
 
   return (
     <div className="page">
@@ -34,7 +50,7 @@ function OfferPage(props: OfferPageProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer.images.map((image) => (
+              {offer.images.slice(0, MAX_IMAGES_COUNT).map((image) => (
                 <div key={image} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="Studio"/>
                 </div>
@@ -121,8 +137,8 @@ function OfferPage(props: OfferPageProps): JSX.Element {
             </div>
           </div>
           <Map
-            city={mockAmsterdam}
-            offers={offers}
+            city={offer.city}
+            offers={nearOffers}
             highlightedOffer={offer}
             className="property__map"
           />
@@ -148,4 +164,4 @@ function OfferPage(props: OfferPageProps): JSX.Element {
   );
 }
 
-export default OfferPage;
+export default connector(OfferPage);

@@ -1,7 +1,7 @@
 import {Dispatch} from '@reduxjs/toolkit';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
-import {Actions, changeCity} from '../../store/actions/actions';
+import {Actions, changeCity} from '../../store/actions';
 
 type LocationListProps = {
   cityNames: string[],
@@ -22,7 +22,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = LocationListProps & PropsFromRedux;
 
 function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponentProps) {
-
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">

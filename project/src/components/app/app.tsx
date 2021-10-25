@@ -9,20 +9,27 @@ import PrivateRoute from '../private-route/private-route';
 import {Comment} from '../../types/comments';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type AppProps = {
   comments: Comment[],
 }
 
-const mapStateToProps = ({offers}: State) => ({
+const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}: State) => ({
   offers,
+  authorizationStatus,
+  isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = AppProps & PropsFromRedux;
 
-function App({ offers, comments }: ConnectedComponentProps): JSX.Element {
+function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedComponentProps): JSX.Element {
+  if (authorizationStatus === AuthorizationStatus.UNKNOWN || !isDataLoaded) {
+    return <LoadingScreen/>;
+  }
+
   return (
     <BrowserRouter>
       <Switch>
@@ -36,19 +43,17 @@ function App({ offers, comments }: ConnectedComponentProps): JSX.Element {
           exact
           path={AppRoute.FAVORITES}
           render={() => <FavoritesPage offers={offers}/>}
-          authorizationStatus={AuthorizationStatus.AUTH}
         />
         <Route
           exact
           path={AppRoute.OFFER}
-          render={(serviceProps) => {
-            const id = Number(serviceProps.match.params.id);
+          render={(renderProps) => {
+            const id = Number(renderProps.match.params.id);
             const offer = offers.find((item) => item.id === id);
             return (
               <OfferPage
                 offer={offer}
                 comments={comments}
-                authorizationStatus={AuthorizationStatus.AUTH}
               />);
           }}
         />

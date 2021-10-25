@@ -1,5 +1,3 @@
-import {User} from './user';
-
 type Location = {
   latitude: number,
   longitude: number,
@@ -8,6 +6,13 @@ type Location = {
 
 type City = {
   location: Location,
+  name: string,
+}
+
+type User = {
+  avatarUrl: string,
+  id: number,
+  isPro: boolean,
   name: string,
 }
 
@@ -30,4 +35,30 @@ type Offer = {
   type: string,
 }
 
-export type { Offer, City, Location };
+type UserBackend = {
+  'avatar_url': string,
+  id: number,
+  'is_pro': boolean,
+  name: string,
+}
+
+type OfferBackend = {
+  id: number,
+  bedrooms: number,
+  city: City,
+  description: string,
+  goods: string[],
+  host: UserBackend,
+  images: string[],
+  'is_favorite': boolean,
+  'is_premium': boolean,
+  location: Location,
+  'max_adults': number,
+  'preview_image': string,
+  price: number,
+  rating: number,
+  title: string,
+  type: string,
+}
+
+export type { Offer, OfferBackend, City, Location, User, UserBackend };

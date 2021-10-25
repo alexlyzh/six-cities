@@ -1,4 +1,4 @@
-import {User} from './user';
+import {User} from './offers';
 
 type Comment = {
   id: number,
