@@ -9,7 +9,7 @@ type City = {
   name: string,
 }
 
-type Host = {
+type User = {
   avatarUrl: string,
   id: number,
   isPro: boolean,
@@ -22,7 +22,7 @@ type Offer = {
   city: City,
   description: string,
   goods: string[],
-  host: Host,
+  host: User,
   images: string[],
   isFavorite: boolean,
   isPremium: boolean,
@@ -35,7 +35,7 @@ type Offer = {
   type: string,
 }
 
-type HostBackend = {
+type UserBackend = {
   'avatar_url': string,
   id: number,
   'is_pro': boolean,
@@ -48,7 +48,7 @@ type OfferBackend = {
   city: City,
   description: string,
   goods: string[],
-  host: HostBackend,
+  host: UserBackend,
   images: string[],
   'is_favorite': boolean,
   'is_premium': boolean,
@@ -61,4 +61,4 @@ type OfferBackend = {
   type: string,
 }
 
-export type { Offer, OfferBackend, City, Location, Host, HostBackend };
+export type { Offer, OfferBackend, City, Location, User, UserBackend };

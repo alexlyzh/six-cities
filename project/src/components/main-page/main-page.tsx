@@ -3,14 +3,13 @@ import LocationList from '../location-list/location-list';
 import {Offer} from '../../types/offers';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
-import {appCityNames} from '../../constants';
+import {CityGeoData} from '../../constants';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
 import {getOffersInCity, Sort} from '../../utils';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
-
 
 type MainPageProps = {
   offers: Offer[],
@@ -28,7 +27,7 @@ type ConnectedComponentProps = MainPageProps & PropsFromRedux;
 function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = Sort[currentSort](offers);
   const offersInCity = getOffersInCity(sortedOffers, selectedCity);
-  const currentCity = offersInCity[0]?.city;
+  const currentCity = CityGeoData[selectedCity];
 
   const [highlightedOffer, onChangeHighlightedOffer] = useHighlightedOffer(offersInCity);
 
@@ -38,7 +37,7 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
       <main className={`page__main page__main--index ${!offersInCity.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationList cityNames={appCityNames}/>
+          <LocationList cityNames={Object.keys(CityGeoData)}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">

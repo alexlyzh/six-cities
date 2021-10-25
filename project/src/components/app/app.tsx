@@ -9,7 +9,7 @@ import PrivateRoute from '../private-route/private-route';
 import {Comment} from '../../types/comments';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
-import LoadingScreen from '../../loading-screen/loading-screen';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type AppProps = {
   comments: Comment[],
@@ -43,7 +43,6 @@ function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedC
           exact
           path={AppRoute.FAVORITES}
           render={() => <FavoritesPage offers={offers}/>}
-          authorizationStatus={authorizationStatus}
         />
         <Route
           exact
@@ -55,7 +54,6 @@ function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedC
               <OfferPage
                 offer={offer}
                 comments={comments}
-                authorizationStatus={authorizationStatus}
               />);
           }}
         />

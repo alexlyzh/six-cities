@@ -15,14 +15,14 @@ const MAX_IMAGES_COUNT = 6;
 const MAX_NEAR_OFFERS = 3;
 
 type OfferPageProps = {
-  authorizationStatus: string,
   comments: Comment[],
   offer?: Offer,
 }
 
-const mapStateToProps = ({selectedCity, offers}: State) => ({
+const mapStateToProps = ({selectedCity, offers, authorizationStatus}: State) => ({
   selectedCity,
   offers,
+  authorizationStatus,
 });
 
 const connector = connect(mapStateToProps);

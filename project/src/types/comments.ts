@@ -1,11 +1,11 @@
-import {Host} from './offers';
+import {User} from './offers';
 
 type Comment = {
   id: number,
   comment: string,
   date: string,
   rating: number,
-  user: Host,
+  user: User,
 }
 
 export type { Comment };

@@ -1,4 +1,4 @@
-import {Host, HostBackend, Offer, OfferBackend} from '../types/offers';
+import {User, UserBackend, Offer, OfferBackend} from '../types/offers';
 
 class Adapter {
   static offerToClient(offer: OfferBackend): Offer {
@@ -22,7 +22,7 @@ class Adapter {
     };
   }
 
-  static hostToClient(host: HostBackend): Host {
+  static hostToClient(host: UserBackend): User {
     return {
       avatarUrl: host['avatar_url'],
       id: host['id'],
