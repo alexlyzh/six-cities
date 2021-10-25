@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import MainPage from '../main-page/main-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 import FavoritesPage from '../favorites-page/favorites-page';
@@ -37,7 +37,7 @@ function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedC
           <MainPage offers={offers}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <LoginPage/>
+          {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT}/>: <LoginPage/>}
         </Route>
         <PrivateRoute
           exact

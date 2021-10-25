@@ -7,7 +7,7 @@ import Adapter from '../services/adapter';
 import {OfferBackend} from '../types/offers';
 
 type AuthData = {
-  login: string,
+  email: string,
   password: string,
 };
 
@@ -22,14 +22,19 @@ const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
       .then((response) => {
-        dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+        if (response.data?.token) {
+          saveToken(response.data.token);
+          dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+        } else {
+          dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
+        }
       })
       .catch((error) => {
         throw new Error(error);
       });
   };
 
-const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
+const loginAction = ({email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
     saveToken(token);
@@ -49,3 +54,6 @@ export {
   loginAction,
   logoutAction
 };
+
+export type {AuthData};
+
