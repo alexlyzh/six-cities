@@ -1,3 +1,5 @@
+import {Token} from '../services/token';
+
 type Location = {
   latitude: number,
   longitude: number,
@@ -14,6 +16,8 @@ type User = {
   id: number,
   isPro: boolean,
   name: string,
+  email?: string,
+  token?: Token,
 }
 
 type Offer = {
@@ -40,6 +44,8 @@ type UserBackend = {
   id: number,
   'is_pro': boolean,
   name: string,
+  email?: string,
+  token?: Token,
 }
 
 type OfferBackend = {

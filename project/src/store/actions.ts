@@ -1,4 +1,4 @@
-import {Offer} from '../types/offers';
+import {Offer, UserBackend} from '../types/offers';
 import {AuthorizationStatus} from '../constants';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
@@ -12,6 +12,7 @@ enum ActionType {
   Redirect = 'app/redirect',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
+  LoginUser = 'user/login',
 }
 
 const changeCity = (city: string) => ({
@@ -43,13 +44,19 @@ const redirectToRoute = (url: AppRoute) => ({
   payload: url,
 } as const);
 
+const setUser = (user: UserBackend | null) => ({
+  type: ActionType.LoginUser,
+  payload: user,
+} as const);
+
 type Actions =
   | ReturnType<typeof changeCity>
   | ReturnType<typeof loadOffers>
   | ReturnType<typeof changeSort>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
-  | ReturnType<typeof redirectToRoute>;
+  | ReturnType<typeof redirectToRoute>
+  | ReturnType<typeof setUser>;
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 
@@ -61,6 +68,8 @@ export {
   loadOffers,
   changeSort,
   requireAuthorization,
-  requireLogout
+  requireLogout,
+  redirectToRoute,
+  setUser
 };
 export type {Actions, ThunkActionResult, ThunkAppDispatch};

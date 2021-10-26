@@ -1,4 +1,4 @@
-import {Offer} from './offers';
+import {Offer, User} from './offers';
 import {AuthorizationStatus} from '../constants';
 
 type State = {
@@ -7,6 +7,7 @@ type State = {
   currentSort: string,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  user: User | null,
 };
 
 export type {State};

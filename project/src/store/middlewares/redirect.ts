@@ -5,7 +5,7 @@ import {reducer} from '../reducer';
 
 type Reducer = ReturnType<typeof reducer>;
 
-const redirectToRoute: Middleware<unknown, Reducer> = (_store) => (next) => (action) => {
+const redirect: Middleware<unknown, Reducer> = (_store) => (next) => (action) => {
   if (action.type === ActionType.Redirect) {
     browserHistory.push(action.payload);
   }
@@ -13,4 +13,4 @@ const redirectToRoute: Middleware<unknown, Reducer> = (_store) => (next) => (act
   next(action);
 };
 
-export {redirectToRoute};
+export {redirect};

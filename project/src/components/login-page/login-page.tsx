@@ -6,12 +6,10 @@ import {ThunkAppDispatch} from '../../store/actions';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useState} from 'react';
-import {redirectToRoute} from '../../store/middlewares/middlewares';
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
     dispatch(loginAction(authData))
-      .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
       .catch((err) => {
         throw new Error(err);
       });
