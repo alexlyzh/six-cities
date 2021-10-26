@@ -12,10 +12,14 @@ import {AuthorizationStatus} from './constants';
 import thunk from 'redux-thunk';
 import {checkAuthAction, fetchOffersAction} from './store/api-actions';
 import {ThunkAppDispatch} from './store/actions';
+import {redirectToRoute} from './store/middlewares/middlewares';
 
 const api = createAPI(() => requireAuthorization(AuthorizationStatus.NO_AUTH));
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api))));
+const store = createStore(reducer, composeWithDevTools(
+  applyMiddleware(thunk.withExtraArgument(api)),
+  applyMiddleware(redirectToRoute),
+));
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchOffersAction());

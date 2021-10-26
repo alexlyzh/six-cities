@@ -1,4 +1,4 @@
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Header from '../header/header';
 import {AppRoute} from '../../constants';
 import {connect, ConnectedProps} from 'react-redux';
@@ -6,10 +6,12 @@ import {ThunkAppDispatch} from '../../store/actions';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useState} from 'react';
+import {redirectToRoute} from '../../store/middlewares/middlewares';
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
     dispatch(loginAction(authData))
+      .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
       .catch((err) => {
         throw new Error(err);
       });
@@ -21,7 +23,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function LoginPage({onSubmit}: PropsFromRedux): JSX.Element {
   const [authData, setAuthData] = useState({email: '', password: ''});
-  const history = useHistory();
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;
@@ -34,7 +35,6 @@ function LoginPage({onSubmit}: PropsFromRedux): JSX.Element {
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     onSubmit(authData);
-    history.push(AppRoute.ROOT);
   };
 
   const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {
