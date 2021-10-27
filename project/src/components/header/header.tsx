@@ -2,16 +2,28 @@ import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
+import {bindActionCreators} from '@reduxjs/toolkit';
+import {ThunkAppDispatch} from '../../store/actions';
+import {logoutAction} from '../../store/api-actions';
 
-const mapStateToProps = ({authorizationStatus}: State) => ({
+type HeaderProps = {
+  isLoginPage?: boolean,
+}
+
+const mapStateToProps = ({authorizationStatus, user}: State) => ({
   authorizationStatus,
+  user,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
+  onLogoutClick: logoutAction,
+}, dispatch);
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = HeaderProps & PropsFromRedux;
 
-
-function Header({authorizationStatus}: PropsFromRedux): JSX.Element {
+function Header({authorizationStatus, isLoginPage, onLogoutClick, user}: ConnectedComponentProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -22,33 +34,46 @@ function Header({authorizationStatus}: PropsFromRedux): JSX.Element {
             </Link>
           </div>
           <nav className="header__nav">
-            <ul className="header__nav-list">
+            {isLoginPage ? null :
+              <ul className="header__nav-list">
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <>
+                    <li className="header__nav-item user">
+                      <Link to={AppRoute.FAVORITES} className="header__nav-link header__nav-link--profile">
+                        <div
+                          className="header__avatar-wrapper user__avatar-wrapper"
+                          style={{width: '30px', height: '30px'}}
+                        >
+                          <img
+                            src={user?.avatarUrl}
+                            style={{borderRadius: '50%'}}
+                            alt="User avatar"
+                          />
+                        </div>
+                        <span className="header__user-name user__name">{user?.email}</span>
+                      </Link>
+                    </li>
+                    <li className="header__nav-item">
+                      <a className="header__nav-link" href="#"
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          onLogoutClick();
+                        }}
+                      >
+                        <span className="header__signout">Sign out</span>
+                      </a>
+                    </li>
+                  </> :
 
-              {authorizationStatus === AuthorizationStatus.AUTH ?
-                <>
                   <li className="header__nav-item user">
-                    <Link to={AppRoute.FAVORITES} className="header__nav-link header__nav-link--profile">
+                    <Link to={AppRoute.LOGIN} className="header__nav-link header__nav-link--profile">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span className="header__login">Sign in</span>
                     </Link>
-                  </li>
-                  <li className="header__nav-item">
-                    <Link to={AppRoute.ROOT} className="header__nav-link">
-                      <span className="header__signout">Sign out</span>
-                    </Link>
-                  </li>
-                </> :
+                  </li>}
 
-                <li className="header__nav-item user">
-                  <Link to={AppRoute.LOGIN} className="header__nav-link header__nav-link--profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__login">Sign in</span>
-                  </Link>
-                </li>}
-
-            </ul>
+              </ul>}
           </nav>
         </div>
       </div>

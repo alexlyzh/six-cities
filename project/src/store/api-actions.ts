@@ -1,13 +1,19 @@
-import {ThunkActionResult, loadOffers, requireAuthorization, requireLogout} from './actions';
-import {APIRoute} from '../constants';
+import {
+  ThunkActionResult,
+  loadOffers,
+  requireAuthorization,
+  requireLogout,
+  redirectToRoute,
+  setUser
+} from './actions';
+import {APIRoute, AppRoute} from '../constants';
 import {AuthorizationStatus} from '../constants';
-import {Token} from '../services/token';
 import {saveToken, dropToken} from '../services/token';
 import Adapter from '../services/adapter';
-import {OfferBackend} from '../types/offers';
+import {OfferBackend, UserBackend} from '../types/offers';
 
 type AuthData = {
-  login: string,
+  email: string,
   password: string,
 };
 
@@ -22,24 +28,33 @@ const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
       .then((response) => {
-        dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+        if (response.data) {
+          saveToken(response.data.token);
+          dispatch(setUser(response.data));
+          dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+        } else {
+          dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
+        }
       })
       .catch((error) => {
         throw new Error(error);
       });
   };
 
-const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
+const loginAction = ({email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+    dispatch(setUser(data));
     dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+    dispatch(redirectToRoute(AppRoute.ROOT));
   };
 
 const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+    dispatch(setUser(null));
     dispatch(requireLogout());
   };
 
@@ -49,3 +64,6 @@ export {
   loginAction,
   logoutAction
 };
+
+export type {AuthData};
+

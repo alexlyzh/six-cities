@@ -60,12 +60,12 @@ const CityGeoData: {[key: string]: City} = {
   },
 } as const;
 
-const AppRoute = {
-  ROOT: '/',
-  LOGIN: '/login',
-  FAVORITES: '/favorites',
-  OFFER: '/offer/:id',
-} as const;
+enum AppRoute {
+  ROOT = '/',
+  LOGIN = '/login',
+  FAVORITES = '/favorites',
+  OFFER = '/offer/:id',
+}
 
 const APIRoute = {
   GetOffers: '/hotels',

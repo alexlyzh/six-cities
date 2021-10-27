@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Router as BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import MainPage from '../main-page/main-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 import FavoritesPage from '../favorites-page/favorites-page';
@@ -10,6 +10,7 @@ import {Comment} from '../../types/comments';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
   comments: Comment[],
@@ -31,13 +32,13 @@ function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedC
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
           <MainPage offers={offers}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <LoginPage/>
+          {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT}/>: <LoginPage/>}
         </Route>
         <PrivateRoute
           exact

@@ -1,6 +1,6 @@
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
-type Token = string;
+type Token = string | undefined;
 
 const getToken = (): Token => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
@@ -8,7 +8,7 @@ const getToken = (): Token => {
 };
 
 const saveToken = (token: Token): void => {
-  localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
+  token && localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
 };
 
 const dropToken = (): void => {

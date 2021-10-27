@@ -8,7 +8,7 @@ class Adapter {
       city: offer['city'],
       description: offer['description'],
       goods: offer['goods'],
-      host: Adapter.hostToClient(offer['host']),
+      host: Adapter.userToClient(offer['host']),
       images: offer['images'],
       isFavorite: offer['is_favorite'],
       isPremium: offer['is_premium'],
@@ -22,12 +22,14 @@ class Adapter {
     };
   }
 
-  static hostToClient(host: UserBackend): User {
+  static userToClient(user: UserBackend): User {
     return {
-      avatarUrl: host['avatar_url'],
-      id: host['id'],
-      isPro: host['is_pro'],
-      name: host['name'],
+      avatarUrl: user['avatar_url'],
+      id: user['id'],
+      isPro: user['is_pro'],
+      name: user['name'],
+      email: user['email'],
+      token: user['token'],
     };
   }
 }
