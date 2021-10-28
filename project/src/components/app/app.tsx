@@ -6,15 +6,10 @@ import LoginPage from '../login-page/login-page';
 import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
-import {Comment} from '../../types/comments';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
-
-type AppProps = {
-  comments: Comment[],
-}
 
 const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}: State) => ({
   offers,
@@ -24,9 +19,8 @@ const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}: State) => 
 
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = AppProps & PropsFromRedux;
 
-function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedComponentProps): JSX.Element {
+function App({ offers, authorizationStatus, isDataLoaded }: PropsFromRedux): JSX.Element {
   if (authorizationStatus === AuthorizationStatus.UNKNOWN || !isDataLoaded) {
     return <LoadingScreen/>;
   }
@@ -51,11 +45,15 @@ function App({ offers, comments, authorizationStatus, isDataLoaded }: ConnectedC
           render={(renderProps) => {
             const id = Number(renderProps.match.params.id);
             const offer = offers.find((item) => item.id === id);
-            return (
-              <OfferPage
-                offer={offer}
-                comments={comments}
-              />);
+
+            if (!offer) {
+              return <NotFoundPage/>;
+            } else {
+              return (
+                <OfferPage
+                  offer={offer}
+                />);
+            }
           }}
         />
         <Route>

@@ -22,6 +22,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       className={`${className} place-card`}
       onMouseEnter={() => onChangeHighlightedOffer && onChangeHighlightedOffer(id)}
       onMouseLeave={() => onChangeHighlightedOffer && onChangeHighlightedOffer(null)}
+      data-id={id}
     >
       {isPremium &&
         <div className="place-card__mark">

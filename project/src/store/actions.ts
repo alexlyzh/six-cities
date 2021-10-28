@@ -1,12 +1,14 @@
-import {Offer, UserBackend} from '../types/offers';
+import {Offer, Review, UserBackend} from '../types/offers';
 import {AuthorizationStatus} from '../constants';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
-import {State} from '../types/state';
+import {State, ContentByID} from '../types/state';
 import {AppRoute} from '../constants';
 
 enum ActionType {
   LoadOffers = 'data/loadOffers',
+  LoadReviews = 'data/loadReviews',
+  LoadNearOffers = 'data/leadNearOffers',
   ChangeCity = 'app/changeCity',
   ChangeSort = 'app/changeSort',
   Redirect = 'app/redirect',
@@ -15,61 +17,66 @@ enum ActionType {
   LoginUser = 'user/login',
 }
 
-const changeCity = (city: string) => ({
-  type: ActionType.ChangeCity,
-  payload: city,
-} as const);
+const ActionCreator = {
+  changeCity: (city: string) => ({
+    type: ActionType.ChangeCity,
+    payload: city,
+  } as const),
 
-const loadOffers = (offers: Offer[]) => ({
-  type: ActionType.LoadOffers,
-  payload: offers,
-} as const);
+  loadOffers: (offers: Offer[]) => ({
+    type: ActionType.LoadOffers,
+    payload: offers,
+  } as const),
 
-const changeSort = (sort: string) => ({
-  type: ActionType.ChangeSort,
-  payload: sort,
-} as const);
+  loadReviews: (reviews: ContentByID<Review>) => ({
+    type: ActionType.LoadReviews,
+    payload: reviews,
+  } as const),
 
-const requireAuthorization = (status: AuthorizationStatus) => ({
-  type: ActionType.RequireAuthorization,
-  payload: status,
-} as const);
+  loadNearOffers: (offers: ContentByID<Offer>) => ({
+    type: ActionType.LoadNearOffers,
+    payload: offers,
+  } as const),
 
-const requireLogout = () => ({
-  type: ActionType.RequireLogout,
-} as const);
+  changeSort: (sort: string) => ({
+    type: ActionType.ChangeSort,
+    payload: sort,
+  } as const),
 
-const redirectToRoute = (url: AppRoute) => ({
-  type: ActionType.Redirect,
-  payload: url,
-} as const);
+  requireAuthorization: (status: AuthorizationStatus) => ({
+    type: ActionType.RequireAuthorization,
+    payload: status,
+  } as const),
 
-const setUser = (user: UserBackend | null) => ({
-  type: ActionType.LoginUser,
-  payload: user,
-} as const);
+  requireLogout: () => ({
+    type: ActionType.RequireLogout,
+  } as const),
+
+  redirectToRoute: (url: AppRoute) => ({
+    type: ActionType.Redirect,
+    payload: url,
+  } as const),
+
+  setUser: (user: UserBackend | null) => ({
+    type: ActionType.LoginUser,
+    payload: user,
+  } as const),
+};
 
 type Actions =
-  | ReturnType<typeof changeCity>
-  | ReturnType<typeof loadOffers>
-  | ReturnType<typeof changeSort>
-  | ReturnType<typeof requireAuthorization>
-  | ReturnType<typeof requireLogout>
-  | ReturnType<typeof redirectToRoute>
-  | ReturnType<typeof setUser>;
+  | ReturnType<typeof ActionCreator.changeCity>
+  | ReturnType<typeof ActionCreator.loadOffers>
+  | ReturnType<typeof ActionCreator.loadReviews>
+  | ReturnType<typeof ActionCreator.loadNearOffers>
+  | ReturnType<typeof ActionCreator.changeSort>
+  | ReturnType<typeof ActionCreator.requireAuthorization>
+  | ReturnType<typeof ActionCreator.requireLogout>
+  | ReturnType<typeof ActionCreator.redirectToRoute>
+  | ReturnType<typeof ActionCreator.setUser>;
 
 type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 
 type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
 
-export {
-  ActionType,
-  changeCity,
-  loadOffers,
-  changeSort,
-  requireAuthorization,
-  requireLogout,
-  redirectToRoute,
-  setUser
-};
+export {ActionType, ActionCreator};
 export type {Actions, ThunkActionResult, ThunkAppDispatch};

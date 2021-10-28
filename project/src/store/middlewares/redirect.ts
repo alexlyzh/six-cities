@@ -10,7 +10,7 @@ const redirect: Middleware<unknown, Reducer> = (_store) => (next) => (action) =>
     browserHistory.push(action.payload);
   }
 
-  next(action);
+  return next(action);
 };
 
 export {redirect};

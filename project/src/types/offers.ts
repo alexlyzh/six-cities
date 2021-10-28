@@ -67,4 +67,16 @@ type OfferBackend = {
   type: string,
 }
 
-export type { Offer, OfferBackend, City, Location, User, UserBackend };
+type Review = {
+  id: number,
+  comment: string,
+  date: string,
+  rating: number,
+  user: User,
+}
+
+type ReviewBackend = Omit<Review, 'user'> & {
+  user: UserBackend,
+}
+
+export type { Offer, OfferBackend, City, Location, User, UserBackend, Review, ReviewBackend };

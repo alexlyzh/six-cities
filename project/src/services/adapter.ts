@@ -1,4 +1,4 @@
-import {User, UserBackend, Offer, OfferBackend} from '../types/offers';
+import {User, UserBackend, Offer, OfferBackend, ReviewBackend, Review} from '../types/offers';
 
 class Adapter {
   static offerToClient(offer: OfferBackend): Offer {
@@ -30,6 +30,13 @@ class Adapter {
       name: user['name'],
       email: user['email'],
       token: user['token'],
+    };
+  }
+
+  static reviewToClient(review: ReviewBackend): Review {
+    return {
+      ...review,
+      user: Adapter.userToClient(review.user),
     };
   }
 }

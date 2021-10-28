@@ -8,4 +8,4 @@ type Comment = {
   user: User,
 }
 
-export type { Comment };
+export type {  };

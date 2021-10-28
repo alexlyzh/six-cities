@@ -6,6 +6,14 @@ import Adapter from '../services/adapter';
 const initialState: State = {
   selectedCity: INITIAL_CITY_NAME,
   offers: [],
+  nearOffers: {
+    id: null,
+    data: [],
+  },
+  reviews: {
+    id: null,
+    data: [],
+  },
   currentSort: SortType.POPULAR,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
@@ -22,6 +30,10 @@ const reducer = (state: State = initialState, action: Actions): State => {
         offers: action.payload,
         isDataLoaded: true,
       };
+    case ActionType.LoadReviews:
+      return {...state, reviews: action.payload};
+    case ActionType.LoadNearOffers:
+      return {...state, nearOffers: action.payload};
     case ActionType.ChangeSort:
       return {...state, currentSort: action.payload};
     case ActionType.RequireAuthorization:

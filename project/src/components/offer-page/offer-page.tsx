@@ -1,46 +1,52 @@
 import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
-import {Comment} from '../../types/comments';
 import {Offer} from '../../types/offers';
 import {AuthorizationStatus, OfferType} from '../../constants';
-import {getOffersInCity, getWidthByRating} from '../../utils';
+import {getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
-import NotFoundPage from '../not-found-page/not-found-page';
 import Map from '../map/map';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
+import {ThunkAppDispatch} from '../../store/actions';
+import {fetchNearOffersAction, fetchReviewsAction} from '../../store/api-actions';
+import {bindActionCreators} from '@reduxjs/toolkit';
+import {useEffect} from 'react';
 
 const MAX_IMAGES_COUNT = 6;
-const MAX_NEAR_OFFERS = 3;
 
 type OfferPageProps = {
-  comments: Comment[],
-  offer?: Offer,
+  offer: Offer,
 }
 
-const mapStateToProps = ({selectedCity, offers, authorizationStatus}: State) => ({
+const mapStateToProps = ({selectedCity, offers, reviews, authorizationStatus, nearOffers}: State) => ({
   selectedCity,
   offers,
+  reviews,
+  nearOffers,
   authorizationStatus,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
+  fetchReviews: fetchReviewsAction,
+  fetchNearOffers: fetchNearOffersAction,
+}, dispatch);
+
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = OfferPageProps & PropsFromRedux;
 
 function OfferPage(props: ConnectedComponentProps): JSX.Element {
-  if (!props.offer) {
-    return <NotFoundPage/>;
-  }
-
-  const {authorizationStatus, comments, offer, offers, selectedCity} = props;
+  const {authorizationStatus, offer, nearOffers, fetchReviews, reviews, fetchNearOffers} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
-  const nearOffers = getOffersInCity(offers, selectedCity)
-    .filter((item) => item.id !== id)
-    .slice(0, MAX_NEAR_OFFERS)
-    .concat(offer);
+  useEffect(() => {
+    fetchReviews(id);
+    fetchNearOffers(id);
+  }, [nearOffers, reviews, fetchNearOffers, fetchReviews, id]);
+
+  const offersForMap = [...nearOffers.data, offer];
 
   return (
     <div className="page">
@@ -128,17 +134,15 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
 
-                <ReviewList comments={comments}/>
-                {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm/>}
+              {reviews.data.length ? <ReviewList reviews={reviews.data}/> : null}
+              {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm/>}
 
-              </section>
             </div>
           </div>
           <Map
             city={offer.city}
-            offers={nearOffers}
+            offers={offersForMap}
             highlightedOffer={offer}
             className="property__map"
           />
@@ -149,7 +153,7 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
             <div className="near-places__list places__list">
 
               <OffersList
-                offers={nearOffers}
+                offers={offersForMap}
                 className="near-places__card"
                 imageClassName="near-places__image-wrapper"
                 imageWidth={260}
