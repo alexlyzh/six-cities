@@ -15,6 +15,7 @@ type State = {
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   user: User | null,
+  isSubmitting: boolean,
 };
 
 export type {State, ContentByID};

@@ -5,11 +5,20 @@ import {saveToken, dropToken} from '../services/token';
 import Adapter from '../services/adapter';
 import {OfferBackend, ReviewBackend, UserBackend} from '../types/offers';
 import {generatePath} from 'react-router-dom';
+import {toast} from 'react-toastify';
+
+const REVIEW_SUBMIT_ERR_TEXT = 'Some trouble occurred during sending your review...';
 
 type AuthData = {
   email: string,
   password: string,
 };
+
+type ReviewData = {
+  id: number,
+  comment: string,
+  rating: number | null,
+}
 
 const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -34,6 +43,20 @@ const fetchNearOffersAction = (id: number): ThunkActionResult =>
       const offers = data.map((offer) => Adapter.offerToClient(offer));
       dispatch(ActionCreator.loadNearOffers({id, data: offers}));
     }
+  };
+
+const postReview = ({id, comment, rating}: ReviewData): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    dispatch(ActionCreator.setSubmittingState(true));
+    try {
+      const {data} = await api.post(`${generatePath(APIRoute.PostReview, {'hotel_id': id})}`, {comment, rating});
+      const reviews = data.map((review: ReviewBackend) => Adapter.reviewToClient(review));
+      dispatch(ActionCreator.loadReviews({id, data: reviews}));
+    } catch (err) {
+      toast.error(REVIEW_SUBMIT_ERR_TEXT);
+      throw err;
+    }
+    dispatch(ActionCreator.setSubmittingState(false));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
@@ -74,6 +97,7 @@ export {
   fetchOffersAction,
   fetchReviewsAction,
   fetchNearOffersAction,
+  postReview,
   checkAuthAction,
   loginAction,
   logoutAction

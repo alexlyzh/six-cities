@@ -12,6 +12,8 @@ import thunk from 'redux-thunk';
 import {checkAuthAction, fetchOffersAction} from './store/api-actions';
 import {ThunkAppDispatch} from './store/actions';
 import {redirect} from './store/middlewares/redirect';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const api = createAPI(() => ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
 
@@ -28,6 +30,7 @@ const store = createStore(reducer, composeWithDevTools(applyMiddleware(...middle
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer/>
       <App/>
     </Provider>
   </React.StrictMode>,

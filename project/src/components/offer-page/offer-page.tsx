@@ -42,11 +42,11 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
   useEffect(() => {
-    fetchReviews(id);
-    fetchNearOffers(id);
+    (reviews.id !== id) && fetchReviews(id);
+    (nearOffers.id !== id) && fetchNearOffers(id);
   }, [nearOffers, reviews, fetchNearOffers, fetchReviews, id]);
 
-  const offersForMap = [...nearOffers.data, offer];
+  const offersForMap = [...nearOffers.data.filter((nearOffer) => nearOffer.id !== offer.id), offer];
 
   return (
     <div className="page">
@@ -136,7 +136,7 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
               </div>
 
               {reviews.data.length ? <ReviewList reviews={reviews.data}/> : null}
-              {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm/>}
+              {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm id={id}/>}
 
             </div>
           </div>

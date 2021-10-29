@@ -9,6 +9,7 @@ enum ActionType {
   LoadOffers = 'data/loadOffers',
   LoadReviews = 'data/loadReviews',
   LoadNearOffers = 'data/leadNearOffers',
+  SetSubmittingState = 'data/setSubmittingState',
   ChangeCity = 'app/changeCity',
   ChangeSort = 'app/changeSort',
   Redirect = 'app/redirect',
@@ -36,6 +37,11 @@ const ActionCreator = {
   loadNearOffers: (offers: ContentByID<Offer>) => ({
     type: ActionType.LoadNearOffers,
     payload: offers,
+  } as const),
+
+  setSubmittingState: (isSubmitting: boolean) => ({
+    type: ActionType.SetSubmittingState,
+    payload: isSubmitting,
   } as const),
 
   changeSort: (sort: string) => ({
@@ -68,6 +74,7 @@ type Actions =
   | ReturnType<typeof ActionCreator.loadOffers>
   | ReturnType<typeof ActionCreator.loadReviews>
   | ReturnType<typeof ActionCreator.loadNearOffers>
+  | ReturnType<typeof ActionCreator.setSubmittingState>
   | ReturnType<typeof ActionCreator.changeSort>
   | ReturnType<typeof ActionCreator.requireAuthorization>
   | ReturnType<typeof ActionCreator.requireLogout>

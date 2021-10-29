@@ -48,12 +48,11 @@ function App({ offers, authorizationStatus, isDataLoaded }: PropsFromRedux): JSX
 
             if (!offer) {
               return <NotFoundPage/>;
-            } else {
-              return (
-                <OfferPage
-                  offer={offer}
-                />);
             }
+            return (
+              <OfferPage
+                offer={offer}
+              />);
           }}
         />
         <Route>

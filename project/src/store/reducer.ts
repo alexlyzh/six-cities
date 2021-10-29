@@ -18,6 +18,7 @@ const initialState: State = {
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
   user: null,
+  isSubmitting: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -34,6 +35,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, reviews: action.payload};
     case ActionType.LoadNearOffers:
       return {...state, nearOffers: action.payload};
+    case ActionType.SetSubmittingState:
+      return {...state, isSubmitting: action.payload};
     case ActionType.ChangeSort:
       return {...state, currentSort: action.payload};
     case ActionType.RequireAuthorization:

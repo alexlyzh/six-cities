@@ -13,7 +13,7 @@ type OffersListProps = {
 
 function OffersList(props: OffersListProps): JSX.Element {
   const { offers, className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
-  //console.log(offers.map((offer) => offer.id)) // eslint-disable-line
+
   return (
     <>
       {offers.map((offer) => (
