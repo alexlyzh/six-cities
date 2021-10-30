@@ -28,11 +28,16 @@ const fetchOffersAction = (): ThunkActionResult =>
   };
 
 const fetchReviewsAction = (id: number): ThunkActionResult =>
-  async (dispatch, getState, api): Promise<void> => {
-    const {data} = await api.get<ReviewBackend[]>(`${generatePath(APIRoute.GetReviews,{'hotel_id': id})}`);
-    if (id !== getState().reviews.id) {
+  async (dispatch, _getState, api): Promise<void> => {
+    dispatch(ActionCreator.startLoadingReviews(id));
+
+    try {
+      const {data} = await api.get<ReviewBackend[]>(`${generatePath(APIRoute.GetReviews,{'hotel_id': id})}`);
       const reviews = data.map((review) => Adapter.reviewToClient(review));
-      dispatch(ActionCreator.loadReviews({id, data: reviews}));
+
+      dispatch(ActionCreator.loadReviews(id, reviews));
+    } catch(e) {
+      dispatch(ActionCreator.loadReviewsError(id));
     }
   };
 
@@ -51,7 +56,7 @@ const postReview = ({id, comment, rating}: ReviewData): ThunkActionResult =>
     try {
       const {data} = await api.post(`${generatePath(APIRoute.PostReview, {'hotel_id': id})}`, {comment, rating});
       const reviews = data.map((review: ReviewBackend) => Adapter.reviewToClient(review));
-      dispatch(ActionCreator.loadReviews({id, data: reviews}));
+      dispatch(ActionCreator.loadReviews(id, reviews));
     } catch (err) {
       toast.error(REVIEW_SUBMIT_ERR_TEXT);
       throw err;

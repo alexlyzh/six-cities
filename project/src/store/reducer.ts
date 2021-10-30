@@ -10,10 +10,7 @@ const initialState: State = {
     id: null,
     data: [],
   },
-  reviews: {
-    id: null,
-    data: [],
-  },
+  reviews: {},
   currentSort: SortType.POPULAR,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
@@ -31,8 +28,39 @@ const reducer = (state: State = initialState, action: Actions): State => {
         offers: action.payload,
         isDataLoaded: true,
       };
+    case ActionType.StartLoadingReviews:
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload]: {
+            requestStatus: 'PENDING',
+            data: [],
+          },
+        },
+      };
     case ActionType.LoadReviews:
-      return {...state, reviews: action.payload};
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload.offerId]: {
+            requestStatus: 'SUCCESS',
+            data: action.payload.reviews,
+          },
+        },
+      };
+    case ActionType.LoadReviewsError:
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload]: {
+            requestStatus: 'ERROR',
+            data: [],
+          },
+        },
+      };
     case ActionType.LoadNearOffers:
       return {...state, nearOffers: action.payload};
     case ActionType.SetSubmittingState:

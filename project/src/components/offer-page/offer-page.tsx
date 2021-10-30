@@ -40,11 +40,18 @@ type ConnectedComponentProps = OfferPageProps & PropsFromRedux;
 function OfferPage(props: ConnectedComponentProps): JSX.Element {
   const {authorizationStatus, offer, nearOffers, fetchReviews, reviews, fetchNearOffers} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
+  const shouldLoadReviews = !reviews[id];
+  const offerReviews = reviews[id] ? reviews[id].data : [];
 
   useEffect(() => {
-    (reviews.id !== id) && fetchReviews(id);
+    if (shouldLoadReviews) {
+      fetchReviews(id);
+    }
+  }, [shouldLoadReviews, fetchReviews, id]);
+
+  useEffect(() => {
     (nearOffers.id !== id) && fetchNearOffers(id);
-  }, [nearOffers, reviews, fetchNearOffers, fetchReviews, id]);
+  }, [nearOffers, fetchNearOffers, id]);
 
   const offersForMap = [...nearOffers.data.filter((nearOffer) => nearOffer.id !== offer.id), offer];
 
@@ -135,7 +142,7 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
                 </div>
               </div>
 
-              {reviews.data.length ? <ReviewList reviews={reviews.data}/> : null}
+              {offerReviews.length ? <ReviewList reviews={offerReviews}/> : null}
               {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm id={id}/>}
 
             </div>

@@ -6,11 +6,18 @@ type ContentByID<Type> = {
   data: Type[],
 }
 
+type RequestStatus = 'IDLE' | 'PENDING' | 'SUCCESS' | 'ERROR';
+
 type State = {
   selectedCity: string,
   offers: Offer[],
   nearOffers: ContentByID<Offer>,
-  reviews: ContentByID<Review>,
+  reviews: {
+    [key: string]: {
+      requestStatus: RequestStatus,
+      data: Review[],
+    }
+  },
   currentSort: string,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,

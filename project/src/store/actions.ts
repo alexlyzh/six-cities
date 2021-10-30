@@ -7,7 +7,9 @@ import {AppRoute} from '../constants';
 
 enum ActionType {
   LoadOffers = 'data/loadOffers',
+  StartLoadingReviews = 'data/startLoadingReviews',
   LoadReviews = 'data/loadReviews',
+  LoadReviewsError = 'data/loadReviewsError',
   LoadNearOffers = 'data/leadNearOffers',
   SetSubmittingState = 'data/setSubmittingState',
   ChangeCity = 'app/changeCity',
@@ -29,9 +31,22 @@ const ActionCreator = {
     payload: offers,
   } as const),
 
-  loadReviews: (reviews: ContentByID<Review>) => ({
+  startLoadingReviews: (offerId: number) => ({
+    type: ActionType.StartLoadingReviews,
+    payload: offerId,
+  } as const),
+
+  loadReviews: (offerId: number, reviews: Review[]) => ({
     type: ActionType.LoadReviews,
-    payload: reviews,
+    payload: {
+      offerId,
+      reviews,
+    },
+  } as const),
+
+  loadReviewsError: (offerId: number) => ({
+    type: ActionType.LoadReviewsError,
+    payload: offerId,
   } as const),
 
   loadNearOffers: (offers: ContentByID<Offer>) => ({
@@ -72,7 +87,9 @@ const ActionCreator = {
 type Actions =
   | ReturnType<typeof ActionCreator.changeCity>
   | ReturnType<typeof ActionCreator.loadOffers>
+  | ReturnType<typeof ActionCreator.startLoadingReviews>
   | ReturnType<typeof ActionCreator.loadReviews>
+  | ReturnType<typeof ActionCreator.loadReviewsError>
   | ReturnType<typeof ActionCreator.loadNearOffers>
   | ReturnType<typeof ActionCreator.setSubmittingState>
   | ReturnType<typeof ActionCreator.changeSort>
