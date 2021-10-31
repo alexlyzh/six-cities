@@ -1,16 +1,18 @@
 import {Offer, User, Review} from './offers';
 import {AuthorizationStatus} from '../constants';
 
-type ContentByID<Type> = {
-  id: number | null,
-  data: Type[],
+type RequestStatus<Type> = {
+  [key: number]: {
+    requestStatus: 'PENDING' | 'SUCCESS' | 'ERROR',
+    data: Type[],
+  },
 }
 
 type State = {
   selectedCity: string,
   offers: Offer[],
-  nearOffers: ContentByID<Offer>,
-  reviews: ContentByID<Review>,
+  nearOffers: RequestStatus<Offer>,
+  reviews: RequestStatus<Review>,
   currentSort: string,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
@@ -18,4 +20,4 @@ type State = {
   isSubmitting: boolean,
 };
 
-export type {State, ContentByID};
+export type {State, RequestStatus};

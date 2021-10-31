@@ -6,8 +6,14 @@ import Adapter from '../services/adapter';
 import {OfferBackend, ReviewBackend, UserBackend} from '../types/offers';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
+import {Dispatch} from 'react';
+import {SetStateAction} from 'react';
 
-const REVIEW_SUBMIT_ERR_TEXT = 'Some trouble occurred during sending your review...';
+const ErrorMessage = {
+  PostReview: 'Something went wrong when sending your review...',
+  GetReviews: 'Can\'t get reviews..',
+  GetNearOffers: 'Can\'t get offers nearby..',
+};
 
 type AuthData = {
   email: string,
@@ -20,6 +26,12 @@ type ReviewData = {
   rating: number | null,
 }
 
+type ResetReviewCallback = Dispatch<SetStateAction<{
+  id: number,
+  rating: null,
+  comment: string
+}>>;
+
 const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<OfferBackend[]>(APIRoute.GetOffers);
@@ -29,33 +41,45 @@ const fetchOffersAction = (): ThunkActionResult =>
 
 const fetchReviewsAction = (id: number): ThunkActionResult =>
   async (dispatch, getState, api): Promise<void> => {
-    const {data} = await api.get<ReviewBackend[]>(`${generatePath(APIRoute.GetReviews,{'hotel_id': id})}`);
-    if (id !== getState().reviews.id) {
+    dispatch(ActionCreator.startLoadingReviews(id));
+
+    try {
+      const {data} = await api.get<ReviewBackend[]>(`${generatePath(APIRoute.GetReviews,{'hotel_id': id})}`);
       const reviews = data.map((review) => Adapter.reviewToClient(review));
-      dispatch(ActionCreator.loadReviews({id, data: reviews}));
+      dispatch(ActionCreator.loadReviews(id, reviews));
+    } catch (err) {
+      dispatch(ActionCreator.setReviewsLoadingError(id));
+      toast(ErrorMessage.GetReviews);
     }
   };
 
 const fetchNearOffersAction = (id: number): ThunkActionResult =>
   async (dispatch, getState, api): Promise<void> => {
-    const {data} = await api.get<OfferBackend[]>(`${generatePath(APIRoute.GetNearOffers,{'hotel_id': id})}`);
-    if (id !== getState().nearOffers.id) {
-      const offers = data.map((offer) => Adapter.offerToClient(offer));
-      dispatch(ActionCreator.loadNearOffers({id, data: offers}));
+    dispatch(ActionCreator.startLoadingNearOffers(id));
+
+    try {
+      const {data} = await api.get<OfferBackend[]>(`${generatePath(APIRoute.GetNearOffers, {'hotel_id': id})}`);
+      const nearOffers = data.map((offer) => Adapter.offerToClient(offer));
+      dispatch(ActionCreator.loadNearOffers(id, nearOffers));
+    } catch (err) {
+      dispatch(ActionCreator.setNearOffersLoadingError(id));
+      toast(ErrorMessage.GetNearOffers);
     }
   };
 
-const postReview = ({id, comment, rating}: ReviewData): ThunkActionResult =>
+const postReviewAction = ({id, comment, rating}: ReviewData, setReview: ResetReviewCallback): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     dispatch(ActionCreator.setSubmittingState(true));
+
     try {
       const {data} = await api.post(`${generatePath(APIRoute.PostReview, {'hotel_id': id})}`, {comment, rating});
       const reviews = data.map((review: ReviewBackend) => Adapter.reviewToClient(review));
-      dispatch(ActionCreator.loadReviews({id, data: reviews}));
+      dispatch(ActionCreator.loadReviews(id, reviews));
+      setReview({id, rating: null, comment: ''});
     } catch (err) {
-      toast.error(REVIEW_SUBMIT_ERR_TEXT);
-      throw err;
+      toast.error(ErrorMessage.PostReview);
     }
+
     dispatch(ActionCreator.setSubmittingState(false));
   };
 
@@ -97,7 +121,7 @@ export {
   fetchOffersAction,
   fetchReviewsAction,
   fetchNearOffersAction,
-  postReview,
+  postReviewAction,
   checkAuthAction,
   loginAction,
   logoutAction

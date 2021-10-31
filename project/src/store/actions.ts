@@ -2,13 +2,17 @@ import {Offer, Review, UserBackend} from '../types/offers';
 import {AuthorizationStatus} from '../constants';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
-import {State, ContentByID} from '../types/state';
+import {State} from '../types/state';
 import {AppRoute} from '../constants';
 
 enum ActionType {
   LoadOffers = 'data/loadOffers',
+  StartLoadingReviews = 'data/startLoadReviews',
   LoadReviews = 'data/loadReviews',
+  ErrorLoadingReviews = 'data/errorLoadReviews',
+  StartLoadingNearOffers = 'data/startLoadNearOffers',
   LoadNearOffers = 'data/leadNearOffers',
+  ErrorLoadingNearOffers = 'data/errorLoadNearOffers',
   SetSubmittingState = 'data/setSubmittingState',
   ChangeCity = 'app/changeCity',
   ChangeSort = 'app/changeSort',
@@ -29,14 +33,34 @@ const ActionCreator = {
     payload: offers,
   } as const),
 
-  loadReviews: (reviews: ContentByID<Review>) => ({
-    type: ActionType.LoadReviews,
-    payload: reviews,
+  startLoadingReviews: (offerId: number) => ({
+    type: ActionType.StartLoadingReviews,
+    payload: offerId,
   } as const),
 
-  loadNearOffers: (offers: ContentByID<Offer>) => ({
+  loadReviews: (offerId: number, reviews: Review[]) => ({
+    type: ActionType.LoadReviews,
+    payload: {offerId, reviews},
+  } as const),
+
+  setReviewsLoadingError: (offerId: number) => ({
+    type: ActionType.ErrorLoadingReviews,
+    payload: offerId,
+  } as const),
+
+  startLoadingNearOffers: (offerId: number) => ({
+    type: ActionType.StartLoadingNearOffers,
+    payload: offerId,
+  } as const),
+
+  loadNearOffers: (offerId: number, offers: Offer[]) => ({
     type: ActionType.LoadNearOffers,
-    payload: offers,
+    payload: {offerId, offers},
+  } as const),
+
+  setNearOffersLoadingError: (offerId: number) => ({
+    type: ActionType.ErrorLoadingNearOffers,
+    payload: offerId,
   } as const),
 
   setSubmittingState: (isSubmitting: boolean) => ({
@@ -73,7 +97,11 @@ type Actions =
   | ReturnType<typeof ActionCreator.changeCity>
   | ReturnType<typeof ActionCreator.loadOffers>
   | ReturnType<typeof ActionCreator.loadReviews>
+  | ReturnType<typeof ActionCreator.startLoadingReviews>
+  | ReturnType<typeof ActionCreator.setReviewsLoadingError>
+  | ReturnType<typeof ActionCreator.startLoadingNearOffers>
   | ReturnType<typeof ActionCreator.loadNearOffers>
+  | ReturnType<typeof ActionCreator.setNearOffersLoadingError>
   | ReturnType<typeof ActionCreator.setSubmittingState>
   | ReturnType<typeof ActionCreator.changeSort>
   | ReturnType<typeof ActionCreator.requireAuthorization>

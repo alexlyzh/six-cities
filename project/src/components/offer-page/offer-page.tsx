@@ -41,12 +41,24 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
   const {authorizationStatus, offer, nearOffers, fetchReviews, reviews, fetchNearOffers} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
-  useEffect(() => {
-    (reviews.id !== id) && fetchReviews(id);
-    (nearOffers.id !== id) && fetchNearOffers(id);
-  }, [nearOffers, reviews, fetchNearOffers, fetchReviews, id]);
+  const shouldLoadReviews = !reviews[id];
+  const shouldLoadNearOffers = !nearOffers[id];
 
-  const offersForMap = [...nearOffers.data.filter((nearOffer) => nearOffer.id !== offer.id), offer];
+  const offerReviews = !shouldLoadReviews ? reviews[id].data : [];
+  const offerNearOffers = !shouldLoadReviews ? nearOffers[id].data : [];
+  const offersForMap = [...offerNearOffers, offer];
+
+  useEffect(() => {
+    if (shouldLoadReviews) {
+      fetchReviews(id);
+    }
+  }, [shouldLoadReviews, fetchReviews, id]);
+
+  useEffect(() => {
+    if (shouldLoadNearOffers) {
+      fetchNearOffers(id);
+    }
+  }, [shouldLoadNearOffers, fetchNearOffers, id]);
 
   return (
     <div className="page">
@@ -135,7 +147,7 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
                 </div>
               </div>
 
-              {reviews.data.length ? <ReviewList reviews={reviews.data}/> : null}
+              {offerReviews.length ? <ReviewList reviews={offerReviews}/> : null}
               {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm id={id}/>}
 
             </div>
@@ -152,13 +164,14 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
 
-              <OffersList
-                offers={offersForMap}
-                className="near-places__card"
-                imageClassName="near-places__image-wrapper"
-                imageWidth={260}
-                imageHeight={200}
-              />
+              {offerNearOffers.length ?
+                <OffersList
+                  offers={offerNearOffers}
+                  className="near-places__card"
+                  imageClassName="near-places__image-wrapper"
+                  imageWidth={260}
+                  imageHeight={200}
+                /> : null}
 
             </div>
           </section>
