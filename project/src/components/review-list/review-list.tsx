@@ -1,29 +1,29 @@
-import {Comment} from '../../types/comments';
-import Review from '../review/review';
+import {Review} from '../../types/offers';
+import {ReviewComponent} from '../review/review-component';
 
 const MAX_COMMENTS_COUNT = 10;
 
 type ReviewListProps = {
-  comments: Comment[],
+  reviews: Review[],
 }
 
-function ReviewList({comments}: ReviewListProps): JSX.Element {
-  const commentsCopy = [...comments]
+function ReviewList({reviews}: ReviewListProps): JSX.Element {
+  const reviewsCopy = [...reviews]
     .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
     .slice(0, MAX_COMMENTS_COUNT);
 
   return (
-    <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+    <section className="property__reviews reviews">
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <ul className="reviews__list">
-        {commentsCopy.map((comment) => (
-          <Review
-            key={comment.id}
-            comment={comment}
+        {reviewsCopy.map((review) => (
+          <ReviewComponent
+            key={review.id}
+            review={review}
           />
         ))}
       </ul>
-    </>);
+    </section>);
 }
 
 export default ReviewList;

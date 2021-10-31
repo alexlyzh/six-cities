@@ -6,10 +6,13 @@ import Adapter from '../services/adapter';
 const initialState: State = {
   selectedCity: INITIAL_CITY_NAME,
   offers: [],
+  nearOffers: {},
+  reviews: {},
   currentSort: SortType.POPULAR,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
   user: null,
+  isSubmitting: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -22,6 +25,74 @@ const reducer = (state: State = initialState, action: Actions): State => {
         offers: action.payload,
         isDataLoaded: true,
       };
+    case ActionType.StartLoadingReviews:
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload]: {
+            requestStatus: 'PENDING',
+            data: [],
+          },
+        },
+      };
+    case ActionType.LoadReviews:
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload.offerId]: {
+            requestStatus: 'SUCCESS',
+            data: action.payload.reviews,
+          },
+        },
+      };
+    case ActionType.ErrorLoadingReviews:
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload]: {
+            requestStatus: 'ERROR',
+            data: [],
+          },
+        },
+      };
+    case ActionType.StartLoadingNearOffers:
+      return {
+        ...state,
+        nearOffers: {
+          ...state.nearOffers,
+          [action.payload]: {
+            requestStatus: 'PENDING',
+            data: [],
+          },
+        },
+      };
+    case ActionType.LoadNearOffers:
+      return {
+        ...state,
+        nearOffers: {
+          ...state.nearOffers,
+          [action.payload.offerId]: {
+            requestStatus: 'SUCCESS',
+            data: action.payload.offers,
+          },
+        },
+      };
+    case ActionType.ErrorLoadingNearOffers:
+      return {
+        ...state,
+        nearOffers: {
+          ...state.nearOffers,
+          [action.payload]: {
+            requestStatus: 'ERROR',
+            data: [],
+          },
+        },
+      };
+    case ActionType.SetSubmittingState:
+      return {...state, isSubmitting: action.payload};
     case ActionType.ChangeSort:
       return {...state, currentSort: action.payload};
     case ActionType.RequireAuthorization:

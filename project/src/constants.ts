@@ -73,8 +73,8 @@ const APIRoute = {
   GetNearOffers: '/hotels/:hotel_id/nearby',
   GetFavorites: '/favorite',
   PostFavorite: '/favorite/:hotel_id/:status',
-  GetComments: '/comments/:hotel_id',
-  PostComment: '/comments/:hotel_id',
+  GetReviews: '/comments/:hotel_id',
+  PostReview: '/comments/:hotel_id',
   Login: '/login',
   Logout: '/logout',
 } as const;

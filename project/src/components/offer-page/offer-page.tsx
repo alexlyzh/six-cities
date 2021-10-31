@@ -1,46 +1,64 @@
 import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
-import {Comment} from '../../types/comments';
 import {Offer} from '../../types/offers';
 import {AuthorizationStatus, OfferType} from '../../constants';
-import {getOffersInCity, getWidthByRating} from '../../utils';
+import {getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
-import NotFoundPage from '../not-found-page/not-found-page';
 import Map from '../map/map';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
+import {ThunkAppDispatch} from '../../store/actions';
+import {fetchNearOffersAction, fetchReviewsAction} from '../../store/api-actions';
+import {bindActionCreators} from '@reduxjs/toolkit';
+import {useEffect} from 'react';
 
 const MAX_IMAGES_COUNT = 6;
-const MAX_NEAR_OFFERS = 3;
 
 type OfferPageProps = {
-  comments: Comment[],
-  offer?: Offer,
+  offer: Offer,
 }
 
-const mapStateToProps = ({selectedCity, offers, authorizationStatus}: State) => ({
+const mapStateToProps = ({selectedCity, offers, reviews, authorizationStatus, nearOffers}: State) => ({
   selectedCity,
   offers,
+  reviews,
+  nearOffers,
   authorizationStatus,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
+  fetchReviews: fetchReviewsAction,
+  fetchNearOffers: fetchNearOffersAction,
+}, dispatch);
+
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = OfferPageProps & PropsFromRedux;
 
 function OfferPage(props: ConnectedComponentProps): JSX.Element {
-  if (!props.offer) {
-    return <NotFoundPage/>;
-  }
-
-  const {authorizationStatus, comments, offer, offers, selectedCity} = props;
+  const {authorizationStatus, offer, nearOffers, fetchReviews, reviews, fetchNearOffers} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
-  const nearOffers = getOffersInCity(offers, selectedCity)
-    .filter((item) => item.id !== id)
-    .slice(0, MAX_NEAR_OFFERS)
-    .concat(offer);
+  const shouldLoadReviews = !reviews[id];
+  const shouldLoadNearOffers = !nearOffers[id];
+
+  const offerReviews = !shouldLoadReviews ? reviews[id].data : [];
+  const offerNearOffers = !shouldLoadReviews ? nearOffers[id].data : [];
+  const offersForMap = [...offerNearOffers, offer];
+
+  useEffect(() => {
+    if (shouldLoadReviews) {
+      fetchReviews(id);
+    }
+  }, [shouldLoadReviews, fetchReviews, id]);
+
+  useEffect(() => {
+    if (shouldLoadNearOffers) {
+      fetchNearOffers(id);
+    }
+  }, [shouldLoadNearOffers, fetchNearOffers, id]);
 
   return (
     <div className="page">
@@ -128,17 +146,15 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
 
-                <ReviewList comments={comments}/>
-                {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm/>}
+              {offerReviews.length ? <ReviewList reviews={offerReviews}/> : null}
+              {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm id={id}/>}
 
-              </section>
             </div>
           </div>
           <Map
             city={offer.city}
-            offers={nearOffers}
+            offers={offersForMap}
             highlightedOffer={offer}
             className="property__map"
           />
@@ -148,13 +164,14 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
 
-              <OffersList
-                offers={nearOffers}
-                className="near-places__card"
-                imageClassName="near-places__image-wrapper"
-                imageWidth={260}
-                imageHeight={200}
-              />
+              {offerNearOffers.length ?
+                <OffersList
+                  offers={offerNearOffers}
+                  className="near-places__card"
+                  imageClassName="near-places__image-wrapper"
+                  imageWidth={260}
+                  imageHeight={200}
+                /> : null}
 
             </div>
           </section>

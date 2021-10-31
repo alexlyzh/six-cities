@@ -1,7 +1,7 @@
 import {Dispatch} from '@reduxjs/toolkit';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
-import {Actions, changeCity} from '../../store/actions';
+import {Actions, ActionCreator} from '../../store/actions';
 
 type LocationListProps = {
   cityNames: string[],
@@ -13,7 +13,7 @@ const mapStateToProps = ({selectedCity}: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onCityChange(city: string) {
-    dispatch(changeCity(city));
+    dispatch(ActionCreator.changeCity(city));
   },
 });
 
