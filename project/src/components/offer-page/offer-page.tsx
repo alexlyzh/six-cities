@@ -1,6 +1,6 @@
 import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 import {AuthorizationStatus, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
@@ -12,6 +12,9 @@ import {ThunkAppDispatch} from '../../store/actions';
 import {fetchNearOffersAction, fetchReviewsAction} from '../../store/api-actions';
 import {bindActionCreators} from '@reduxjs/toolkit';
 import {useEffect} from 'react';
+import {getSelectedCity} from '../../store/reducer/app/selectors';
+import {getNearOffers, getOffers, getReviews} from '../../store/reducer/data/selectors';
+import {getAuthStatus} from '../../store/reducer/user/selectors';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -19,12 +22,12 @@ type OfferPageProps = {
   offer: Offer,
 }
 
-const mapStateToProps = ({APP, DATA, USER}: State) => ({
-  selectedCity: APP.selectedCity,
-  offers: DATA.offers,
-  reviews: DATA.reviews,
-  nearOffers: DATA.nearOffers,
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  selectedCity: getSelectedCity(state),
+  offers: getOffers(state),
+  reviews: getReviews(state),
+  nearOffers: getNearOffers(state),
+  authorizationStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({

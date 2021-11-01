@@ -4,17 +4,12 @@ import {AppRoute} from '../../constants';
 import {connect, ConnectedProps} from 'react-redux';
 import {ThunkAppDispatch} from '../../store/actions';
 import {loginAction} from '../../store/api-actions';
-import {AuthData} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useState} from 'react';
+import {bindActionCreators} from '@reduxjs/toolkit';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData))
-      .catch((err) => {
-        throw new Error(err);
-      });
-  },
-});
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
+  onSubmit: loginAction,
+}, dispatch);
 
 const connector = connect(null, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;

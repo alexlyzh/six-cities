@@ -3,7 +3,7 @@ import {APIRoute, AppRoute} from '../constants';
 import {AuthorizationStatus} from '../constants';
 import {saveToken, dropToken} from '../services/token';
 import Adapter from '../services/adapter';
-import {OfferBackend, ReviewBackend, UserBackend} from '../types/offers';
+import {OfferBackend, ReviewBackend, UserBackend} from '../types/types';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Dispatch} from 'react';
@@ -13,6 +13,8 @@ const ErrorMessage = {
   PostReview: 'Something went wrong when sending your review...',
   GetReviews: 'Can\'t get reviews..',
   GetNearOffers: 'Can\'t get offers nearby..',
+  Login: 'Login error...',
+  Logout: 'Logout error...',
 };
 
 type AuthData = {
@@ -49,7 +51,7 @@ const fetchReviewsAction = (id: number): ThunkActionResult =>
       dispatch(ActionCreator.loadReviews(id, reviews));
     } catch (err) {
       dispatch(ActionCreator.setReviewsLoadingError(id));
-      toast(ErrorMessage.GetReviews);
+      toast.error(ErrorMessage.GetReviews);
     }
   };
 
@@ -63,7 +65,7 @@ const fetchNearOffersAction = (id: number): ThunkActionResult =>
       dispatch(ActionCreator.loadNearOffers(id, nearOffers));
     } catch (err) {
       dispatch(ActionCreator.setNearOffersLoadingError(id));
-      toast(ErrorMessage.GetNearOffers);
+      toast.error(ErrorMessage.GetNearOffers);
     }
   };
 
@@ -102,19 +104,27 @@ const checkAuthAction = (): ThunkActionResult =>
 
 const loginAction = ({email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
-    saveToken(data.token);
-    dispatch(ActionCreator.setUser(Adapter.userToClient(data)));
-    dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
-    dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT));
+    try {
+      const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(ActionCreator.setUser(Adapter.userToClient(data)));
+      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT));
+    } catch (e) {
+      toast.error(ErrorMessage.Login);
+    }
   };
 
 const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(ActionCreator.setUser(null));
-    dispatch(ActionCreator.requireLogout());
+    try {
+      await api.delete(APIRoute.Logout);
+      dropToken();
+      dispatch(ActionCreator.setUser(null));
+      dispatch(ActionCreator.requireLogout());
+    } catch (e) {
+      toast.error(ErrorMessage.Logout);
+    }
   };
 
 export {

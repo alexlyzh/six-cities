@@ -5,14 +5,15 @@ import {connect, ConnectedProps} from 'react-redux';
 import {bindActionCreators} from '@reduxjs/toolkit';
 import {ThunkAppDispatch} from '../../store/actions';
 import {logoutAction} from '../../store/api-actions';
+import {getAuthStatus, getUser} from '../../store/reducer/user/selectors';
 
 type HeaderProps = {
   isLoginPage?: boolean,
 }
 
-const mapStateToProps = ({USER}: State) => ({
-  authorizationStatus: USER.authorizationStatus,
-  user: USER.user,
+const mapStateToProps = (state: State) => ({
+  authorizationStatus: getAuthStatus(state),
+  user: getUser(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({

@@ -1,6 +1,6 @@
 import {AuthorizationStatus} from '../../../constants';
 import {Actions, ActionType} from '../../actions';
-import {User} from '../../../types/offers';
+import {User} from '../../../types/types';
 
 type UserState = {
   authorizationStatus: AuthorizationStatus,

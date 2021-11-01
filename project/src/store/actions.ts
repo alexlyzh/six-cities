@@ -1,4 +1,4 @@
-import {Offer, Review, User} from '../types/offers';
+import {Offer, Review, User} from '../types/types';
 import {AuthorizationStatus} from '../constants';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';

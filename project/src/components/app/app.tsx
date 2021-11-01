@@ -10,11 +10,13 @@ import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
+import {getIsDataLoaded, getOffers} from '../../store/reducer/data/selectors';
+import {getAuthStatus} from '../../store/reducer/user/selectors';
 
-const mapStateToProps = ({DATA, USER}: State) => ({
-  offers: DATA.offers,
-  isDataLoaded: DATA.isDataLoaded,
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
+  isDataLoaded: getIsDataLoaded(state),
+  authorizationStatus: getAuthStatus(state),
 });
 
 const connector = connect(mapStateToProps);

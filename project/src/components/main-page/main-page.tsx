@@ -1,6 +1,6 @@
 import Header from '../header/header';
 import LocationList from '../location-list/location-list';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
 import {CityGeoData} from '../../constants';
@@ -10,14 +10,15 @@ import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
 import {getOffersInCity, Sort} from '../../utils';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
+import {getCurrentSort, getSelectedCity} from '../../store/reducer/app/selectors';
 
 type MainPageProps = {
   offers: Offer[],
 };
 
-const mapStateToProps = ({APP}: State) => ({
-  selectedCity: APP.selectedCity,
-  currentSort: APP.currentSort,
+const mapStateToProps = (state: State) => ({
+  selectedCity: getSelectedCity(state),
+  currentSort: getCurrentSort(state),
 });
 
 const connector = connect(mapStateToProps);

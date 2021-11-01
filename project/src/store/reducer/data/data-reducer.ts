@@ -1,5 +1,5 @@
 import {Actions, ActionType} from '../../actions';
-import {Offer, Review} from '../../../types/offers';
+import {Offer, Review} from '../../../types/types';
 
 type RequestStatus<Type> = {
   [key: number]: {
@@ -102,4 +102,4 @@ const dataReducer = (state: DataState = initialDataState, action: Actions): Data
 };
 
 export {dataReducer};
-export type {DataState};
+export type {DataState, RequestStatus};

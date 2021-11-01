@@ -4,13 +4,14 @@ import {connect, ConnectedProps} from 'react-redux';
 import {ThunkAppDispatch} from '../../store/actions';
 import {bindActionCreators} from '@reduxjs/toolkit';
 import {postReviewAction} from '../../store/api-actions';
+import {getIsSubmitting} from '../../store/reducer/app/selectors';
 
 type FeedbackFormProps = {
   id: number,
 }
 
-const mapStateToProps = ({APP}: State) => ({
-  isSubmitting: APP.isSubmitting,
+const mapStateToProps = (state: State) => ({
+  isSubmitting: getIsSubmitting(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({

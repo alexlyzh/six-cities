@@ -1,5 +1,5 @@
 import OfferCard from '../offer-card/offer-card';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 
 type OffersListProps = {
   offers: Offer[],
