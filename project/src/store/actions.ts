@@ -1,25 +1,25 @@
-import {Offer, Review, UserBackend} from '../types/offers';
+import {Offer, Review, User} from '../types/offers';
 import {AuthorizationStatus} from '../constants';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
-import {State} from '../types/state';
+import {State} from './reducer/root-reducer';
 import {AppRoute} from '../constants';
 
 enum ActionType {
-  LoadOffers = 'data/loadOffers',
-  StartLoadingReviews = 'data/startLoadReviews',
-  LoadReviews = 'data/loadReviews',
-  ErrorLoadingReviews = 'data/errorLoadReviews',
-  StartLoadingNearOffers = 'data/startLoadNearOffers',
-  LoadNearOffers = 'data/leadNearOffers',
-  ErrorLoadingNearOffers = 'data/errorLoadNearOffers',
-  SetSubmittingState = 'data/setSubmittingState',
-  ChangeCity = 'app/changeCity',
-  ChangeSort = 'app/changeSort',
-  Redirect = 'app/redirect',
-  RequireAuthorization = 'user/requireAuthorization',
-  RequireLogout = 'user/requireLogout',
-  LoginUser = 'user/login',
+  LoadOffers = 'DATA/loadOffers',
+  StartLoadingReviews = 'DATA/startLoadReviews',
+  LoadReviews = 'DATA/loadReviews',
+  ErrorLoadingReviews = 'DATA/errorLoadReviews',
+  StartLoadingNearOffers = 'DATA/startLoadNearOffers',
+  LoadNearOffers = 'DATA/loadNearOffers',
+  ErrorLoadingNearOffers = 'DATA/errorLoadNearOffers',
+  SetSubmittingState = 'APP/setSubmittingState',
+  ChangeCity = 'APP/changeCity',
+  ChangeSort = 'APP/changeSort',
+  Redirect = 'APP/redirect',
+  RequireAuthorization = 'USER/requireAuthorization',
+  RequireLogout = 'USER/requireLogout',
+  LoginUser = 'USER/login',
 }
 
 const ActionCreator = {
@@ -87,7 +87,7 @@ const ActionCreator = {
     payload: url,
   } as const),
 
-  setUser: (user: UserBackend | null) => ({
+  setUser: (user: User | null) => ({
     type: ActionType.LoginUser,
     payload: user,
   } as const),

@@ -1,12 +1,12 @@
 import {useState} from 'react';
-import {State} from '../../types/state';
+import {State} from '../../store/reducer/root-reducer';
 import {Dispatch} from '@reduxjs/toolkit';
 import {ActionCreator, Actions} from '../../store/actions';
 import {SortType} from '../../constants';
 import {connect, ConnectedProps} from 'react-redux';
 
-const mapStateToProps = ({currentSort}: State) => ({
-  currentSort,
+const mapStateToProps = ({APP}: State) => ({
+  currentSort: APP.currentSort,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

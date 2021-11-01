@@ -6,7 +6,7 @@ import {getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
-import {State} from '../../types/state';
+import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import {ThunkAppDispatch} from '../../store/actions';
 import {fetchNearOffersAction, fetchReviewsAction} from '../../store/api-actions';
@@ -19,12 +19,12 @@ type OfferPageProps = {
   offer: Offer,
 }
 
-const mapStateToProps = ({selectedCity, offers, reviews, authorizationStatus, nearOffers}: State) => ({
-  selectedCity,
-  offers,
-  reviews,
-  nearOffers,
-  authorizationStatus,
+const mapStateToProps = ({APP, DATA, USER}: State) => ({
+  selectedCity: APP.selectedCity,
+  offers: DATA.offers,
+  reviews: DATA.reviews,
+  nearOffers: DATA.nearOffers,
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({

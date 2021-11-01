@@ -4,7 +4,7 @@ import App from './components/app/app';
 import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from '@reduxjs/toolkit';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {reducer} from './store/reducer';
+import {rootReducer} from './store/reducer/root-reducer';
 import {createAPI} from './services/api';
 import {ActionCreator} from './store/actions';
 import {AuthorizationStatus} from './constants';
@@ -22,7 +22,7 @@ const middlewares = [
   redirect,
 ];
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middlewares)));
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchOffersAction());

@@ -6,15 +6,15 @@ import LoginPage from '../login-page/login-page';
 import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
-import {State} from '../../types/state';
+import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
 
-const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}: State) => ({
-  offers,
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = ({DATA, USER}: State) => ({
+  offers: DATA.offers,
+  isDataLoaded: DATA.isDataLoaded,
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const connector = connect(mapStateToProps);

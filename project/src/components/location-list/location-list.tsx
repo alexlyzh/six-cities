@@ -1,14 +1,14 @@
 import {Dispatch} from '@reduxjs/toolkit';
 import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../types/state';
+import {State} from '../../store/reducer/root-reducer';
 import {Actions, ActionCreator} from '../../store/actions';
 
 type LocationListProps = {
   cityNames: string[],
 };
 
-const mapStateToProps = ({selectedCity}: State) => ({
-  selectedCity,
+const mapStateToProps = ({APP}: State) => ({
+  selectedCity: APP.selectedCity,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

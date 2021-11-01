@@ -104,7 +104,7 @@ const loginAction = ({email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
     saveToken(data.token);
-    dispatch(ActionCreator.setUser(data));
+    dispatch(ActionCreator.setUser(Adapter.userToClient(data)));
     dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
     dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT));
   };

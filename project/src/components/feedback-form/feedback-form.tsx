@@ -1,5 +1,5 @@
 import {ChangeEvent, useState} from 'react';
-import {State} from '../../types/state';
+import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import {ThunkAppDispatch} from '../../store/actions';
 import {bindActionCreators} from '@reduxjs/toolkit';
@@ -9,8 +9,8 @@ type FeedbackFormProps = {
   id: number,
 }
 
-const mapStateToProps = ({isSubmitting}: State) => ({
-  isSubmitting,
+const mapStateToProps = ({APP}: State) => ({
+  isSubmitting: APP.isSubmitting,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({

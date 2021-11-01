@@ -1,24 +1,29 @@
-import {State} from '../types/state';
-import {AuthorizationStatus, INITIAL_CITY_NAME, SortType} from '../constants';
-import {Actions, ActionType} from './actions';
-import Adapter from '../services/adapter';
+import {Actions, ActionType} from '../../actions';
+import {Offer, Review} from '../../../types/offers';
 
-const initialState: State = {
-  selectedCity: INITIAL_CITY_NAME,
+type RequestStatus<Type> = {
+  [key: number]: {
+    requestStatus: 'PENDING' | 'SUCCESS' | 'ERROR',
+    data: Type[],
+  },
+}
+
+type DataState = {
+  offers: Offer[],
+  nearOffers: RequestStatus<Offer>,
+  reviews: RequestStatus<Review>,
+  isDataLoaded: boolean,
+}
+
+const initialDataState = {
   offers: [],
   nearOffers: {},
   reviews: {},
-  currentSort: SortType.POPULAR,
-  authorizationStatus: AuthorizationStatus.UNKNOWN,
   isDataLoaded: false,
-  user: null,
-  isSubmitting: false,
 };
 
-const reducer = (state: State = initialState, action: Actions): State => {
+const dataReducer = (state: DataState = initialDataState, action: Actions): DataState => {
   switch (action.type) {
-    case ActionType.ChangeCity:
-      return {...state, selectedCity: action.payload};
     case ActionType.LoadOffers:
       return {
         ...state,
@@ -91,19 +96,10 @@ const reducer = (state: State = initialState, action: Actions): State => {
           },
         },
       };
-    case ActionType.SetSubmittingState:
-      return {...state, isSubmitting: action.payload};
-    case ActionType.ChangeSort:
-      return {...state, currentSort: action.payload};
-    case ActionType.RequireAuthorization:
-      return {...state, authorizationStatus: action.payload};
-    case ActionType.LoginUser:
-      return {...state, user: !action.payload ? null : (Adapter.userToClient(action.payload))};
-    case ActionType.RequireLogout:
-      return {...state, authorizationStatus: AuthorizationStatus.NO_AUTH};
     default:
       return state;
   }
 };
 
-export {reducer};
+export {dataReducer};
+export type {DataState};

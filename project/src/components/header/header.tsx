@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants';
-import {State} from '../../types/state';
+import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import {bindActionCreators} from '@reduxjs/toolkit';
 import {ThunkAppDispatch} from '../../store/actions';
@@ -10,9 +10,9 @@ type HeaderProps = {
   isLoginPage?: boolean,
 }
 
-const mapStateToProps = ({authorizationStatus, user}: State) => ({
-  authorizationStatus,
-  user,
+const mapStateToProps = ({USER}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
+  user: USER.user,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
