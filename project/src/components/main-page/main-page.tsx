@@ -4,8 +4,7 @@ import {Offer} from '../../types/types';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
 import {CityGeoData} from '../../constants';
-import {State} from '../../store/reducer/root-reducer';
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector} from 'react-redux';
 import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
 import {getOffersInCity, Sort} from '../../utils';
@@ -16,16 +15,10 @@ type MainPageProps = {
   offers: Offer[],
 };
 
-const mapStateToProps = (state: State) => ({
-  selectedCity: getSelectedCity(state),
-  currentSort: getCurrentSort(state),
-});
+function MainPage({offers}: MainPageProps): JSX.Element {
+  const currentSort = useSelector(getCurrentSort);
+  const selectedCity = useSelector(getSelectedCity);
 
-const connector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = MainPageProps & PropsFromRedux;
-
-function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = Sort[currentSort](offers);
   const offersInCity = getOffersInCity(sortedOffers, selectedCity);
   const currentCity = CityGeoData[selectedCity];
@@ -80,4 +73,4 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
   );
 }
 
-export default connector(MainPage);
+export default MainPage;

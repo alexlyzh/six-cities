@@ -1,32 +1,21 @@
 import {ChangeEvent, useState} from 'react';
-import {State} from '../../store/reducer/root-reducer';
-import {connect, ConnectedProps} from 'react-redux';
-import {bindActionCreators, Dispatch} from '@reduxjs/toolkit';
-import {postReviewAction} from '../../store/api-actions';
+import {useDispatch, useSelector} from 'react-redux';
 import {getIsSubmitting} from '../../store/reducer/app/selectors';
+import {postReviewAction} from '../../store/api-actions';
 
 type FeedbackFormProps = {
   id: number,
 }
 
-const mapStateToProps = (state: State) => ({
-  isSubmitting: getIsSubmitting(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-  onFormSubmit: postReviewAction,
-}, dispatch);
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = FeedbackFormProps & PropsFromRedux;
-
-function FeedbackForm({id, isSubmitting, onFormSubmit}: ConnectedComponentProps): JSX.Element {
+function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
   const [review, setReview] = useState({
     id,
     rating: null,
     comment: '',
   });
+
+  const dispatch = useDispatch();
+  const isSubmitting = useSelector(getIsSubmitting);
 
   const handleFormChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = target;
@@ -41,7 +30,7 @@ function FeedbackForm({id, isSubmitting, onFormSubmit}: ConnectedComponentProps)
       style={{marginBottom: '20px'}}
       onSubmit={(evt) => {
         evt.preventDefault();
-        onFormSubmit(review, setReview);
+        dispatch(postReviewAction(review, setReview));
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -123,4 +112,4 @@ function FeedbackForm({id, isSubmitting, onFormSubmit}: ConnectedComponentProps)
   );
 }
 
-export default connector(FeedbackForm);
+export default FeedbackForm;

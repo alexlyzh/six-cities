@@ -1,5 +1,4 @@
-import {ThunkAppDispatch} from '../../store/actions';
-import {connect, ConnectedProps} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {ActionCreator} from '../../store/actions';
 
 type LocationListProps = {
@@ -7,18 +6,9 @@ type LocationListProps = {
   selectedCity: string,
 };
 
+function LocationList({cityNames, selectedCity}: LocationListProps): JSX.Element {
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onCityChange(city: string) {
-    dispatch(ActionCreator.changeCity(city));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = LocationListProps & PropsFromRedux;
-
-function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponentProps) {
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -27,7 +17,7 @@ function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponen
             <a className={`locations__item-link tabs__item ${selectedCity === cityName ? 'tabs__item--active' : ''}`} href="#"
               onClick={(evt) => {
                 evt.preventDefault();
-                onCityChange(cityName);
+                dispatch(ActionCreator.changeCity(cityName));
               }}
             >
               <span>{cityName}</span>
@@ -39,4 +29,4 @@ function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponen
   );
 }
 
-export default connector(LocationList);
+export default LocationList;
