@@ -4,6 +4,8 @@ import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from './reducer/root-reducer';
 import {AppRoute} from '../constants';
+import {createAction} from '@reduxjs/toolkit';
+import {Action} from '@reduxjs/toolkit';
 
 enum ActionType {
   LoadOffers = 'DATA/loadOffers',
@@ -23,95 +25,103 @@ enum ActionType {
 }
 
 const ActionCreator = {
-  changeCity: (city: string) => ({
-    type: ActionType.ChangeCity,
-    payload: city,
-  } as const),
+  changeCity: createAction(
+    ActionType.ChangeCity,
+    (city: string) => ({
+      payload: city,
+    }),
+  ),
 
-  loadOffers: (offers: Offer[]) => ({
-    type: ActionType.LoadOffers,
-    payload: offers,
-  } as const),
+  loadOffers: createAction(
+    ActionType.LoadOffers,
+    (offers: Offer[]) => ({
+      payload: offers,
+    }),
+  ),
 
-  startLoadingReviews: (offerId: number) => ({
-    type: ActionType.StartLoadingReviews,
-    payload: offerId,
-  } as const),
+  startLoadingReviews: createAction(
+    ActionType.StartLoadingReviews,
+    (offerId: number) => ({
+      payload: offerId,
+    }),
+  ),
 
-  loadReviews: (offerId: number, reviews: Review[]) => ({
-    type: ActionType.LoadReviews,
-    payload: {offerId, reviews},
-  } as const),
+  loadReviews: createAction(
+    ActionType.LoadReviews,
+    (offerId: number, reviews: Review[]) => ({
+      payload: {offerId, reviews},
+    }),
+  ),
 
-  setReviewsLoadingError: (offerId: number) => ({
-    type: ActionType.ErrorLoadingReviews,
-    payload: offerId,
-  } as const),
+  setReviewsLoadingError: createAction(
+    ActionType.ErrorLoadingReviews,
+    (offerId: number) => ({
+      payload: offerId,
+    }),
+  ),
 
-  startLoadingNearOffers: (offerId: number) => ({
-    type: ActionType.StartLoadingNearOffers,
-    payload: offerId,
-  } as const),
+  startLoadingNearOffers: createAction(
+    ActionType.StartLoadingNearOffers,
+    (offerId: number) => ({
+      payload: offerId,
+    }),
+  ),
 
-  loadNearOffers: (offerId: number, offers: Offer[]) => ({
-    type: ActionType.LoadNearOffers,
-    payload: {offerId, offers},
-  } as const),
+  loadNearOffers: createAction(
+    ActionType.LoadNearOffers,
+    (offerId: number, offers: Offer[]) => ({
+      payload: {offerId, offers},
+    }),
+  ),
 
-  setNearOffersLoadingError: (offerId: number) => ({
-    type: ActionType.ErrorLoadingNearOffers,
-    payload: offerId,
-  } as const),
+  setNearOffersLoadingError: createAction(
+    ActionType.ErrorLoadingNearOffers,
+    (offerId: number) => ({
+      payload: offerId,
+    }),
+  ),
 
-  setSubmittingState: (isSubmitting: boolean) => ({
-    type: ActionType.SetSubmittingState,
-    payload: isSubmitting,
-  } as const),
+  setSubmittingState: createAction(
+    ActionType.SetSubmittingState,
+    (isSubmitting: boolean) => ({
+      payload: isSubmitting,
+    }),
+  ),
 
-  changeSort: (sort: string) => ({
-    type: ActionType.ChangeSort,
-    payload: sort,
-  } as const),
+  changeSort: createAction(
+    ActionType.ChangeSort,
+    (sort: string) => ({
+      payload: sort,
+    }),
+  ),
 
-  requireAuthorization: (status: AuthorizationStatus) => ({
-    type: ActionType.RequireAuthorization,
-    payload: status,
-  } as const),
+  requireAuthorization: createAction(
+    ActionType.RequireAuthorization,
+    (status: AuthorizationStatus) => ({
+      payload: status,
+    }),
+  ),
 
-  requireLogout: () => ({
-    type: ActionType.RequireLogout,
-  } as const),
+  requireLogout: createAction(ActionType.RequireLogout),
 
-  redirectToRoute: (url: AppRoute) => ({
-    type: ActionType.Redirect,
-    payload: url,
-  } as const),
+  redirectToRoute: createAction(
+    ActionType.Redirect,
+    (url: AppRoute) => ({
+      payload: url,
+    }),
+  ),
 
-  setUser: (user: User | null) => ({
-    type: ActionType.LoginUser,
-    payload: user,
-  } as const),
+  setUser: createAction(
+    ActionType.LoginUser,
+    (user: User | null) => ({
+      payload: user,
+    }),
+  ),
 };
 
-type Actions =
-  | ReturnType<typeof ActionCreator.changeCity>
-  | ReturnType<typeof ActionCreator.loadOffers>
-  | ReturnType<typeof ActionCreator.loadReviews>
-  | ReturnType<typeof ActionCreator.startLoadingReviews>
-  | ReturnType<typeof ActionCreator.setReviewsLoadingError>
-  | ReturnType<typeof ActionCreator.startLoadingNearOffers>
-  | ReturnType<typeof ActionCreator.loadNearOffers>
-  | ReturnType<typeof ActionCreator.setNearOffersLoadingError>
-  | ReturnType<typeof ActionCreator.setSubmittingState>
-  | ReturnType<typeof ActionCreator.changeSort>
-  | ReturnType<typeof ActionCreator.requireAuthorization>
-  | ReturnType<typeof ActionCreator.requireLogout>
-  | ReturnType<typeof ActionCreator.redirectToRoute>
-  | ReturnType<typeof ActionCreator.setUser>;
+type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 
-type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
-
-type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
+type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Action>;
 
 export {ActionType, ActionCreator};
-export type {Actions, ThunkActionResult, ThunkAppDispatch};
+export type {ThunkActionResult, ThunkAppDispatch};

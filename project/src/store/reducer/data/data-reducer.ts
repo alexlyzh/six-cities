@@ -1,5 +1,6 @@
-import {Actions, ActionType} from '../../actions';
+import {ActionCreator} from '../../actions';
 import {Offer, Review} from '../../../types/types';
+import {createReducer} from '@reduxjs/toolkit';
 
 type RequestStatus<Type> = {
   [key: number]: {
@@ -15,91 +16,56 @@ type DataState = {
   isDataLoaded: boolean,
 }
 
-const initialDataState = {
+const initialState: DataState = {
   offers: [],
   nearOffers: {},
   reviews: {},
   isDataLoaded: false,
 };
 
-const dataReducer = (state: DataState = initialDataState, action: Actions): DataState => {
-  switch (action.type) {
-    case ActionType.LoadOffers:
-      return {
-        ...state,
-        offers: action.payload,
-        isDataLoaded: true,
+const dataReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(ActionCreator.loadOffers, (state, action) => {
+      state.offers = action.payload;
+      state.isDataLoaded = true;
+    })
+    .addCase(ActionCreator.startLoadingReviews, (state, action) => {
+      state.reviews[action.payload] = {
+        requestStatus: 'PENDING',
+        data: [],
       };
-    case ActionType.StartLoadingReviews:
-      return {
-        ...state,
-        reviews: {
-          ...state.reviews,
-          [action.payload]: {
-            requestStatus: 'PENDING',
-            data: [],
-          },
-        },
+    })
+    .addCase(ActionCreator.loadReviews, (state, action) => {
+      state.reviews[action.payload.offerId] = {
+        requestStatus: 'SUCCESS',
+        data: action.payload.reviews,
       };
-    case ActionType.LoadReviews:
-      return {
-        ...state,
-        reviews: {
-          ...state.reviews,
-          [action.payload.offerId]: {
-            requestStatus: 'SUCCESS',
-            data: action.payload.reviews,
-          },
-        },
+    })
+    .addCase(ActionCreator.setReviewsLoadingError, (state, action) => {
+      state.reviews[action.payload] = {
+        requestStatus: 'ERROR',
+        data: [],
       };
-    case ActionType.ErrorLoadingReviews:
-      return {
-        ...state,
-        reviews: {
-          ...state.reviews,
-          [action.payload]: {
-            requestStatus: 'ERROR',
-            data: [],
-          },
-        },
+    })
+    .addCase(ActionCreator.startLoadingNearOffers, (state, action) => {
+      state.nearOffers[action.payload] = {
+        requestStatus: 'PENDING',
+        data: [],
       };
-    case ActionType.StartLoadingNearOffers:
-      return {
-        ...state,
-        nearOffers: {
-          ...state.nearOffers,
-          [action.payload]: {
-            requestStatus: 'PENDING',
-            data: [],
-          },
-        },
+    })
+    .addCase(ActionCreator.loadNearOffers, (state, action) => {
+      state.nearOffers[action.payload.offerId] = {
+        requestStatus: 'SUCCESS',
+        data: action.payload.offers,
       };
-    case ActionType.LoadNearOffers:
-      return {
-        ...state,
-        nearOffers: {
-          ...state.nearOffers,
-          [action.payload.offerId]: {
-            requestStatus: 'SUCCESS',
-            data: action.payload.offers,
-          },
-        },
+    })
+    .addCase(ActionCreator.setNearOffersLoadingError, (state, action) => {
+      state.reviews[action.payload] = {
+        requestStatus: 'ERROR',
+        data: [],
       };
-    case ActionType.ErrorLoadingNearOffers:
-      return {
-        ...state,
-        nearOffers: {
-          ...state.nearOffers,
-          [action.payload]: {
-            requestStatus: 'ERROR',
-            data: [],
-          },
-        },
-      };
-    default:
-      return state;
-  }
-};
+    });
+});
 
 export {dataReducer};
 export type {DataState, RequestStatus};

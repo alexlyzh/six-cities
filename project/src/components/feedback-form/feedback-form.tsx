@@ -1,8 +1,7 @@
 import {ChangeEvent, useState} from 'react';
 import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
-import {ThunkAppDispatch} from '../../store/actions';
-import {bindActionCreators} from '@reduxjs/toolkit';
+import {bindActionCreators, Dispatch} from '@reduxjs/toolkit';
 import {postReviewAction} from '../../store/api-actions';
 import {getIsSubmitting} from '../../store/reducer/app/selectors';
 
@@ -14,7 +13,7 @@ const mapStateToProps = (state: State) => ({
   isSubmitting: getIsSubmitting(state),
 });
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   onFormSubmit: postReviewAction,
 }, dispatch);
 

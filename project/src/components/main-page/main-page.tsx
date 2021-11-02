@@ -38,7 +38,10 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
       <main className={`page__main page__main--index ${!offersInCity.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationList cityNames={Object.keys(CityGeoData)}/>
+          <LocationList
+            cityNames={Object.keys(CityGeoData)}
+            selectedCity={selectedCity}
+          />
         </div>
         <div className="cities">
           <div className="cities__places-container container">

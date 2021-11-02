@@ -2,8 +2,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import {State} from '../../store/reducer/root-reducer';
 import {connect, ConnectedProps} from 'react-redux';
-import {bindActionCreators} from '@reduxjs/toolkit';
-import {ThunkAppDispatch} from '../../store/actions';
+import {bindActionCreators, Dispatch} from '@reduxjs/toolkit';
 import {logoutAction} from '../../store/api-actions';
 import {getAuthStatus, getUser} from '../../store/reducer/user/selectors';
 
@@ -16,7 +15,7 @@ const mapStateToProps = (state: State) => ({
   user: getUser(state),
 });
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   onLogoutClick: logoutAction,
 }, dispatch);
 

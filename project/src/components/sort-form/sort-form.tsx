@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {State} from '../../store/reducer/root-reducer';
 import {Dispatch} from '@reduxjs/toolkit';
-import {ActionCreator, Actions} from '../../store/actions';
+import {ActionCreator} from '../../store/actions';
 import {SortType} from '../../constants';
 import {connect, ConnectedProps} from 'react-redux';
 import {getCurrentSort} from '../../store/reducer/app/selectors';
@@ -10,7 +10,7 @@ const mapStateToProps = (state: State) => ({
   currentSort: getCurrentSort(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSortChange(sortType: string) {
     dispatch(ActionCreator.changeSort(sortType));
   },
