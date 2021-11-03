@@ -7,20 +7,17 @@ import {CityGeoData} from '../../constants';
 import {useSelector} from 'react-redux';
 import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
-import {getOffersInCity, Sort} from '../../utils';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
-import {getCurrentSort, getSelectedCity} from '../../store/reducer/app/selectors';
+import {getSelectedCity} from '../../store/reducer/app/selectors';
+import {getCitySortedOffers} from '../../store/reducer/data/selectors';
 
 type MainPageProps = {
   offers: Offer[],
 };
 
 function MainPage({offers}: MainPageProps): JSX.Element {
-  const currentSort = useSelector(getCurrentSort);
   const selectedCity = useSelector(getSelectedCity);
-
-  const sortedOffers = Sort[currentSort](offers);
-  const offersInCity = getOffersInCity(sortedOffers, selectedCity);
+  const offersInCity = useSelector(getCitySortedOffers);
   const currentCity = CityGeoData[selectedCity];
 
   const [highlightedOffer, onChangeHighlightedOffer] = useHighlightedOffer(offersInCity);
