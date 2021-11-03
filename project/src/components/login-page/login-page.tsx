@@ -1,26 +1,13 @@
 import {Link} from 'react-router-dom';
 import Header from '../header/header';
 import {AppRoute} from '../../constants';
-import {connect, ConnectedProps} from 'react-redux';
-import {ThunkAppDispatch} from '../../store/actions';
+import {useDispatch} from 'react-redux';
 import {loginAction} from '../../store/api-actions';
-import {AuthData} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useState} from 'react';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData))
-      .catch((err) => {
-        throw new Error(err);
-      });
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function LoginPage({onSubmit}: PropsFromRedux): JSX.Element {
+function LoginPage(): JSX.Element {
   const [authData, setAuthData] = useState({email: '', password: ''});
+  const dispatch = useDispatch();
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;
@@ -32,7 +19,7 @@ function LoginPage({onSubmit}: PropsFromRedux): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(authData);
+    dispatch(loginAction(authData));
   };
 
   const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {
@@ -85,4 +72,4 @@ function LoginPage({onSubmit}: PropsFromRedux): JSX.Element {
   );
 }
 
-export default connector(LoginPage);
+export default LoginPage;

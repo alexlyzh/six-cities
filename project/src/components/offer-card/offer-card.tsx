@@ -1,5 +1,5 @@
 import {generatePath, Link} from 'react-router-dom';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 import {AppRoute, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
 

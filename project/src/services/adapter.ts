@@ -1,4 +1,4 @@
-import {User, UserBackend, Offer, OfferBackend, ReviewBackend, Review} from '../types/offers';
+import {User, UserBackend, Offer, OfferBackend, ReviewBackend, Review} from '../types/types';
 
 class Adapter {
   static offerToClient(offer: OfferBackend): Offer {

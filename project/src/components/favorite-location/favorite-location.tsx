@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../constants';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 import {OffersList} from '../offers-list/offers-list';
 
 type FavoriteLocationProps = {

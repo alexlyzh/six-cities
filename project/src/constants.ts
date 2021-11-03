@@ -1,4 +1,4 @@
-import {City} from './types/offers';
+import {City} from './types/types';
 
 const INITIAL_CITY_NAME = 'Paris';
 

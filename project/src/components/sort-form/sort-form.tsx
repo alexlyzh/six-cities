@@ -1,29 +1,18 @@
 import {useState} from 'react';
-import {State} from '../../types/state';
-import {Dispatch} from '@reduxjs/toolkit';
-import {ActionCreator, Actions} from '../../store/actions';
+import {ActionCreator} from '../../store/actions';
 import {SortType} from '../../constants';
-import {connect, ConnectedProps} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCurrentSort} from '../../store/reducer/app/selectors';
 
-const mapStateToProps = ({currentSort}: State) => ({
-  currentSort,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortChange(sortType: string) {
-    dispatch(ActionCreator.changeSort(sortType));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function SortForm({currentSort, onSortChange}: PropsFromRedux): JSX.Element {
+function SortForm(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
+  const currentSort = useSelector(getCurrentSort);
+  const dispatch = useDispatch();
+
   const sortTypes = Object.keys(SortType);
 
   const onSortOptionClick = (sortType: string): void => {
-    (sortType !== currentSort) && onSortChange(sortType);
+    (sortType !== currentSort) && dispatch(ActionCreator.changeSort(sortType));
     setIsOpen(false);
   };
 
@@ -55,4 +44,4 @@ function SortForm({currentSort, onSortChange}: PropsFromRedux): JSX.Element {
   );
 }
 
-export default connector(SortForm);
+export default SortForm;

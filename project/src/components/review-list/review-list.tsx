@@ -1,4 +1,4 @@
-import {Review} from '../../types/offers';
+import {Review} from '../../types/types';
 import {ReviewComponent} from '../review/review-component';
 
 const MAX_COMMENTS_COUNT = 10;

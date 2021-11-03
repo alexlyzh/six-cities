@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {getWidthByRating} from '../../utils';
-import {Review} from '../../types/offers';
+import {Review} from '../../types/types';
 
 type ReviewProps = {
   review: Review,

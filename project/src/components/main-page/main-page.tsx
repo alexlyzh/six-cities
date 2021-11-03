@@ -1,30 +1,24 @@
 import Header from '../header/header';
 import LocationList from '../location-list/location-list';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
 import {CityGeoData} from '../../constants';
-import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector} from 'react-redux';
 import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
 import {getOffersInCity, Sort} from '../../utils';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
+import {getCurrentSort, getSelectedCity} from '../../store/reducer/app/selectors';
 
 type MainPageProps = {
   offers: Offer[],
 };
 
-const mapStateToProps = ({selectedCity, currentSort}: State) => ({
-  selectedCity,
-  currentSort,
-});
+function MainPage({offers}: MainPageProps): JSX.Element {
+  const currentSort = useSelector(getCurrentSort);
+  const selectedCity = useSelector(getSelectedCity);
 
-const connector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = MainPageProps & PropsFromRedux;
-
-function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = Sort[currentSort](offers);
   const offersInCity = getOffersInCity(sortedOffers, selectedCity);
   const currentCity = CityGeoData[selectedCity];
@@ -37,7 +31,10 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
       <main className={`page__main page__main--index ${!offersInCity.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationList cityNames={Object.keys(CityGeoData)}/>
+          <LocationList
+            cityNames={Object.keys(CityGeoData)}
+            selectedCity={selectedCity}
+          />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -76,4 +73,4 @@ function MainPage({offers, selectedCity, currentSort}: ConnectedComponentProps):
   );
 }
 
-export default connector(MainPage);
+export default MainPage;

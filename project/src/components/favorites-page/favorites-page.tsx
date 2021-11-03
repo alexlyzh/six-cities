@@ -3,7 +3,7 @@ import {AppRoute} from '../../constants';
 import Header from '../header/header';
 import Favorites from '../favorites/favorites';
 import FavoritesEmpty from '../favorites-empty/favorites-empty';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 
 type FavoritesPageProps = {
   offers: Offer[],

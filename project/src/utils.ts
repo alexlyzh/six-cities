@@ -1,5 +1,5 @@
 import {Rating, SortType} from './constants';
-import {Offer} from './types/offers';
+import {Offer} from './types/types';
 
 const getWidthByRating = (rating: number): number => Math.min(rating * Rating.RATING_MULTIPLIER, Rating.MAX_RATING_PERCENT);
 

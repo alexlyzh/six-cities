@@ -6,21 +6,17 @@ import LoginPage from '../login-page/login-page';
 import OfferPage from '../offer-page/offer-page';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import PrivateRoute from '../private-route/private-route';
-import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector} from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
+import {getIsDataLoaded, getOffers} from '../../store/reducer/data/selectors';
+import {getAuthStatus} from '../../store/reducer/user/selectors';
 
-const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}: State) => ({
-  offers,
-  authorizationStatus,
-  isDataLoaded,
-});
+function App(): JSX.Element {
+  const offers = useSelector(getOffers);
+  const authorizationStatus = useSelector(getAuthStatus);
+  const isDataLoaded = useSelector(getIsDataLoaded);
 
-const connector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function App({ offers, authorizationStatus, isDataLoaded }: PropsFromRedux): JSX.Element {
   if (authorizationStatus === AuthorizationStatus.UNKNOWN || !isDataLoaded) {
     return <LoadingScreen/>;
   }
@@ -63,4 +59,4 @@ function App({ offers, authorizationStatus, isDataLoaded }: PropsFromRedux): JSX
   );
 }
 
-export default connector(App);
+export default App;

@@ -1,17 +1,16 @@
 import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/types';
 import {AuthorizationStatus, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
-import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
-import {ThunkAppDispatch} from '../../store/actions';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchNearOffersAction, fetchReviewsAction} from '../../store/api-actions';
-import {bindActionCreators} from '@reduxjs/toolkit';
 import {useEffect} from 'react';
+import {getNearOffers, getReviews} from '../../store/reducer/data/selectors';
+import {getAuthStatus} from '../../store/reducer/user/selectors';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -19,27 +18,14 @@ type OfferPageProps = {
   offer: Offer,
 }
 
-const mapStateToProps = ({selectedCity, offers, reviews, authorizationStatus, nearOffers}: State) => ({
-  selectedCity,
-  offers,
-  reviews,
-  nearOffers,
-  authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => bindActionCreators({
-  fetchReviews: fetchReviewsAction,
-  fetchNearOffers: fetchNearOffersAction,
-}, dispatch);
-
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = OfferPageProps & PropsFromRedux;
-
-function OfferPage(props: ConnectedComponentProps): JSX.Element {
-  const {authorizationStatus, offer, nearOffers, fetchReviews, reviews, fetchNearOffers} = props;
+function OfferPage(props: OfferPageProps): JSX.Element {
+  const {offer} = props;
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
+
+  const dispatch = useDispatch();
+  const reviews = useSelector(getReviews);
+  const nearOffers = useSelector(getNearOffers);
+  const authorizationStatus = useSelector(getAuthStatus);
 
   const shouldLoadReviews = !reviews[id];
   const shouldLoadNearOffers = !nearOffers[id];
@@ -50,15 +36,15 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
 
   useEffect(() => {
     if (shouldLoadReviews) {
-      fetchReviews(id);
+      dispatch(fetchReviewsAction(id));
     }
-  }, [shouldLoadReviews, fetchReviews, id]);
+  }, [shouldLoadReviews, dispatch, id]);
 
   useEffect(() => {
     if (shouldLoadNearOffers) {
-      fetchNearOffers(id);
+      dispatch(fetchNearOffersAction(id));
     }
-  }, [shouldLoadNearOffers, fetchNearOffers, id]);
+  }, [shouldLoadNearOffers, dispatch, id]);
 
   return (
     <div className="page">
@@ -181,4 +167,4 @@ function OfferPage(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export default connector(OfferPage);
+export default OfferPage;

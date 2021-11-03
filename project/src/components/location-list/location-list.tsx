@@ -1,27 +1,14 @@
-import {Dispatch} from '@reduxjs/toolkit';
-import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../types/state';
-import {Actions, ActionCreator} from '../../store/actions';
+import {useDispatch} from 'react-redux';
+import {ActionCreator} from '../../store/actions';
 
 type LocationListProps = {
   cityNames: string[],
+  selectedCity: string,
 };
 
-const mapStateToProps = ({selectedCity}: State) => ({
-  selectedCity,
-});
+function LocationList({cityNames, selectedCity}: LocationListProps): JSX.Element {
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onCityChange(city: string) {
-    dispatch(ActionCreator.changeCity(city));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = LocationListProps & PropsFromRedux;
-
-function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponentProps) {
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -30,7 +17,7 @@ function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponen
             <a className={`locations__item-link tabs__item ${selectedCity === cityName ? 'tabs__item--active' : ''}`} href="#"
               onClick={(evt) => {
                 evt.preventDefault();
-                onCityChange(cityName);
+                dispatch(ActionCreator.changeCity(cityName));
               }}
             >
               <span>{cityName}</span>
@@ -42,4 +29,4 @@ function LocationList({cityNames, selectedCity, onCityChange}: ConnectedComponen
   );
 }
 
-export default connector(LocationList);
+export default LocationList;
