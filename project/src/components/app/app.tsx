@@ -33,7 +33,7 @@ function App(): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.FAVORITES}
-          render={() => <FavoritesPage offers={offers}/>}
+          render={() => <FavoritesPage/>}
         />
         <Route
           exact

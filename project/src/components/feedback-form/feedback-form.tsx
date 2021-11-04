@@ -1,7 +1,7 @@
 import {ChangeEvent, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getIsSubmitting} from '../../store/reducer/app/selectors';
-import {postReviewAction} from '../../store/api-actions';
+import {ActionsAPI} from '../../store/api-actions';
 
 type FeedbackFormProps = {
   id: number,
@@ -30,7 +30,7 @@ function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
       style={{marginBottom: '20px'}}
       onSubmit={(evt) => {
         evt.preventDefault();
-        dispatch(postReviewAction(review, setReview));
+        dispatch(ActionsAPI.postReview(review, setReview));
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>

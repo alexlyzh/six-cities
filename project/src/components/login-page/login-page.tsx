@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 import Header from '../header/header';
 import {AppRoute} from '../../constants';
 import {useDispatch} from 'react-redux';
-import {loginAction} from '../../store/api-actions';
+import {ActionsAPI} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useState} from 'react';
 
 function LoginPage(): JSX.Element {
@@ -19,7 +19,7 @@ function LoginPage(): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(loginAction(authData));
+    dispatch(ActionsAPI.login(authData));
   };
 
   const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {

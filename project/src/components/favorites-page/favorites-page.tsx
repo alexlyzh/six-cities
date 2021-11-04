@@ -2,26 +2,47 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../constants';
 import Header from '../header/header';
 import Favorites from '../favorites/favorites';
-import FavoritesEmpty from '../favorites-empty/favorites-empty';
-import {Offer} from '../../types/types';
+import {useDispatch, useSelector} from 'react-redux';
+import {ActionsAPI} from '../../store/api-actions';
+import {getFavorites} from '../../store/reducer/data/selectors';
+import {useEffect} from 'react';
+import LoadingComponent from '../loading-component/loading-component';
 
-type FavoritesPageProps = {
-  offers: Offer[],
-}
+function FavoritesPage(): JSX.Element {
+  const dispatch = useDispatch();
+  const favorites = useSelector(getFavorites);
 
-function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
-  const favorites = offers.filter((offer) => offer.isFavorite);
+  const shouldLoadFavorites = favorites.requestStatus === 'IDLE';
+
+  useEffect(() => {
+    if (shouldLoadFavorites) {
+      dispatch(ActionsAPI.getFavorites());
+    }
+  }, [shouldLoadFavorites, dispatch]);
 
   return (
-    <div className="page">
+    <div
+      className="page"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: '100vh',
+      }}
+    >
       <Header/>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          {favorites.length ? <Favorites offers={favorites}/> : <FavoritesEmpty/>}
+          {
+            favorites.requestStatus === 'PENDING' ? <LoadingComponent/> : <Favorites offers={favorites.data}/>
+          }
         </div>
       </main>
-      <footer className="footer container">
+      <footer
+        className="footer container"
+        style={{marginTop: 'auto'}}
+      >
         <Link to={AppRoute.ROOT} className="footer__logo-link">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </Link>
@@ -31,4 +52,3 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
 }
 
 export default FavoritesPage;
-export type {FavoritesPageProps};

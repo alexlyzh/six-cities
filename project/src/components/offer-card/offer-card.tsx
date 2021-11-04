@@ -2,6 +2,10 @@ import {generatePath, Link} from 'react-router-dom';
 import {Offer} from '../../types/types';
 import {AppRoute, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
+import {useDispatch} from 'react-redux';
+import {ActionsAPI} from '../../store/api-actions';
+import {FavoritePathname} from '../../constants';
+
 
 type OfferCardProps = {
   offer: Offer,
@@ -16,6 +20,8 @@ type OfferCardProps = {
 function OfferCard(props: OfferCardProps): JSX.Element {
   const { id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
   const { className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
+
+  const dispatch = useDispatch();
 
   return (
     <article
@@ -39,7 +45,16 @@ function OfferCard(props: OfferCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button
+            className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            type="button"
+            onClick={() => dispatch(
+              ActionsAPI.postFavorite(
+                id,
+                isFavorite ? FavoritePathname.removeFromFavorites : FavoritePathname.addToFavorites,
+              ),
+            )}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
             </svg>

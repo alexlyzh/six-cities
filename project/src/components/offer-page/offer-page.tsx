@@ -7,10 +7,11 @@ import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchNearOffersAction, fetchReviewsAction} from '../../store/api-actions';
+import {ActionsAPI} from '../../store/api-actions';
 import {useEffect} from 'react';
 import {getNearOffers, getReviews} from '../../store/reducer/data/selectors';
 import {getAuthStatus} from '../../store/reducer/user/selectors';
+import {FavoritePathname} from '../../constants';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -36,13 +37,13 @@ function OfferPage(props: OfferPageProps): JSX.Element {
 
   useEffect(() => {
     if (shouldLoadReviews) {
-      dispatch(fetchReviewsAction(id));
+      dispatch(ActionsAPI.getReviews(id));
     }
   }, [shouldLoadReviews, dispatch, id]);
 
   useEffect(() => {
     if (shouldLoadNearOffers) {
-      dispatch(fetchNearOffersAction(id));
+      dispatch(ActionsAPI.getNearOffers(id));
     }
   }, [shouldLoadNearOffers, dispatch, id]);
 
@@ -73,7 +74,16 @@ function OfferPage(props: OfferPageProps): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button">
+                <button
+                  className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
+                  type="button"
+                  onClick={() => dispatch(
+                    ActionsAPI.postFavorite(
+                      id,
+                      isFavorite ? FavoritePathname.removeFromFavorites : FavoritePathname.addToFavorites,
+                    ),
+                  )}
+                >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"/>
                   </svg>
