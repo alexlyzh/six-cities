@@ -12,4 +12,11 @@ const Sort = {
 
 const getOffersInCity = (offers: Offer[], cityName: string): Offer[] => offers.filter((offer) => offer.city.name === cityName);
 
-export {getWidthByRating, Sort, getOffersInCity};
+const getRandomInteger = (min = 0, max = 1): number => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
+
+  return Math.floor(lower + Math.random() * (upper - lower + 1));
+};
+
+export {getWidthByRating, Sort, getOffersInCity, getRandomInteger};
