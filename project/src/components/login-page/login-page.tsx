@@ -1,19 +1,17 @@
 import {Link} from 'react-router-dom';
 import Header from '../header/header';
-import {AppRoute, CityGeoData} from '../../constants';
+import {AppRoute} from '../../constants';
 import {useDispatch} from 'react-redux';
 import {ActionsAPI} from '../../store/api-actions';
-import {ChangeEvent, FormEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, useMemo, useState} from 'react';
 import {ActionCreator} from '../../store/actions';
-import {getRandomInteger} from '../../utils';
+import {getRandomCityName} from '../../utils';
 
 function LoginPage(): JSX.Element {
   const [authData, setAuthData] = useState({email: '', password: ''});
   const dispatch = useDispatch();
 
-  const cities = Object.keys(CityGeoData);
-  const randomInteger = getRandomInteger(0, cities.length - 1);
-  const randomCityName = cities[randomInteger];
+  const randomCityName = useMemo(() => getRandomCityName(), []);
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;

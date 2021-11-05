@@ -91,13 +91,15 @@ const ActionsAPI = {
     },
 
   logout: (): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, getState, api) => {
       try {
         await api.delete(APIRoute.Logout);
         dropToken();
         dispatch(ActionCreator.requireLogout());
+        dispatch(ActionCreator.clearPersonalData());
       } catch (err) {
         toast.error(ErrorMessage.Logout);
+        throw err;
       }
     },
 

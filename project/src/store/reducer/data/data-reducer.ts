@@ -38,6 +38,16 @@ const dataReducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
       state.isDataLoaded = true;
     })
+    .addCase(ActionCreator.clearPersonalData, (state) => {
+      state.offers = state.offers.map((offer) => {
+        offer.isFavorite = false;
+        return offer;
+      });
+      state.favorites = {
+        requestStatus: 'IDLE',
+        data: [],
+      };
+    })
     .addCase(ActionCreator.startLoadingReviews, (state, action) => {
       state.reviews[action.payload] = {
         requestStatus: 'PENDING',

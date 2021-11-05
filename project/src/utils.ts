@@ -1,4 +1,4 @@
-import {Rating, SortType} from './constants';
+import {CityGeoData, Rating, SortType} from './constants';
 import {Offer} from './types/types';
 
 const getWidthByRating = (rating: number): number => Math.min(rating * Rating.RATING_MULTIPLIER, Rating.MAX_RATING_PERCENT);
@@ -19,4 +19,10 @@ const getRandomInteger = (min = 0, max = 1): number => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export {getWidthByRating, Sort, getOffersInCity, getRandomInteger};
+const getRandomCityName = (): string => {
+  const cities = Object.keys(CityGeoData);
+  const randomInteger = getRandomInteger(0, cities.length - 1);
+  return  cities[randomInteger];
+};
+
+export {getWidthByRating, Sort, getOffersInCity, getRandomInteger, getRandomCityName};

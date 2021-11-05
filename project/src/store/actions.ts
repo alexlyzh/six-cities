@@ -18,6 +18,7 @@ enum ActionType {
   StartLoadingNearOffers = 'DATA/startLoadNearOffers',
   LoadNearOffers = 'DATA/loadNearOffers',
   ErrorLoadingNearOffers = 'DATA/errorLoadNearOffers',
+  clearPersonalData = 'DATA/clearPersonalData',
   SetSubmittingState = 'APP/setSubmittingState',
   ChangeCity = 'APP/changeCity',
   ChangeSort = 'APP/changeSort',
@@ -117,6 +118,8 @@ const ActionCreator = {
   ),
 
   requireLogout: createAction(ActionType.RequireLogout),
+
+  clearPersonalData: createAction(ActionType.clearPersonalData),
 
   redirectToRoute: createAction(
     ActionType.Redirect,
