@@ -7,6 +7,7 @@ import {ActionsAPI} from '../../store/api-actions';
 import {getFavorites} from '../../store/reducer/data/selectors';
 import {useEffect} from 'react';
 import LoadingComponent from '../loading-component/loading-component';
+import './favorites-page.css';
 
 function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch();
@@ -21,15 +22,7 @@ function FavoritesPage(): JSX.Element {
   }, [shouldLoadFavorites, dispatch]);
 
   return (
-    <div
-      className="page"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        minHeight: '100vh',
-      }}
-    >
+    <div className="page favorites-page">
       <Header/>
 
       <main className="page__main page__main--favorites">
