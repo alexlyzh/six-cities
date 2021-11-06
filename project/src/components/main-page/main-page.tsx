@@ -8,13 +8,12 @@ import MainEmpty from './main-empty';
 import SortForm from '../sort-form/sort-form';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
 import {getSelectedCity} from '../../store/reducer/app/selectors';
-import {getCitySortedOffers, getFullState} from '../../store/reducer/data/selectors';
+import {getCitySortedOffers} from '../../store/reducer/data/selectors';
 
 function MainPage(): JSX.Element {
   const selectedCity = useSelector(getSelectedCity);
-  const state = useSelector(getFullState);
+  const offersInCity = useSelector(getCitySortedOffers);
 
-  const offersInCity = getCitySortedOffers(state);
   const currentCity = CityGeoData[selectedCity];
 
   const [highlightedOffer, onChangeHighlightedOffer] = useHighlightedOffer(offersInCity);

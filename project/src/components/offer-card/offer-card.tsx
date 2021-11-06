@@ -4,8 +4,6 @@ import {AppRoute, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils';
 import {useDispatch} from 'react-redux';
 import {ActionsAPI} from '../../store/api-actions';
-import {FavoritePathname} from '../../constants';
-
 
 type OfferCardProps = {
   offer: Offer,
@@ -48,12 +46,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           <button
             className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
             type="button"
-            onClick={() => dispatch(
-              ActionsAPI.postFavorite(
-                id,
-                isFavorite ? FavoritePathname.removeFromFavorites : FavoritePathname.addToFavorites,
-              ),
-            )}
+            onClick={() => dispatch(ActionsAPI.postFavorite(id, !isFavorite))}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>

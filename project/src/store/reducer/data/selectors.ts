@@ -11,11 +11,9 @@ const getReviews = (state: State): RequestStatusByID<Review> => state[NameSpace.
 const getIsDataLoaded = (state: State): boolean => state[NameSpace.DATA].isDataLoaded;
 const getFavorites = (state: State): RequestStatus<Offer> => state[NameSpace.DATA].favorites;
 
-const getFullState = (state: State): State => state;
-
 const getCitySortedOffers = createSelector([getOffers, getSelectedCity, getCurrentSort], (offers, selectedCity, currentSort) => {
   const sortedOffers = Sort[currentSort](offers);
   return getOffersInCity(sortedOffers, selectedCity);
 });
 
-export {getOffers, getNearOffers, getIsDataLoaded, getReviews, getFavorites, getFullState, getCitySortedOffers};
+export {getOffers, getNearOffers, getIsDataLoaded, getReviews, getFavorites, getCitySortedOffers};

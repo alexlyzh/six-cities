@@ -6,6 +6,7 @@ import {OfferBackend, ReviewBackend, UserBackend} from '../types/types';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Dispatch, SetStateAction} from 'react';
+import {FavoritePathname} from '../constants';
 
 type AuthData = {
   email: string,
@@ -66,7 +67,7 @@ const ActionsAPI = {
         .then((response) => {
           if (response && response.data) {
             saveToken(response.data.token);
-            dispatch(ActionCreator.setUser(response.data));
+            dispatch(ActionCreator.setUser(Adapter.userToClient(response.data)));
             dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
           } else {
             dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
@@ -136,9 +137,12 @@ const ActionsAPI = {
       }
     },
 
-  postFavorite: (offerId: number, status: 1 | 0): ThunkActionResult =>
+  postFavorite: (offerId: number, isFavorite: boolean): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void > => {
-      const response = await api.post<OfferBackend>(`${generatePath(APIRoute.PostFavorite,{'hotel_id': offerId, status})}`);
+      const response = await api.post<OfferBackend>(`${generatePath(APIRoute.PostFavorite,{
+        'hotel_id': offerId,
+        status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,
+      })}`);
 
       if (response) {
         const {data} = response;

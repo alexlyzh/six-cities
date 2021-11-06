@@ -11,7 +11,6 @@ import {ActionsAPI} from '../../store/api-actions';
 import {useEffect} from 'react';
 import {getNearOffers, getReviews} from '../../store/reducer/data/selectors';
 import {getAuthStatus} from '../../store/reducer/user/selectors';
-import {FavoritePathname} from '../../constants';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -77,12 +76,7 @@ function OfferPage(props: OfferPageProps): JSX.Element {
                 <button
                   className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
                   type="button"
-                  onClick={() => dispatch(
-                    ActionsAPI.postFavorite(
-                      id,
-                      isFavorite ? FavoritePathname.removeFromFavorites : FavoritePathname.addToFavorites,
-                    ),
-                  )}
+                  onClick={() => dispatch(ActionsAPI.postFavorite(id, !isFavorite))}
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"/>
