@@ -102,6 +102,22 @@ const MapMarkerURL = {
   CURRENT: 'img/pin-active.svg',
 } as const;
 
+const ErrorMessage = {
+  PostReview: 'Something went wrong when sending your review...',
+  GetReviews: 'Can\'t get reviews..',
+  GetNearOffers: 'Can\'t get offers nearby..',
+  Login: 'Login error...',
+  Logout: 'Logout error...',
+  GetFavorites: 'Can\'t get favorites...',
+  PostFavorite: 'Can\'t post favorite...',
+  NoAuthorization: 'Don\'t forget to sign in',
+} as const;
+
+const FavoritePathname = {
+  addToFavorites: 1,
+  removeFromFavorites: 0,
+} as const;
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -111,5 +127,7 @@ export {
   INITIAL_CITY_NAME,
   CityGeoData,
   SortType,
-  APIRoute
+  APIRoute,
+  ErrorMessage,
+  FavoritePathname
 };

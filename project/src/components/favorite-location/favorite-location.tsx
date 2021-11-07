@@ -2,6 +2,8 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../constants';
 import {Offer} from '../../types/types';
 import {OffersList} from '../offers-list/offers-list';
+import {useDispatch} from 'react-redux';
+import {ActionCreator} from '../../store/actions';
 
 type FavoriteLocationProps = {
   offers: Offer[],
@@ -9,11 +11,17 @@ type FavoriteLocationProps = {
 }
 
 function FavoriteLocation({offers, cityName}: FavoriteLocationProps): JSX.Element {
+  const dispatch = useDispatch();
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <Link to={AppRoute.ROOT} className="locations__item-link">
+          <Link
+            to={AppRoute.ROOT}
+            className="locations__item-link"
+            onClick={() => dispatch(ActionCreator.changeCity(cityName))}
+          >
             <span>{cityName}</span>
           </Link>
         </div>

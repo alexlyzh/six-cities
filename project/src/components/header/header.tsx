@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {logoutAction} from '../../store/api-actions';
+import {ActionsAPI} from '../../store/api-actions';
 import {getAuthStatus, getUser} from '../../store/reducer/user/selectors';
 
 type HeaderProps = {
@@ -46,7 +46,7 @@ function Header({isLoginPage}: HeaderProps): JSX.Element {
                       <a className="header__nav-link" href="#"
                         onClick={(evt) => {
                           evt.preventDefault();
-                          dispatch(logoutAction());
+                          dispatch(ActionsAPI.logout());
                         }}
                       >
                         <span className="header__signout">Sign out</span>

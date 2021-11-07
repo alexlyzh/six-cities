@@ -6,13 +6,16 @@ import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './store/reducer/root-reducer';
 import {createAPI} from './services/api';
 import {ActionCreator} from './store/actions';
-import {AuthorizationStatus} from './constants';
-import {checkAuthAction, fetchOffersAction} from './store/api-actions';
+import {AuthorizationStatus, ErrorMessage} from './constants';
+import {ActionsAPI} from './store/api-actions';
 import {redirect} from './store/middlewares/redirect';
-import {ToastContainer} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const api = createAPI(() => ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+const api = createAPI(() => {
+  ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH);
+  toast.info(ErrorMessage.NoAuthorization);
+});
 
 const store = configureStore({
   reducer: rootReducer,
@@ -25,8 +28,8 @@ const store = configureStore({
       .concat(redirect),
 });
 
-store.dispatch(checkAuthAction());
-store.dispatch(fetchOffersAction());
+store.dispatch(ActionsAPI.checkAuth());
+store.dispatch(ActionsAPI.getOffers());
 
 ReactDOM.render(
   <React.StrictMode>

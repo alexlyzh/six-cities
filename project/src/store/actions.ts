@@ -9,12 +9,16 @@ import {Action} from '@reduxjs/toolkit';
 
 enum ActionType {
   LoadOffers = 'DATA/loadOffers',
+  StartLoadingFavorites = 'DATA/startLoadFavorites',
+  LoadFavorites = 'DATA/loadFavorites',
+  ErrorLoadingFavorites = 'DATA/errorLoadFavorites',
   StartLoadingReviews = 'DATA/startLoadReviews',
   LoadReviews = 'DATA/loadReviews',
   ErrorLoadingReviews = 'DATA/errorLoadReviews',
   StartLoadingNearOffers = 'DATA/startLoadNearOffers',
   LoadNearOffers = 'DATA/loadNearOffers',
   ErrorLoadingNearOffers = 'DATA/errorLoadNearOffers',
+  clearPersonalData = 'DATA/clearPersonalData',
   SetSubmittingState = 'APP/setSubmittingState',
   ChangeCity = 'APP/changeCity',
   ChangeSort = 'APP/changeSort',
@@ -38,6 +42,17 @@ const ActionCreator = {
       payload: offers,
     }),
   ),
+
+  startLoadingFavorites: createAction(ActionType.StartLoadingFavorites),
+
+  loadFavorites: createAction(
+    ActionType.LoadFavorites,
+    (offers: Offer[]) => ({
+      payload: offers,
+    }),
+  ),
+
+  setFavoritesLoadingError: createAction(ActionType.ErrorLoadingFavorites),
 
   startLoadingReviews: createAction(
     ActionType.StartLoadingReviews,
@@ -104,6 +119,8 @@ const ActionCreator = {
 
   requireLogout: createAction(ActionType.RequireLogout),
 
+  clearPersonalData: createAction(ActionType.clearPersonalData),
+
   redirectToRoute: createAction(
     ActionType.Redirect,
     (url: AppRoute) => ({
@@ -113,7 +130,7 @@ const ActionCreator = {
 
   setUser: createAction(
     ActionType.LoginUser,
-    (user: User | null) => ({
+    (user: User) => ({
       payload: user,
     }),
   ),

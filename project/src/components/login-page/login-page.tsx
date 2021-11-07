@@ -2,12 +2,16 @@ import {Link} from 'react-router-dom';
 import Header from '../header/header';
 import {AppRoute} from '../../constants';
 import {useDispatch} from 'react-redux';
-import {loginAction} from '../../store/api-actions';
-import {ChangeEvent, FormEvent, useState} from 'react';
+import {ActionsAPI} from '../../store/api-actions';
+import {ChangeEvent, FormEvent, useMemo, useState} from 'react';
+import {ActionCreator} from '../../store/actions';
+import {getRandomCityName} from '../../utils';
 
 function LoginPage(): JSX.Element {
   const [authData, setAuthData] = useState({email: '', password: ''});
   const dispatch = useDispatch();
+
+  const randomCityName = useMemo(() => getRandomCityName(), []);
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;
@@ -19,7 +23,7 @@ function LoginPage(): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(loginAction(authData));
+    dispatch(ActionsAPI.login(authData));
   };
 
   const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {
@@ -61,8 +65,12 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.ROOT} className="locations__item-link">
-                <span>Amsterdam</span>
+              <Link
+                to={AppRoute.ROOT}
+                onClick={() => dispatch(ActionCreator.changeCity(randomCityName))}
+                className="locations__item-link"
+              >
+                <span>{randomCityName}</span>
               </Link>
             </div>
           </section>

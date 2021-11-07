@@ -23,6 +23,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(ActionCreator.requireLogout, (state) => {
       state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      state.user = null;
     });
 });
 
