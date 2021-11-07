@@ -1,12 +1,11 @@
 import {ActionCreator, ThunkActionResult} from './actions';
-import {APIRoute, AppRoute, AuthorizationStatus, ErrorMessage} from '../constants';
+import {APIRoute, AppRoute, AuthorizationStatus, ErrorMessage, FavoritePathname} from '../constants';
 import {dropToken, saveToken} from '../services/token';
 import Adapter from '../services/adapter';
 import {OfferBackend, ReviewBackend, UserBackend} from '../types/types';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Dispatch, SetStateAction} from 'react';
-import {FavoritePathname} from '../constants';
 
 type AuthData = {
   email: string,
@@ -139,6 +138,11 @@ const ActionsAPI = {
 
   postFavorite: (offerId: number, isFavorite: boolean): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void > => {
+      if (getState().USER.authorizationStatus !== AuthorizationStatus.AUTH) {
+        dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN));
+        return;
+      }
+
       const response = await api.post<OfferBackend>(`${generatePath(APIRoute.PostFavorite,{
         'hotel_id': offerId,
         status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,
