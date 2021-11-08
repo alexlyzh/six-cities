@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import {ActionsAPI} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useMemo, useState} from 'react';
 import {ActionCreator} from '../../store/actions';
-import {getRandomCityName} from '../../utils';
+import {getRandomCityName} from '../../utils/utils';
 
 function LoginPage(): JSX.Element {
   const [authData, setAuthData] = useState({email: '', password: ''});

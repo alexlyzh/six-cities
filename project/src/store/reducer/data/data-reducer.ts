@@ -104,5 +104,5 @@ const dataReducer = createReducer(initialState, (builder) => {
     });
 });
 
-export {dataReducer};
+export {dataReducer, initialState};
 export type {DataState, RequestStatus, RequestStatusByID, StatusNames};

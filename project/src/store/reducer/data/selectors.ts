@@ -2,7 +2,7 @@ import {NameSpace, State} from '../root-reducer';
 import {Offer, Review} from '../../../types/types';
 import {RequestStatus, RequestStatusByID} from './data-reducer';
 import {getCurrentSort, getSelectedCity} from '../app/selectors';
-import {getOffersInCity, Sort} from '../../../utils';
+import {getOffersInCity, Sort} from '../../../utils/utils';
 import {createSelector} from '@reduxjs/toolkit';
 
 const getOffers = (state: State): Offer[] => state[NameSpace.DATA].offers;

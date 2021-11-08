@@ -1,4 +1,4 @@
-import {getWidthByRating, formatToDatetime, formatToFullMonthYear} from '../../utils';
+import {getWidthByRating, formatToDatetime, formatToFullMonthYear} from '../../utils/utils';
 import {Review} from '../../types/types';
 
 type ReviewProps = {

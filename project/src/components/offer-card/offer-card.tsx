@@ -1,7 +1,7 @@
 import {generatePath, Link} from 'react-router-dom';
 import {Offer} from '../../types/types';
 import {AppRoute, OfferType} from '../../constants';
-import {getWidthByRating} from '../../utils';
+import {getWidthByRating} from '../../utils/utils';
 import {useDispatch} from 'react-redux';
 import {ActionsAPI} from '../../store/api-actions';
 

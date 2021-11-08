@@ -27,5 +27,5 @@ const appReducer = createReducer(initialState, (builder) => {
     });
 });
 
-export {appReducer};
+export {appReducer, initialState};
 export type {AppState};

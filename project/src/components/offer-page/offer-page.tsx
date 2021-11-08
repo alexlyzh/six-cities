@@ -2,7 +2,7 @@ import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
 import {Offer} from '../../types/types';
 import {AuthorizationStatus, OfferType} from '../../constants';
-import {getWidthByRating} from '../../utils';
+import {getWidthByRating} from '../../utils/utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';

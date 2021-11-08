@@ -1,5 +1,5 @@
-import {CityGeoData, Rating, SortType} from './constants';
-import {Offer} from './types/types';
+import {CityGeoData, Rating, SortType} from '../constants';
+import {Offer} from '../types/types';
 import dayjs from 'dayjs';
 
 const getWidthByRating = (rating: number): number => Math.min(rating * Rating.RATING_MULTIPLIER, Rating.MAX_RATING_PERCENT);
