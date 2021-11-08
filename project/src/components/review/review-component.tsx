@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import {getWidthByRating} from '../../utils';
+import {getWidthByRating, formatToDatetime, formatToFullMonthYear} from '../../utils';
 import {Review} from '../../types/types';
 
 type ReviewProps = {
@@ -7,8 +6,6 @@ type ReviewProps = {
 }
 
 function ReviewComponent({review}: ReviewProps): JSX.Element {
-  const date = dayjs(review.date);
-
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -29,7 +26,7 @@ function ReviewComponent({review}: ReviewProps): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime={date.format('YYYY-MM-DD')}>{date.format('MMMM YYYY')}</time>
+        <time className="reviews__time" dateTime={formatToDatetime(review.date)}>{formatToFullMonthYear(review.date)}</time>
       </div>
     </li>
   );

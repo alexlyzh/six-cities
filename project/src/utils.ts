@@ -1,5 +1,6 @@
 import {CityGeoData, Rating, SortType} from './constants';
 import {Offer} from './types/types';
+import dayjs from 'dayjs';
 
 const getWidthByRating = (rating: number): number => Math.min(rating * Rating.RATING_MULTIPLIER, Rating.MAX_RATING_PERCENT);
 
@@ -25,4 +26,7 @@ const getRandomCityName = (): string => {
   return  cities[randomInteger];
 };
 
-export {getWidthByRating, Sort, getOffersInCity, getRandomInteger, getRandomCityName};
+const formatToDatetime = (date: string):string => dayjs(date).format('YYYY-MM-DD');
+const formatToFullMonthYear = (date: string):string => dayjs(date).format('MMMM YYYY');
+
+export {getWidthByRating, Sort, getOffersInCity, getRandomInteger, getRandomCityName, formatToDatetime, formatToFullMonthYear};

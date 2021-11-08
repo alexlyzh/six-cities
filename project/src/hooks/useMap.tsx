@@ -1,4 +1,4 @@
-import {useEffect, MutableRefObject, useRef} from 'react';
+import {useEffect, MutableRefObject, useState} from 'react';
 import {LeafletEvent, Map, TileLayer} from 'leaflet';
 import {City} from '../types/types';
 
@@ -8,18 +8,18 @@ const LayerSettings = {
 };
 
 const onMapMouseout = (evt: LeafletEvent) => evt.target.scrollWheelZoom.disable();
-const onMapClick = (evt: LeafletEvent) => evt.target.scrollWheelZoom.enable();
+const onMapMousedown = (evt: LeafletEvent) => evt.target.scrollWheelZoom.enable();
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
   city: City,
 ): Map | null {
-  const map = useRef<Map | null>(null);
+  const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
     let instance: Map;
 
-    if (mapRef.current !== null && map.current === null) {
+    if (mapRef.current !== null && map === null) {
       instance = new Map(mapRef.current, {
         center: {
           lat: city.location.latitude,
@@ -29,23 +29,18 @@ function useMap(
         scrollWheelZoom: false,
       });
 
-      instance.addEventListener('click', onMapClick);
+      instance.addEventListener('mousedown', onMapMousedown);
       instance.addEventListener('mouseout', onMapMouseout);
 
       const layer = new TileLayer(LayerSettings.URL_TEMPLATE,{ attribution: LayerSettings.ATTRIBUTION });
 
       instance.addLayer(layer);
 
-      map.current = instance;
+      setMap(instance);
     }
-
-    return () => {
-      instance?.removeEventListener('click', onMapClick);
-      instance?.removeEventListener('mouseout', onMapMouseout);
-    };
   }, [mapRef, map, city]);
 
-  return map.current;
+  return map;
 }
 
 export default useMap;
