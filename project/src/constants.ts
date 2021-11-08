@@ -7,7 +7,7 @@ const SortType: {[key: string]: string} = {
   PRICE_DESCENDING: 'Price: high to low',
   PRICE_ASCENDING: 'Price: low to high',
   TOP_RATED: 'Top rated first',
-};
+} as const;
 
 const CityGeoData: {[key: string]: City} = {
   Paris: {

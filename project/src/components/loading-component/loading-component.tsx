@@ -1,13 +1,8 @@
+import './loading-component.css';
+
 function LoadingComponent(): JSX.Element {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '60vh',
-      }}
-    >
+    <div className="loading-component">
       <svg width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#4481C3">
         <circle cx="12.5" cy="12.5" r="12.5">
           <animate attributeName="fill-opacity"

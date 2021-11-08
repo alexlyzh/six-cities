@@ -6,15 +6,14 @@ import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './store/reducer/root-reducer';
 import {createAPI} from './services/api';
 import {ActionCreator} from './store/actions';
-import {AuthorizationStatus, ErrorMessage} from './constants';
+import {AuthorizationStatus} from './constants';
 import {ActionsAPI} from './store/api-actions';
 import {redirect} from './store/middlewares/redirect';
-import {toast, ToastContainer} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const api = createAPI(() => {
   ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH);
-  toast.info(ErrorMessage.NoAuthorization);
 });
 
 const store = configureStore({
