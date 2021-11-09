@@ -2,6 +2,8 @@ import {City} from './types/types';
 
 const INITIAL_CITY_NAME = 'Paris';
 
+const FAKE_ARRAY_LENGTH = 3;
+
 const SortType: {[key: string]: string} = {
   POPULAR: 'Popular',
   PRICE_DESCENDING: 'Price: high to low',
@@ -118,6 +120,12 @@ const FavoritePathname = {
   removeFromFavorites: 0,
 } as const;
 
+enum HttpCode {
+  Unauthorized = 401,
+  OK = 200,
+  NoContent = 204,
+}
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -129,5 +137,7 @@ export {
   SortType,
   APIRoute,
   ErrorMessage,
-  FavoritePathname
+  FavoritePathname,
+  HttpCode,
+  FAKE_ARRAY_LENGTH
 };

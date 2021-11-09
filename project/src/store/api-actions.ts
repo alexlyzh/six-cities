@@ -61,7 +61,7 @@ const ActionsAPI = {
     },
 
   checkAuth: (): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       await api.get(APIRoute.Login)
         .then((response) => {
           if (response && response.data) {
@@ -78,7 +78,7 @@ const ActionsAPI = {
     },
 
   login: ({email, password}: AuthData): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       try {
         const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
         saveToken(data.token);
@@ -91,7 +91,7 @@ const ActionsAPI = {
     },
 
   logout: (): ThunkActionResult =>
-    async (dispatch, getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       try {
         await api.delete(APIRoute.Logout);
         dropToken();
@@ -104,7 +104,7 @@ const ActionsAPI = {
     },
 
   postReview: ({id, comment, rating}: ReviewData, setReview: ResetReviewCallback): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       dispatch(ActionCreator.setSubmittingState(true));
 
       try {
@@ -121,28 +121,21 @@ const ActionsAPI = {
 
   getFavorites: (): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void > => {
-      if (getState().USER.authorizationStatus === AuthorizationStatus.AUTH) {
-        dispatch(ActionCreator.startLoadingFavorites());
+      dispatch(ActionCreator.startLoadingFavorites());
 
-        try {
-          const {data} = await api.get<OfferBackend[]>(APIRoute.GetFavorites);
-          const favorites = data ? data.map(Adapter.offerToClient) : [];
-          dispatch(ActionCreator.loadFavorites(favorites));
-        } catch (err) {
-          dispatch(ActionCreator.setFavoritesLoadingError());
-          toast.error(ErrorMessage.GetFavorites);
-          throw err;
-        }
+      try {
+        const {data} = await api.get<OfferBackend[]>(APIRoute.GetFavorites);
+        const favorites = data ? data.map(Adapter.offerToClient) : [];
+        dispatch(ActionCreator.loadFavorites(favorites));
+      } catch (err) {
+        dispatch(ActionCreator.setFavoritesLoadingError());
+        toast.error(ErrorMessage.GetFavorites);
+        throw err;
       }
     },
 
   postFavorite: (offerId: number, isFavorite: boolean): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void > => {
-      if (getState().USER.authorizationStatus !== AuthorizationStatus.AUTH) {
-        dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN));
-        return;
-      }
-
       const response = await api.post<OfferBackend>(`${generatePath(APIRoute.PostFavorite,{
         'hotel_id': offerId,
         status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,

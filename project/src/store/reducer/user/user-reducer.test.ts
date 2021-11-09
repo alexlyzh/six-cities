@@ -1,7 +1,7 @@
 import {initialState, userReducer} from './user-reducer';
 import {ActionCreator, ActionType} from '../../actions';
 import {AuthorizationStatus} from '../../../constants';
-import {makeFakeUser} from '../../../utils/mock';
+import {getUser} from '../../../utils/mock';
 
 describe('Reducer: User', () => {
   it('should return initial state without additional parameters', () => {
@@ -31,7 +31,7 @@ describe('Reducer: User', () => {
   });
 
   it('should set user to state', () => {
-    const user = makeFakeUser();
+    const user = getUser();
     expect(userReducer(initialState, ActionCreator.setUser(user)))
       .toEqual({...initialState, user});
   });
