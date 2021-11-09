@@ -45,4 +45,4 @@ const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
   return api;
 };
 
-export {createAPI, HttpCode};
+export {createAPI};

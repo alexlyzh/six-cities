@@ -22,17 +22,15 @@ describe('Reducer: User', () => {
   it('should update authorization to "NO_AUTH"', () => {
     expect(userReducer(initialState, ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)))
       .toEqual({...initialState, authorizationStatus: AuthorizationStatus.NO_AUTH});
+
+    expect(userReducer(initialState, ActionCreator.requireLogout()))
+      .toEqual({
+        user: null,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
+      });
   });
 
-    it('should update authorization to "NO_AUTH"', () => {
-      expect(userReducer(initialState, ActionCreator.requireLogout()))
-        .toEqual({
-          user: null,
-          authorizationStatus: AuthorizationStatus.NO_AUTH
-        });
-    });
-
-    it('should set user to state', () => {
+  it('should set user to state', () => {
     const user = makeFakeUser();
     expect(userReducer(initialState, ActionCreator.setUser(user)))
       .toEqual({...initialState, user});

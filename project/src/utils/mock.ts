@@ -1,5 +1,5 @@
 import {internet, datatype} from 'faker';
-import {User} from '../types/types';
+import {User, UserBackend} from '../types/types';
 
 const makeFakeUser = (): User => ({
   avatarUrl: internet.avatar(),
@@ -10,4 +10,13 @@ const makeFakeUser = (): User => ({
   token: datatype.string(),
 });
 
-export {makeFakeUser};
+const makeFakeUserBackend = (): UserBackend => ({
+  'avatar_url': internet.avatar(),
+  id: datatype.number(),
+  'is_pro': datatype.boolean(),
+  name: internet.userName(),
+  email: internet.email(),
+  token: datatype.string(),
+});
+
+export {makeFakeUser, makeFakeUserBackend};

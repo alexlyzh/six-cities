@@ -9,13 +9,13 @@ const fakeHistory = {
   location: {pathname: ''},
   push(path: string) {
     this.location.pathname = path;
-  }
+  },
 };
 
 jest.mock('../../browser-history.ts', () => fakeHistory);
 
-const makeStore = configureMockStore<State, AnyAction>([redirect]);
-const store = makeStore();
+const mockStore = configureMockStore<State, AnyAction>([redirect]);
+const store = mockStore();
 
 describe('Middlewares: redirect', () => {
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('Middlewares: redirect', () => {
     store.dispatch({
       type: 'UNKNOWN_ACTION',
       payload: AppRoute.ROOT,
-    })
+    });
     expect(fakeHistory.location.pathname).not.toBe(AppRoute.ROOT);
   });
-})
+});

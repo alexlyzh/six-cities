@@ -129,7 +129,7 @@ const ActionsAPI = {
           const favorites = data ? data.map(Adapter.offerToClient) : [];
           dispatch(ActionCreator.loadFavorites(favorites));
         } catch (err) {
-          dispatch(ActionCreator.setFavoritesLoadingError);
+          dispatch(ActionCreator.setFavoritesLoadingError());
           toast.error(ErrorMessage.GetFavorites);
           throw err;
         }
