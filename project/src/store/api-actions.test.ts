@@ -4,15 +4,13 @@ import MockAdapter from 'axios-mock-adapter';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import {createAPI} from '../services/api';
 import {State} from './reducer/root-reducer';
-import {APIRoute, AppRoute, AuthorizationStatus, FAKE_ARRAY_LENGTH, FavoritePathname, HttpCode} from '../constants';
+import {APIRoute, AppRoute, AuthorizationStatus, FAKE_ARRAY_LENGTH, FAKE_ID, FavoritePathname, HttpCode} from '../constants';
 import {ActionsAPI, AuthData} from './api-actions';
 import {ActionCreator} from './actions';
 import * as Mock from '../utils/mock';
 import Adapter from '../services/adapter';
 import {AUTH_TOKEN_KEY_NAME} from '../services/token';
 import {generatePath} from 'react-router-dom';
-
-const FAKE_ID = 33;
 
 const onFakeUnauthorized = jest.fn();
 const api = createAPI(onFakeUnauthorized);

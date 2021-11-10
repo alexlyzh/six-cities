@@ -79,7 +79,7 @@ const dataReducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(ActionCreator.setNearOffersLoadingError, (state, action) => {
-      state.reviews[action.payload] = {
+      state.nearOffers[action.payload] = {
         requestStatus: 'ERROR',
         data: [],
       };

@@ -4,6 +4,8 @@ const INITIAL_CITY_NAME = 'Paris';
 
 const FAKE_ARRAY_LENGTH = 3;
 
+const FAKE_ID = 33;
+
 const SortType: {[key: string]: string} = {
   POPULAR: 'Popular',
   PRICE_DESCENDING: 'Price: high to low',
@@ -139,5 +141,6 @@ export {
   ErrorMessage,
   FavoritePathname,
   HttpCode,
-  FAKE_ARRAY_LENGTH
+  FAKE_ARRAY_LENGTH,
+  FAKE_ID
 };
