@@ -92,32 +92,32 @@ describe('Async actions', () => {
   });
 
   it('should set submitting "true" => loadReviews => set submitting "false" when POST/comments/:hotel_id', async () => {
-      const store = mockStore();
-      const setReview = jest.fn();
-      const review = Mock.getReview();
-      const backendReview = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReviewBackend);
+    const store = mockStore();
+    const setReview = jest.fn();
+    const review = Mock.getReview();
+    const backendReview = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReviewBackend);
 
-      mockApi
-        .onPost(generatePath(APIRoute.PostReview, {'hotel_id': review.id}))
-        .reply(HttpCode.OK, backendReview);
+    mockApi
+      .onPost(generatePath(APIRoute.PostReview, {'hotel_id': review.id}))
+      .reply(HttpCode.OK, backendReview);
 
-      expect(store.getActions()).toEqual([]);
+    expect(store.getActions()).toEqual([]);
 
-      await store.dispatch(ActionsAPI.postReview(review, setReview));
+    await store.dispatch(ActionsAPI.postReview(review, setReview));
 
-      expect(store.getActions()).toEqual([
-        ActionCreator.setSubmittingState(true),
-        ActionCreator.loadReviews(review.id, backendReview.map(Adapter.reviewToClient)),
-        ActionCreator.setSubmittingState(false),
-      ]);
+    expect(store.getActions()).toEqual([
+      ActionCreator.setSubmittingState(true),
+      ActionCreator.loadReviews(review.id, backendReview.map(Adapter.reviewToClient)),
+      ActionCreator.setSubmittingState(false),
+    ]);
 
-      expect(setReview).toBeCalledTimes(1);
-      expect(setReview).toBeCalledWith({
-        id: review.id,
-        rating: null,
-        comment: '',
-      });
+    expect(setReview).toBeCalledTimes(1);
+    expect(setReview).toBeCalledWith({
+      id: review.id,
+      rating: null,
+      comment: '',
     });
+  });
 
   it('should set user, authorization "AUTH", redirect to "ROOT" when POST/login', async () => {
     const store = mockStore();
