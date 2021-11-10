@@ -18,9 +18,7 @@ const mockStore = configureMockStore<State, AnyAction>([redirect]);
 const store = mockStore();
 
 describe('Middlewares: redirect', () => {
-  beforeEach(() => {
-    fakeHistory.push('');
-  });
+  beforeEach(() => fakeHistory.push(''));
 
   it('should be redirect to /login', () => {
     store.dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN));
