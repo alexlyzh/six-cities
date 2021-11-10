@@ -4,14 +4,13 @@ import MockAdapter from 'axios-mock-adapter';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import {createAPI} from '../services/api';
 import {State} from './reducer/root-reducer';
-import {APIRoute, AppRoute, AuthorizationStatus, FAKE_ARRAY_LENGTH, HttpCode} from '../constants';
+import {APIRoute, AppRoute, AuthorizationStatus, FAKE_ARRAY_LENGTH, FavoritePathname, HttpCode} from '../constants';
 import {ActionsAPI, AuthData} from './api-actions';
 import {ActionCreator} from './actions';
 import * as Mock from '../utils/mock';
 import Adapter from '../services/adapter';
 import {AUTH_TOKEN_KEY_NAME} from '../services/token';
 import {generatePath} from 'react-router-dom';
-import {getRandomInteger} from '../utils/utils';
 
 const FAKE_ID = 33;
 
@@ -173,26 +172,30 @@ describe('Async actions', () => {
   });
 
   it('should dispatch loadFavorites and loadOffers when POST/favorite/:hotel_id/:status', async () => {
-    const store = mockStore();
     const offerBackend = Mock.getOfferBackend();
-    const isFavorite = Boolean(getRandomInteger());
+    const offerClient = {...Adapter.offerToClient(offerBackend), isFavorite: !offerBackend['is_favorite']};
+    const isFavorite = offerBackend['is_favorite'];
 
-    const pathname = `${generatePath(APIRoute.PostFavorite, {
-      'hotel_id': offerBackend.id,
-      status: isFavorite ? 1 : 0,
-    })}`;
+    const store = mockStore({
+      DATA: {
+        offers: [offerClient],
+      },
+    });
 
     mockApi
-      .onPost(pathname, offerBackend)
+      .onPost(generatePath(APIRoute.PostFavorite, {
+        'hotel_id': offerBackend.id,
+        status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,
+      }))
       .reply(HttpCode.OK, offerBackend);
 
     expect(store.getActions()).toEqual([]);
 
-    await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite)); // Тут не работает
+    await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite));
 
-    // expect(store.getActions()).toEqual([
-    //   ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
-    //   ActionCreator.loadFavorites([Adapter.offerToClient(offerBackend)]),
-    // ]);
+    expect(store.getActions()).toEqual([
+      ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
+      ActionCreator.loadFavorites([Adapter.offerToClient(offerBackend)]),
+    ]);
   });
 });

@@ -52,7 +52,7 @@ const getOffer = (): Offer => ({
 });
 
 const getOfferBackend = (): OfferBackend => ({
-  id: datatype.number(50),
+  id: datatype.number(),
   bedrooms: datatype.number(),
   city: getCity(),
   description: datatype.string(),
