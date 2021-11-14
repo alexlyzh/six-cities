@@ -1,11 +1,16 @@
-import {Link} from 'react-router-dom';
 import Header from '../header/header';
-import {AppRoute} from '../../constants';
 import {useDispatch} from 'react-redux';
 import {ActionsAPI} from '../../store/api-actions';
 import {ChangeEvent, FormEvent, useMemo, useState} from 'react';
-import {ActionCreator} from '../../store/actions';
+import {LoginLocation} from '../login-location/login-location';
 import {getRandomCityName} from '../../utils/utils';
+import {ActionCreator} from '../../store/actions';
+
+const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const validity = /\s/g.test(target.value) ? 'Enter a password without spaces' : '';
+  target.setCustomValidity(validity);
+  target.reportValidity();
+};
 
 function LoginPage(): JSX.Element {
   const [authData, setAuthData] = useState({email: '', password: ''});
@@ -26,11 +31,7 @@ function LoginPage(): JSX.Element {
     dispatch(ActionsAPI.login(authData));
   };
 
-  const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {
-    const validity = /\s/g.test(target.value) ? 'Enter a password without spaces' : '';
-    target.setCustomValidity(validity);
-    target.reportValidity();
-  };
+  const handleLoginLocationLinkClick = () => dispatch(ActionCreator.changeCity(randomCityName));
 
   return (
     <div className="page page--gray page--login">
@@ -45,35 +46,42 @@ function LoginPage(): JSX.Element {
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required
+                <input
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
                   value={authData.email}
                   onChange={handleInputChange}
+                  data-testid="email"
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
                   value={authData.password}
                   onChange={(evt) =>{
                     checkPasswordValidity(evt);
                     handleInputChange(evt);
                   }}
+                  data-testid="password"
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">Sign in</button>
+              <button className="login__submit form__submit button" type="submit" data-testid="sign-in">Sign in</button>
             </form>
           </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <Link
-                to={AppRoute.ROOT}
-                onClick={() => dispatch(ActionCreator.changeCity(randomCityName))}
-                className="locations__item-link"
-              >
-                <span>{randomCityName}</span>
-              </Link>
-            </div>
-          </section>
+
+          <LoginLocation
+            onLinkClick={handleLoginLocationLinkClick}
+            randomCityName={randomCityName}
+          />
+
         </div>
       </main>
     </div>

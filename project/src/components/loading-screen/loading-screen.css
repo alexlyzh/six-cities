@@ -1,0 +1,7 @@
+.loading-screen {
+  display: flex;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  font-size: 4.5em;
+}
