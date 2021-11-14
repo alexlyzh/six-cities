@@ -2,7 +2,7 @@ import {generatePath, Link} from 'react-router-dom';
 import {Offer} from '../../types/types';
 import {AppRoute, OfferType} from '../../constants';
 import {getWidthByRating} from '../../utils/utils';
-import {FavoriteButton} from '../favorite-button';
+import {FavoriteButton} from '../favorite-button/favorite-button';
 
 type OfferCardProps = {
   offer: Offer,

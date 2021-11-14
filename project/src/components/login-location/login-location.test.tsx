@@ -17,8 +17,7 @@ describe('Component: LoginLocation', () => {
           onLinkClick={onLinkClick}
           randomCityName={INITIAL_CITY_NAME}
         />
-      </Router>
-    );
+      </Router>);
 
     const redirectLinkElement = screen.getByTestId('redirect');
 

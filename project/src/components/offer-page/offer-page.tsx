@@ -11,7 +11,7 @@ import {ActionsAPI} from '../../store/api-actions';
 import {useEffect} from 'react';
 import {getNearOffers, getReviews} from '../../store/reducer/data/selectors';
 import {getAuthStatus} from '../../store/reducer/user/selectors';
-import {FavoriteButton} from '../favorite-button';
+import {FavoriteButton} from '../favorite-button/favorite-button';
 
 const MAX_IMAGES_COUNT = 6;
 

@@ -13,7 +13,7 @@ const mockStore = configureMockStore();
 const store = mockStore({
   USER: {
     authorizationStatus: AuthorizationStatus.NO_AUTH,
-  }
+  },
 });
 
 describe('Component: LoginPage', () => {
@@ -26,8 +26,7 @@ describe('Component: LoginPage', () => {
         <Router history={history}>
           <LoginPage/>
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     const submitBtn = screen.getByTestId('sign-in');
     const emailElement = screen.getByTestId('email');
@@ -59,8 +58,7 @@ describe('Component: LoginPage', () => {
             </Route>
           </Switch>
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     const redirectLinkElement = screen.getByTestId('redirect');
 
