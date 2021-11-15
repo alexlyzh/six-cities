@@ -2,6 +2,10 @@ import {CityGeoData, Rating, SortType} from '../constants';
 import {Offer} from '../types/types';
 import dayjs from 'dayjs';
 
+type GroupedOffers = {
+  [key: string]: Offer[],
+}
+
 const getWidthByRating = (rating: number): number => Math.min(rating * Rating.RATING_MULTIPLIER, Rating.MAX_RATING_PERCENT);
 
 const Sort = {
@@ -29,4 +33,19 @@ const getRandomCityName = (): string => {
 const formatToDatetime = (date: string):string => dayjs(date).format('YYYY-MM-DD');
 const formatToFullMonthYear = (date: string):string => dayjs(date).format('MMMM YYYY');
 
-export {getWidthByRating, Sort, getOffersInCity, getRandomInteger, getRandomCityName, formatToDatetime, formatToFullMonthYear};
+const getGroupedOffers = (offers: Offer[]): GroupedOffers => {
+  const groupedOffers: GroupedOffers = {};
+
+  offers.forEach((offer) => {
+    const cityName = offer.city.name;
+    if (cityName in groupedOffers) {
+      groupedOffers[cityName].push(offer);
+      return;
+    }
+    groupedOffers[cityName] = [offer];
+  });
+
+  return groupedOffers;
+};
+
+export {getWidthByRating, Sort, getOffersInCity, getRandomInteger, getRandomCityName, formatToDatetime, formatToFullMonthYear, getGroupedOffers};
