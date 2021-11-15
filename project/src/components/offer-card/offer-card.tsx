@@ -37,7 +37,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       <div className={`${infoClassName} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{price}</b>
+            <b className="place-card__price-value" data-testid="offer-card-price">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <FavoriteButton
@@ -52,7 +52,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{width: `${getWidthByRating(rating)}%`}}/>
-            <span className="visually-hidden">Rating</span>
+            <span className="visually-hidden" data-testid="offer-card-rating">Rating {rating}</span>
           </div>
         </div>
         <h2 className="place-card__name">

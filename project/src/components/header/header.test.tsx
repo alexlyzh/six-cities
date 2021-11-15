@@ -23,8 +23,7 @@ describe('Component: Header', () => {
         <Router history={history}>
           <Header/>
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     expect(screen.queryByTestId('header-email')).toBeInTheDocument();
     expect(screen.queryByText('Sign out')).toBeInTheDocument();
@@ -44,8 +43,7 @@ describe('Component: Header', () => {
         <Router history={history}>
           <Header/>
         </Router>
-      </Provider>
-    );
+      </Provider>);
 
     expect(screen.queryByTestId('header-email')).not.toBeInTheDocument();
     expect(screen.queryByText('Sign out')).not.toBeInTheDocument();

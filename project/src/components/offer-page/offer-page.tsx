@@ -19,8 +19,7 @@ type OfferPageProps = {
   offer: Offer,
 }
 
-function OfferPage(props: OfferPageProps): JSX.Element {
-  const {offer} = props;
+function OfferPage({offer}: OfferPageProps): JSX.Element {
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
   const dispatch = useDispatch();

@@ -11,8 +11,8 @@ import thunk from 'redux-thunk';
 const ButtonMockProps = {
   id: FAKE_ID,
   isFavorite: Boolean(getRandomInteger()),
-  buttonClassName: '',
-  iconClassName: '',
+  buttonClassName: 'some',
+  iconClassName: 'some',
   iconWidth: 20,
   iconHeight: 20,
 } as const;
@@ -41,7 +41,7 @@ describe('Component: FavoriteButton', () => {
         />
       </Provider>);
 
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByTestId('favorite-btn')).toBeInTheDocument();
   });
 
   // it('should dispatch ActionsAPI.postFavorite() when clicked', () => {
@@ -63,6 +63,8 @@ describe('Component: FavoriteButton', () => {
   //
   //   userEvent.click(button);
   //
-  //   expect(store.getActions()).toEqual([ActionsAPI.postFavorite(id, !isFavorite)]); как проверить, что происходит диспатч по клику?
+  //   expect(store.getActions()).toEqual([
+  //     ActionsAPI.postFavorite(id, !isFavorite),
+  //   ]); как проверить, что происходит диспатч по клику?
   // });
 });

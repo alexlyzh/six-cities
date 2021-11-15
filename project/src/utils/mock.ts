@@ -1,7 +1,7 @@
 import {internet, datatype, image, address} from 'faker';
 import {City, Location, Offer, OfferBackend, Review, ReviewBackend, User, UserBackend} from '../types/types';
 import {getRandomInteger} from './utils';
-import {FAKE_ARRAY_LENGTH} from '../constants';
+import {FAKE_ARRAY_LENGTH, OfferType} from '../constants';
 
 const getUser = (): User => ({
   avatarUrl: internet.avatar(),
@@ -32,6 +32,11 @@ const getCity = (): City => ({
   name: address.city(),
 });
 
+const getRandomOfferTypeKey = (): string => {
+  const typeKeys = Object.keys(OfferType);
+  return typeKeys[getRandomInteger(0, typeKeys.length - 1)];
+};
+
 const getOffer = (): Offer => ({
   id: datatype.number(),
   bedrooms: datatype.number(),
@@ -48,7 +53,7 @@ const getOffer = (): Offer => ({
   price: datatype.number(),
   rating: datatype.number(),
   title: datatype.string(),
-  type: datatype.string(),
+  type: getRandomOfferTypeKey(),
 });
 
 const getOfferBackend = (): OfferBackend => ({

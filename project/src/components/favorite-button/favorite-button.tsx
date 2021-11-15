@@ -32,6 +32,7 @@ function FavoriteButton(props: FavoriteButtonType): JSX.Element {
         }
         dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN));
       }}
+      data-testid="favorite-btn"
     >
       <svg
         className={`${iconClassName}`}

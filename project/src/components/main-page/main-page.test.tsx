@@ -11,9 +11,9 @@ const offers = new Array(FAKE_ARRAY_LENGTH)
   .fill(null)
   .map(Mock.getOffer)
   .map((offer) => {
-  offer.city.name = INITIAL_CITY_NAME;
-  return offer;
-});
+    offer.city.name = INITIAL_CITY_NAME;
+    return offer;
+  });
 
 const history = createMemoryHistory();
 

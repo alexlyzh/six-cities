@@ -27,7 +27,6 @@ const store = mockStore({
 
 describe('Component: Favorites', () => {
   it('should render correctly', () => {
-    const offers = store.getState().DATA.favorites.data;
     const groupedOffers = getGroupedOffers(offers);
     const cities = Object.keys(groupedOffers);
 
