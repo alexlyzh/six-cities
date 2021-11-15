@@ -21,6 +21,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
   return (
     <article
       className={`${className} place-card`}
+      data-testid="offer-card"
       onMouseEnter={() => onChangeHighlightedOffer && onChangeHighlightedOffer(id)}
       onMouseLeave={() => onChangeHighlightedOffer && onChangeHighlightedOffer(null)}
     >

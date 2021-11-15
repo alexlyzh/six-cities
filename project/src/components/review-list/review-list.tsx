@@ -1,7 +1,6 @@
 import {Review} from '../../types/types';
-import {ReviewComponent} from '../review/review-component';
-
-const MAX_COMMENTS_COUNT = 10;
+import {ReviewComponent} from '../review-component/review-component';
+import {MAX_COMMENTS_COUNT} from '../../constants';
 
 type ReviewListProps = {
   reviews: Review[],

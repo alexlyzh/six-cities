@@ -7,7 +7,7 @@ type ReviewProps = {
 
 function ReviewComponent({review}: ReviewProps): JSX.Element {
   return (
-    <li className="reviews__item">
+    <li className="reviews__item" data-testid="review-component">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width="54" height="54" alt="Reviews avatar"/>
@@ -20,7 +20,7 @@ function ReviewComponent({review}: ReviewProps): JSX.Element {
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
             <span style={{width: `${getWidthByRating(review.rating)}%`}}/>
-            <span className="visually-hidden">Rating</span>
+            <span className="visually-hidden">Rating {review.rating}</span>
           </div>
         </div>
         <p className="reviews__text">

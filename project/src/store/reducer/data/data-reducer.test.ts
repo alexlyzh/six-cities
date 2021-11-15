@@ -33,7 +33,7 @@ describe('Reducer: Data', () => {
   });
 
   describe('Reviews loading', () => {
-    it('should set requestStatus "PENDING" with no data for review[id]', () => {
+    it('should set requestStatus "PENDING" with no data for review-component[id]', () => {
       expect(dataReducer(state, ActionCreator.startLoadingReviews(FAKE_ID)))
         .toEqual({
           ...state,
@@ -46,7 +46,7 @@ describe('Reducer: Data', () => {
         });
     });
 
-    it('should set requestStatus "ERROR" with no data for review[id]', () => {
+    it('should set requestStatus "ERROR" with no data for review-component[id]', () => {
       expect(dataReducer(state, ActionCreator.setReviewsLoadingError(FAKE_ID)))
         .toEqual({
           ...state,
@@ -59,7 +59,7 @@ describe('Reducer: Data', () => {
         });
     });
 
-    it('should set requestStatus "SUCCESS" and save reviews data for review[id]', () => {
+    it('should set requestStatus "SUCCESS" and save reviews data for review-component[id]', () => {
       const reviews = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReview);
       expect(dataReducer(state, ActionCreator.loadReviews(FAKE_ID, reviews)))
         .toEqual({

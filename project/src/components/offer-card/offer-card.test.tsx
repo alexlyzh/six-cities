@@ -14,10 +14,10 @@ const OfferProps = {
   imageHeight: 20,
 } as const;
 
-const history = createMemoryHistory();
-
 const offer = getOffer();
 offer.id = FAKE_ID;
+
+const history = createMemoryHistory();
 
 const mockStore = configureMockStore();
 const store = mockStore({

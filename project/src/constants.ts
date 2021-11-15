@@ -6,6 +6,8 @@ const FAKE_ARRAY_LENGTH = 3;
 
 const FAKE_ID = 33;
 
+const MAX_COMMENTS_COUNT = 10;
+
 const SortType: {[key: string]: string} = {
   POPULAR: 'Popular',
   PRICE_DESCENDING: 'Price: high to low',
@@ -107,7 +109,7 @@ const MapMarkerURL = {
 } as const;
 
 const ErrorMessage = {
-  PostReview: 'Something went wrong when sending your review...',
+  PostReview: 'Something went wrong when sending your review-component...',
   GetReviews: 'Can\'t get reviews..',
   GetNearOffers: 'Can\'t get offers nearby..',
   Login: 'Login error...',
@@ -142,5 +144,6 @@ export {
   FavoritePathname,
   HttpCode,
   FAKE_ARRAY_LENGTH,
-  FAKE_ID
+  FAKE_ID,
+  MAX_COMMENTS_COUNT
 };

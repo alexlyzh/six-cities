@@ -45,7 +45,6 @@ describe('Component: MainPage', () => {
     expect(screen.getByTestId('locations')).toBeInTheDocument();
     expect(screen.getByTestId('places-found').textContent).toEqual(`${offers.length} places to stay in ${INITIAL_CITY_NAME}`);
     expect(screen.getByTestId('sort-form')).toBeInTheDocument();
-    expect(screen.getByTestId('sort-type').textContent).toEqual(SortType.POPULAR);
     expect(screen.getByTestId('map')).toBeInTheDocument();
   });
 });
