@@ -4,7 +4,7 @@ import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
 import {CityGeoData} from '../../constants';
 import {useSelector} from 'react-redux';
-import MainEmpty from './main-empty';
+import MainEmpty from '../main-empty/main-empty';
 import SortForm from '../sort-form/sort-form';
 import useHighlightedOffer from '../../hooks/useHighlightedOffer';
 import {getSelectedCity} from '../../store/reducer/app/selectors';
@@ -34,7 +34,7 @@ function MainPage(): JSX.Element {
             {offersInCity.length ?
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersInCity.length} places to stay in {selectedCity}</b>
+                <b className="places__found" data-testid="places-found">{offersInCity.length} places to stay in {selectedCity}</b>
                 <SortForm/>
                 <div className="cities__places-list places__list tabs__content">
                   <OffersList

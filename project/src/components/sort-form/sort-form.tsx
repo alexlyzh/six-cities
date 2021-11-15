@@ -17,10 +17,12 @@ function SortForm(): JSX.Element {
   };
 
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form className="places__sorting" action="#" method="get" data-testid="sort-form">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}
+      <span className="places__sorting-type"
+        tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
+        data-testid="sort-type"
       >
         {currentSort}
         <svg className="places__sorting-arrow" width="7" height="4">

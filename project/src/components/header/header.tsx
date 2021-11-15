@@ -14,10 +14,10 @@ function Header({isLoginPage}: HeaderProps): JSX.Element {
   const user = useSelector(getUser);
 
   return (
-    <header className="header">
+    <header className="header" data-testid="header-component">
       <div className="container">
         <div className="header__wrapper">
-          <div className="header__left">
+          <div className="header__left" data-testid="header-logo">
             <Link to={AppRoute.ROOT} className="header__logo-link header__logo-link--active">
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
             </Link>
@@ -39,7 +39,7 @@ function Header({isLoginPage}: HeaderProps): JSX.Element {
                             alt="User avatar"
                           />
                         </div>
-                        <span className="header__user-name user__name">{user?.email}</span>
+                        <span className="header__user-name user__name" data-testid="header-email">{user?.email}</span>
                       </Link>
                     </li>
                     <li className="header__nav-item">

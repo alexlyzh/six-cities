@@ -7,7 +7,6 @@ type FavoritesProps = {
   offers: Offer[],
 }
 
-
 function Favorites({offers}: FavoritesProps): JSX.Element {
   if (!offers.length) {
     return <FavoritesEmpty/>;
@@ -17,7 +16,7 @@ function Favorites({offers}: FavoritesProps): JSX.Element {
   const cities = Object.keys(groupedOffers);
 
   return (
-    <section className="favorites">
+    <section className="favorites" data-testid="favorites">
       <h1 className="favorites__title">Saved listing</h1>
       <ul className="favorites__list">
         {cities.map((cityName) => <FavoriteLocation key={cityName} offers={groupedOffers[cityName]} cityName={cityName}/>)}

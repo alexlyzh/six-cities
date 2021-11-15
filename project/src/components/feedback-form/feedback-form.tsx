@@ -33,7 +33,7 @@ function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
         dispatch(ActionsAPI.postReview(review, setReview));
       }}
     >
-      <label className="reviews__label form__label" htmlFor="review">Your review</label>
+      <label className="reviews__label form__label" htmlFor="comment">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"
           onChange={handleFormChange}

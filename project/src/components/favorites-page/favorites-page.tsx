@@ -10,7 +10,6 @@ import {useEffect} from 'react';
 import LoadingComponent from '../loading-component/loading-component';
 import './favorites-page.css';
 
-
 function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch();
   const favorites = useSelector(getFavorites);
@@ -25,9 +24,7 @@ function FavoritesPage(): JSX.Element {
   }, [shouldLoadFavorites, dispatch]);
 
   return (
-    <div
-      className="page favorites-page"
-    >
+    <div className="page favorites-page" data-testid="favorites-page">
       <Header/>
 
       <main className="page__main page__main--favorites">

@@ -63,7 +63,7 @@ function Map(props: MapProps): JSX.Element {
   });
 
   return (
-    <section className={`${className} map`}>
+    <section className={`${className} map`} data-testid="map">
       <div style={{height: '100%'}} ref={mapRef}/>
     </section>
   );
