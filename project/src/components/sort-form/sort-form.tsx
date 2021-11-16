@@ -3,7 +3,7 @@ import {ActionCreator} from '../../store/actions';
 import {SortType} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCurrentSort} from '../../store/reducer/app/selectors';
-import {SortOption} from '../sort-type/sort-option';
+import {SortOption} from '../sort-option/sort-option';
 
 function SortForm(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);

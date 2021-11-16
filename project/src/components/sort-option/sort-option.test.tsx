@@ -4,7 +4,7 @@ import {SortType} from '../../constants';
 import userEvent from '@testing-library/user-event';
 
 describe('Component: SortOption', () => {
-  it('should render correctly', () => {
+  it('should call click handler on click', () => {
     const onSortOptionClick = jest.fn();
 
     render(

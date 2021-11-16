@@ -19,7 +19,7 @@ describe('Component: LoginLocation', () => {
         />
       </Router>);
 
-    const redirectLinkElement = screen.getByTestId('redirect');
+    const redirectLinkElement = screen.getByTestId('redirect-root');
 
     expect(redirectLinkElement).toBeInTheDocument();
 

@@ -14,7 +14,7 @@ const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
 describe('Component: FavoritesPage', () => {
-  it('should render correctly', () => {
+  it('should render correctly when there are favorites', () => {
     const store = mockStore({
       USER: {
         authorizationStatus: AuthorizationStatus.AUTH,
@@ -37,6 +37,32 @@ describe('Component: FavoritesPage', () => {
     expect(screen.getByTestId('favorites-page')).toBeInTheDocument();
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
     expect(screen.getByTestId('favorites')).toBeInTheDocument();
+  });
+
+  it('should render correctly when there is no favorites', () => {
+    const store = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.AUTH,
+      },
+      DATA: {
+        favorites: {
+          requestStatus: 'SUCCESS',
+          data: [],
+        },
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <FavoritesPage/>
+        </Router>
+      </Provider>);
+
+    expect(screen.getByTestId('favorites-page')).toBeInTheDocument();
+    expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('favorites')).not.toBeInTheDocument();
+    expect(screen.getByText(/Nothing yet saved/i)).toBeInTheDocument();
   });
 
   it('should render spinner while loading favorites', () => {

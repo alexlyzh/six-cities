@@ -60,7 +60,7 @@ describe('Component: LoginPage', () => {
         </Router>
       </Provider>);
 
-    const redirectLinkElement = screen.getByTestId('redirect');
+    const redirectLinkElement = screen.getByTestId('redirect-root');
 
     expect(redirectLinkElement).toBeInTheDocument();
 

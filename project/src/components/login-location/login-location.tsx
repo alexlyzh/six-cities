@@ -14,7 +14,7 @@ function LoginLocation({onLinkClick, randomCityName}: LoginLocationProps): JSX.E
           to={AppRoute.ROOT}
           onClick={onLinkClick}
           className="locations__item-link"
-          data-testid="redirect"
+          data-testid="redirect-root"
           data-city={randomCityName}
         >
           <span>{randomCityName}</span>
