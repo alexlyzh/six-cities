@@ -6,7 +6,7 @@ import {FAKE_ID} from '../../constants';
 const offers = [getOffer()];
 offers[0].id = FAKE_ID;
 
-describe('Hook: useHighlightedOffer', () => {
+describe('Hook: use-highlighted-offer', () => {
   it('should return an array of 3 elements', () => {
     const {result} = renderHook(() => useHighlightedOffer(offers));
 
