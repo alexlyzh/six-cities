@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Offer} from '../types/types';
+import {Offer} from '../../types/types';
 
 type HookReturn = [
   Offer | undefined,

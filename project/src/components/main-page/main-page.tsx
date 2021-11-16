@@ -6,7 +6,7 @@ import {CityGeoData} from '../../constants';
 import {useSelector} from 'react-redux';
 import MainEmpty from '../main-empty/main-empty';
 import SortForm from '../sort-form/sort-form';
-import useHighlightedOffer from '../../hooks/useHighlightedOffer';
+import useHighlightedOffer from '../../hooks/useHighlightedOffer/use-highlighted-offer';
 import {getSelectedCity} from '../../store/reducer/app/selectors';
 import {getCitySortedOffers} from '../../store/reducer/data/selectors';
 
