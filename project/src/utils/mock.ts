@@ -98,5 +98,6 @@ export {
   getOffer,
   getOfferBackend,
   getReview,
-  getReviewBackend
+  getReviewBackend,
+  getCity
 };
