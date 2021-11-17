@@ -12,6 +12,7 @@ import {useEffect} from 'react';
 import {getNearOffers, getReviews} from '../../store/reducer/data/selectors';
 import {getAuthStatus} from '../../store/reducer/user/selectors';
 import {FavoriteButton} from '../favorite-button/favorite-button';
+import LoadingComponent from '../loading-component/loading-component';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -148,21 +149,21 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
           />
         </section>
         <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
 
-              {offerNearOffers.length ?
+          {offerNearOffers.length ?
+            <section className="near-places places">
+              <h2 className="near-places__title">Other places in the neighbourhood</h2>
+              <div className="near-places__list places__list">
                 <OffersList
                   offers={offerNearOffers}
                   className="near-places__card"
                   imageClassName="near-places__image-wrapper"
                   imageWidth={260}
                   imageHeight={200}
-                /> : null}
+                />
+              </div>
+            </section> : <LoadingComponent/>}
 
-            </div>
-          </section>
         </div>
       </main>
     </div>

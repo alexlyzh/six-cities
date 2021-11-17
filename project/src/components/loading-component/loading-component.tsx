@@ -1,8 +1,16 @@
 import './loading-component.css';
 
-function LoadingComponent(): JSX.Element {
+type Props = {
+  height?: string,
+}
+
+function LoadingComponent({height = 'auto'}: Props): JSX.Element {
   return (
-    <div className="loading-component" data-testid="spinner">
+    <div
+      className="loading-component"
+      data-testid="spinner"
+      style={{ height }}
+    >
       <svg width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#4481C3">
         <circle cx="12.5" cy="12.5" r="12.5">
           <animate attributeName="fill-opacity"

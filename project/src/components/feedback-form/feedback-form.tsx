@@ -32,6 +32,7 @@ function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
         evt.preventDefault();
         dispatch(ActionsAPI.postReview(review, setReview));
       }}
+      data-testid="feedback-form"
     >
       <label className="reviews__label form__label" htmlFor="comment">Your review</label>
       <div className="reviews__rating-form form__rating">

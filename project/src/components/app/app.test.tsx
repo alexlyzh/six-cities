@@ -1,12 +1,11 @@
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
-// import {generatePath, Router} from 'react-router-dom';
-// import {getOffer, getReview} from '../../utils/mock';
-import {Router} from 'react-router-dom';
+import {generatePath, Router} from 'react-router-dom';
+import {getOffer, getReview} from '../../utils/mock';
 import App from './app';
 import {render, screen} from '@testing-library/react';
-import {AppRoute, AuthorizationStatus, FAKE_ARRAY_LENGTH, INITIAL_CITY_NAME, SortType} from '../../constants';
+import {AppRoute, AuthorizationStatus, FAKE_ARRAY_LENGTH, FAKE_ID, INITIAL_CITY_NAME, SortType} from '../../constants';
 import * as Mock from '../../utils/mock';
 import thunk from 'redux-thunk';
 
@@ -141,57 +140,53 @@ describe('Application routing', () => {
     expect(screen.getByText(favoriteOffer.title)).toBeInTheDocument();
   });
 
-  // it('should render "OfferPage" when user navigates to "/offer/:id"', () => {
-  //   const offer = Mock.getOffer();
-  //
-  //   const review = getReview();
-  //   review.id = offer.id;
-  //
-  //   const nearOffer = getOffer();
-  //   nearOffer.id = offer.id +1;
-  //
-  //   const offers = [offer, nearOffer];
-  //
-  //   history.push(generatePath(AppRoute.OFFER, {id: offer.id}));
-  //
-  //   const store = mockStore({
-  //     APP: {
-  //       isSubmitting: false,
-  //     },
-  //     DATA: {
-  //       isDataLoaded: true,
-  //       offers,
-  //       reviews: {
-  //         [FAKE_ID]: {
-  //           data: [review],
-  //         },
-  //       },
-  //       nearOffers: {
-  //         [FAKE_ID]: {
-  //           data: [nearOffer],
-  //         },
-  //       },
-  //     },
-  //     USER: {
-  //       authorizationStatus: AuthorizationStatus.AUTH,
-  //     },
-  //   });
-  //
-  //   render(
-  //     <Provider store={store}>
-  //       <Router history={history}>
-  //         <App />
-  //       </Router>
-  //     </Provider>);
-  //
-  //   expect(screen.getByText(offer.title)).toBeInTheDocument();
-  //   expect(screen.getByTestId('map')).toBeInTheDocument();
-  //   // Тест не проходит:
-  //   // Warning: Encountered two children with the same key, ``.
-  //   // Keys should be unique so that components maintain their identity across updates.
-  //   // Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported
-  //   // and could change in a future version.
-  // });
+  it('should render "OfferPage" when user navigates to "/offer/:id"', () => {
+    const offer = Mock.getOffer();
+    offer.id = FAKE_ID;
+
+    const review = getReview();
+    review.id = offer.id;
+
+    const nearOffer = getOffer();
+    nearOffer.id = offer.id +1;
+
+    const connectedOffers = [offer, nearOffer];
+
+    history.push(generatePath(AppRoute.OFFER, {id: offer.id}));
+
+    const store = mockStore({
+      APP: {
+        isSubmitting: false,
+      },
+      DATA: {
+        isDataLoaded: true,
+        offers: connectedOffers,
+        reviews: {
+          [FAKE_ID]: {
+            data: [review],
+          },
+        },
+        nearOffers: {
+          [FAKE_ID]: {
+            data: [nearOffer],
+          },
+        },
+      },
+      USER: {
+        authorizationStatus: AuthorizationStatus.AUTH,
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
+
+    expect(screen.getByText(offer.title)).toBeInTheDocument();
+    expect(screen.getByTestId('map')).toBeInTheDocument();
+  });
 
   it('should render "NotFoundPage" when user navigates to non-existent-route', () => {
     history.push('/non-existent-route');

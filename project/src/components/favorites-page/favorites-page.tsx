@@ -10,6 +10,8 @@ import {useEffect} from 'react';
 import LoadingComponent from '../loading-component/loading-component';
 import './favorites-page.css';
 
+const LOADING_COMPONENT_WIDTH = '60vh';
+
 function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch();
   const favorites = useSelector(getFavorites);
@@ -30,7 +32,7 @@ function FavoritesPage(): JSX.Element {
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           {
-            favorites.requestStatus === 'PENDING' ? <LoadingComponent/> : <Favorites offers={favorites.data}/>
+            favorites.requestStatus === 'PENDING' ? <LoadingComponent height={LOADING_COMPONENT_WIDTH}/> : <Favorites offers={favorites.data}/>
           }
         </div>
       </main>
