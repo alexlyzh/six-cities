@@ -5,8 +5,6 @@ import {getRandomInteger} from '../../utils/utils';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
-// import userEvent from '@testing-library/user-event';
-// import {ActionsAPI} from '../../store/api-actions';
 
 const ButtonMockProps = {
   id: FAKE_ID,
@@ -65,6 +63,6 @@ describe('Component: FavoriteButton', () => {
   //
   //   expect(store.getActions()).toEqual([
   //     ActionsAPI.postFavorite(id, !isFavorite),
-  //   ]); как проверить, что происходит диспатч по клику?
+  //   ]); //как проверить, что происходит диспатч по клику?
   // });
 });
