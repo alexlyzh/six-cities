@@ -23,17 +23,15 @@ const store = mockStore({
 
 describe('Component: FavoriteLocation', () => {
   it('should render if authorized', () => {
-    if (store.getState().USER.authorizationStatus === AuthorizationStatus.AUTH) {
-      render(
-        <Provider store={store}>
-          <Router history={history}>
-            <FavoriteLocation
-              offers={fakeProps.offers}
-              cityName={fakeProps.cityName}
-            />
-          </Router>
-        </Provider>);
-    }
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <FavoriteLocation
+            offers={fakeProps.offers}
+            cityName={fakeProps.cityName}
+          />
+        </Router>
+      </Provider>);
 
     expect(screen.queryByTestId('favorite-location')).toBeInTheDocument();
   });

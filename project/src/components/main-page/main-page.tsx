@@ -1,5 +1,5 @@
 import Header from '../header/header';
-import LocationList from '../location-list/location-list';
+import LocationTabList from '../location-tab-list/location-tab-list';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
 import {CityGeoData} from '../../constants';
@@ -24,7 +24,7 @@ function MainPage(): JSX.Element {
       <main className={`page__main page__main--index ${!offersInCity.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationList
+          <LocationTabList
             cityNames={Object.keys(CityGeoData)}
             selectedCity={selectedCity}
           />
