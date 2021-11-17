@@ -14,7 +14,10 @@ function FavoriteLocation({offers, cityName}: FavoriteLocationProps): JSX.Elemen
   const dispatch = useDispatch();
 
   return (
-    <li className="favorites__locations-items">
+    <li
+      className="favorites__locations-items"
+      data-testid="favorite-location"
+    >
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <Link

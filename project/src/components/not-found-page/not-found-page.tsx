@@ -1,23 +1,17 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../constants';
+import './not-found-page.css';
 
 function NotFoundPage(): JSX.Element {
   return (
-    <div style={{
-      textAlign: 'center',
-    }}
-    >
+    <div className="not-found">
       <h1>
         404.
-        <br />
+        <br/>
         <small>Page not found</small>
       </h1>
 
-      <Link to={AppRoute.ROOT}
-        style={{
-          textDecoration: 'underline',
-        }}
-      >
+      <Link className="link-to-main" to={AppRoute.ROOT}>
         Go to main page
       </Link>
     </div>

@@ -2,7 +2,7 @@ import Header from '../header/header';
 import FeedbackForm from '../feedback-form/feedback-form';
 import {Offer} from '../../types/types';
 import {AuthorizationStatus, OfferType} from '../../constants';
-import {getWidthByRating} from '../../utils';
+import {getWidthByRating} from '../../utils/utils';
 import ReviewList from '../review-list/review-list';
 import {OffersList} from '../offers-list/offers-list';
 import Map from '../map/map';
@@ -11,6 +11,7 @@ import {ActionsAPI} from '../../store/api-actions';
 import {useEffect} from 'react';
 import {getNearOffers, getReviews} from '../../store/reducer/data/selectors';
 import {getAuthStatus} from '../../store/reducer/user/selectors';
+import {FavoriteButton} from '../favorite-button/favorite-button';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -18,8 +19,7 @@ type OfferPageProps = {
   offer: Offer,
 }
 
-function OfferPage(props: OfferPageProps): JSX.Element {
-  const {offer} = props;
+function OfferPage({offer}: OfferPageProps): JSX.Element {
   const { id, isFavorite, isPremium, price, title, type, rating, bedrooms, maxAdults } = offer;
 
   const dispatch = useDispatch();
@@ -73,16 +73,14 @@ function OfferPage(props: OfferPageProps): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button
-                  className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
-                  type="button"
-                  onClick={() => dispatch(ActionsAPI.postFavorite(id, !isFavorite))}
-                >
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"/>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton
+                  id={id}
+                  isFavorite={isFavorite}
+                  buttonClassName="property__bookmark-button"
+                  iconClassName="property__bookmark-icon"
+                  iconWidth={31}
+                  iconHeight={33}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

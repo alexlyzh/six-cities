@@ -1,0 +1,18 @@
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 75vh;
+}
+
+.link-to-main {
+  align-self: center;
+  text-decoration: underline;
+  width: 150px;
+  color: #3069a6;
+}
+
+.link-to-main:hover {
+  color: inherit;
+}

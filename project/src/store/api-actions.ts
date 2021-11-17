@@ -37,7 +37,7 @@ const ActionsAPI = {
       dispatch(ActionCreator.startLoadingReviews(id));
 
       try {
-        const {data} = await api.get<ReviewBackend[]>(`${generatePath(APIRoute.GetReviews,{'hotel_id': id})}`);
+        const {data} = await api.get<ReviewBackend[]>(generatePath(APIRoute.GetReviews,{'hotel_id': id}));
         const reviews = data.map(Adapter.reviewToClient);
         dispatch(ActionCreator.loadReviews(id, reviews));
       } catch (err) {
@@ -51,7 +51,7 @@ const ActionsAPI = {
       dispatch(ActionCreator.startLoadingNearOffers(id));
 
       try {
-        const {data} = await api.get<OfferBackend[]>(`${generatePath(APIRoute.GetNearOffers, {'hotel_id': id})}`);
+        const {data} = await api.get<OfferBackend[]>(generatePath(APIRoute.GetNearOffers, {'hotel_id': id}));
         const nearOffers = data.map(Adapter.offerToClient);
         dispatch(ActionCreator.loadNearOffers(id, nearOffers));
       } catch (err) {
@@ -61,7 +61,7 @@ const ActionsAPI = {
     },
 
   checkAuth: (): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       await api.get(APIRoute.Login)
         .then((response) => {
           if (response && response.data) {
@@ -78,7 +78,7 @@ const ActionsAPI = {
     },
 
   login: ({email, password}: AuthData): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       try {
         const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
         saveToken(data.token);
@@ -91,7 +91,7 @@ const ActionsAPI = {
     },
 
   logout: (): ThunkActionResult =>
-    async (dispatch, getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       try {
         await api.delete(APIRoute.Logout);
         dropToken();
@@ -104,11 +104,11 @@ const ActionsAPI = {
     },
 
   postReview: ({id, comment, rating}: ReviewData, setReview: ResetReviewCallback): ThunkActionResult =>
-    async (dispatch, _getState, api) => {
+    async (dispatch, _getState, api): Promise<void> => {
       dispatch(ActionCreator.setSubmittingState(true));
 
       try {
-        const {data} = await api.post<ReviewBackend[]>(`${generatePath(APIRoute.PostReview, {'hotel_id': id})}`, {comment, rating});
+        const {data} = await api.post<ReviewBackend[]>(generatePath(APIRoute.PostReview, {'hotel_id': id}), {comment, rating});
         const reviews = data.map(Adapter.reviewToClient);
         dispatch(ActionCreator.loadReviews(id, reviews));
         setReview({id, rating: null, comment: ''});
@@ -120,42 +120,38 @@ const ActionsAPI = {
     },
 
   getFavorites: (): ThunkActionResult =>
-    async (dispatch, getState, api): Promise<void > => {
-      if (getState().USER.authorizationStatus === AuthorizationStatus.AUTH) {
-        dispatch(ActionCreator.startLoadingFavorites());
+    async (dispatch, getState, api): Promise<void> => {
+      dispatch(ActionCreator.startLoadingFavorites());
 
-        try {
-          const {data} = await api.get<OfferBackend[]>(APIRoute.GetFavorites);
-          const favorites = data ? data.map(Adapter.offerToClient) : [];
-          dispatch(ActionCreator.loadFavorites(favorites));
-        } catch (err) {
-          dispatch(ActionCreator.setFavoritesLoadingError);
-          toast.error(ErrorMessage.GetFavorites);
-          throw err;
-        }
+      try {
+        const {data} = await api.get<OfferBackend[]>(APIRoute.GetFavorites);
+        const favorites = data ? data.map(Adapter.offerToClient) : [];
+        dispatch(ActionCreator.loadFavorites(favorites));
+      } catch (err) {
+        dispatch(ActionCreator.setFavoritesLoadingError());
+        toast.error(ErrorMessage.GetFavorites);
+        throw err;
       }
     },
 
   postFavorite: (offerId: number, isFavorite: boolean): ThunkActionResult =>
-    async (dispatch, getState, api): Promise<void > => {
-      if (getState().USER.authorizationStatus !== AuthorizationStatus.AUTH) {
-        dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN));
-        return;
-      }
+    async (dispatch, getState, api): Promise<void> => {
+      try {
+        const {data} = await api.post<OfferBackend>(generatePath(APIRoute.PostFavorite,{
+          'hotel_id': offerId,
+          status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,
+        }));
 
-      const response = await api.post<OfferBackend>(`${generatePath(APIRoute.PostFavorite,{
-        'hotel_id': offerId,
-        status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,
-      })}`);
-
-      if (response) {
-        const {data} = response;
         const updatedOffer = Adapter.offerToClient(data);
         const offers = [...getState().DATA.offers];
         const index = offers.findIndex((offer) => offer.id === updatedOffer.id);
-        const updatedOffers = [...offers.slice(0, index), updatedOffer, ...offers.slice(index + 1)];
-        dispatch(ActionCreator.loadOffers(updatedOffers));
-        dispatch(ActionCreator.loadFavorites(updatedOffers.filter((item) => item.isFavorite)));
+        offers.splice(index, 1, updatedOffer);
+
+        dispatch(ActionCreator.loadOffers(offers));
+        dispatch(ActionCreator.loadFavorites(offers.filter((item) => item.isFavorite)));
+      } catch (err) {
+        toast.error(ErrorMessage.PostFavorite);
+        throw err;
       }
     },
 };

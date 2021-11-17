@@ -1,7 +1,6 @@
 import {Review} from '../../types/types';
-import {ReviewComponent} from '../review/review-component';
-
-const MAX_COMMENTS_COUNT = 10;
+import {ReviewComponent} from '../review-component/review-component';
+import {MAX_COMMENTS_COUNT} from '../../constants';
 
 type ReviewListProps = {
   reviews: Review[],
@@ -13,7 +12,7 @@ function ReviewList({reviews}: ReviewListProps): JSX.Element {
     .slice(0, MAX_COMMENTS_COUNT);
 
   return (
-    <section className="property__reviews reviews">
+    <section className="property__reviews reviews" data-testid="reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <ul className="reviews__list">
         {reviewsCopy.map((review) => (

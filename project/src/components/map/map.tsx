@@ -1,9 +1,8 @@
 import {useRef, useEffect} from 'react';
 import 'leaflet/dist/leaflet.css';
 import {Icon, Marker} from 'leaflet';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map/use-map';
 import {City, Offer} from '../../types/types';
-
 import {AppRoute, MapMarkerURL} from '../../constants';
 import {generatePath, useHistory} from 'react-router-dom';
 
@@ -64,7 +63,7 @@ function Map(props: MapProps): JSX.Element {
   });
 
   return (
-    <section className={`${className} map`}>
+    <section className={`${className} map`} data-testid="map">
       <div style={{height: '100%'}} ref={mapRef}/>
     </section>
   );

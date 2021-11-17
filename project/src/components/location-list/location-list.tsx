@@ -10,7 +10,7 @@ function LocationList({cityNames, selectedCity}: LocationListProps): JSX.Element
   const dispatch = useDispatch();
 
   return (
-    <section className="locations container">
+    <section className="locations container" data-testid="locations">
       <ul className="locations__list tabs__list">
         {cityNames.map((cityName) => (
           <li className="locations__item" key={cityName}>

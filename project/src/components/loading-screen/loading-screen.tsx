@@ -1,14 +1,8 @@
+import './loading-screen.css';
+
 function LoadingScreen(): JSX.Element {
   return (
-    <p
-      style={{
-        display: 'flex',
-        height: '70vh',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '4.5em',
-      }}
-    >
+    <p className="loading-screen">
       <span>Loading ...</span>
     </p>
   );
