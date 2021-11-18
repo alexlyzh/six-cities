@@ -58,7 +58,6 @@ describe('Component: FavoriteButton', () => {
   //   expect(store.getActions()).toEqual([]);
   //
   //   const button = screen.getByRole('button');
-  //
   //   userEvent.click(button);
   //
   //   expect(store.getActions()).toEqual([

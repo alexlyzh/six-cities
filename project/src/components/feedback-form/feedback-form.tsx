@@ -96,6 +96,7 @@ function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
         value={review.comment}
         onChange={handleFormChange}
         disabled={isSubmitting}
+        data-testid="review-textarea"
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
