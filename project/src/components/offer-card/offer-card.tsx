@@ -6,6 +6,7 @@ import {FavoriteButton} from '../favorite-button/favorite-button';
 
 type OfferCardProps = {
   offer: Offer,
+  nearsAnchorId?: number,
   className: string,
   imageClassName: string,
   infoClassName?: string,
@@ -16,7 +17,7 @@ type OfferCardProps = {
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const { id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
-  const { className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
+  const { className, nearsAnchorId, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
 
   return (
     <article
@@ -45,6 +46,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
           <FavoriteButton
             id={id}
+            nearsAnchorId={nearsAnchorId}
             isFavorite={isFavorite}
             buttonClassName="place-card__bookmark-button"
             iconClassName="place-card__bookmark-icon"

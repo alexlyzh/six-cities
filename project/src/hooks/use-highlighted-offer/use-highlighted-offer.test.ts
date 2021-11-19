@@ -7,7 +7,7 @@ const offers = [getOffer()];
 offers[0].id = FAKE_ID;
 
 describe('Hook: use-highlighted-offer', () => {
-  it('should return an array of 3 elements', () => {
+  it('should return an array of 2 elements', () => {
     const {result} = renderHook(() => useHighlightedOffer(offers));
 
     const [highlightedOffer, onChangeHighlightedOffer] = result.current;

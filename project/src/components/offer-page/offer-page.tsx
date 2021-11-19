@@ -31,9 +31,9 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
   const shouldLoadReviews = !reviews[id];
   const shouldLoadNearOffers = !nearOffers[id];
 
-  const offerReviews = !shouldLoadReviews ? reviews[id].data : [];
-  const offerNearOffers = !shouldLoadReviews ? nearOffers[id].data : [];
-  const offersForMap = [...offerNearOffers, offer];
+  const dataReviews = !shouldLoadReviews ? reviews[id].data : [];
+  const dataNearOffers = !shouldLoadReviews ? nearOffers[id].data : [];
+  const offersForMap = [...dataNearOffers, offer];
 
   useEffect(() => {
     if (shouldLoadReviews) {
@@ -136,7 +136,7 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
                 </div>
               </div>
 
-              {offerReviews.length ? <ReviewList reviews={offerReviews}/> : null}
+              {dataReviews.length ? <ReviewList reviews={dataReviews}/> : null}
               {authorizationStatus === AuthorizationStatus.AUTH && <FeedbackForm id={id}/>}
 
             </div>
@@ -150,12 +150,13 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
         </section>
         <div className="container">
 
-          {offerNearOffers.length ?
+          {dataNearOffers.length ?
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
                 <OffersList
-                  offers={offerNearOffers}
+                  offers={dataNearOffers}
+                  nearsAnchorId={id}
                   className="near-places__card"
                   imageClassName="near-places__image-wrapper"
                   imageWidth={260}

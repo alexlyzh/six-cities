@@ -2,7 +2,7 @@ import {ActionCreator, ThunkActionResult} from './actions';
 import {APIRoute, AppRoute, AuthorizationStatus, ErrorMessage, FavoritePathname} from '../constants';
 import {dropToken, saveToken} from '../services/token';
 import Adapter from '../services/adapter';
-import {OfferBackend, ReviewBackend, UserBackend} from '../types/types';
+import {Offer, OfferBackend, ReviewBackend, UserBackend} from '../types/types';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Dispatch, SetStateAction} from 'react';
@@ -23,6 +23,11 @@ type ResetReviewCallback = Dispatch<SetStateAction<{
   rating: null,
   comment: string
 }>>;
+
+const replaceElementInArray = (element: Offer, elements: Offer[]) => {
+  const index = elements.findIndex((offer) => offer.id === element.id);
+  elements.splice(index, 1, element);
+};
 
 const ActionsAPI = {
   getOffers: (): ThunkActionResult =>
@@ -134,7 +139,7 @@ const ActionsAPI = {
       }
     },
 
-  postFavorite: (offerId: number, isFavorite: boolean): ThunkActionResult =>
+  postFavorite: (offerId: number, isFavorite: boolean, anchorOfferId: number | null = null): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
       try {
         const {data} = await api.post<OfferBackend>(generatePath(APIRoute.PostFavorite,{
@@ -144,10 +149,15 @@ const ActionsAPI = {
 
         const updatedOffer = Adapter.offerToClient(data);
         const offers = [...getState().DATA.offers];
-        const index = offers.findIndex((offer) => offer.id === updatedOffer.id);
-        offers.splice(index, 1, updatedOffer);
-
+        replaceElementInArray(updatedOffer, offers);
         dispatch(ActionCreator.loadOffers(offers));
+
+        if (anchorOfferId !== null) {
+          const dataNearOffers = [...getState().DATA.nearOffers[anchorOfferId].data];
+          replaceElementInArray(updatedOffer, dataNearOffers);
+          dispatch(ActionCreator.loadNearOffers(anchorOfferId, dataNearOffers));
+        }
+
         dispatch(ActionCreator.loadFavorites(offers.filter((item) => item.isFavorite)));
       } catch (err) {
         toast.error(ErrorMessage.PostFavorite);
