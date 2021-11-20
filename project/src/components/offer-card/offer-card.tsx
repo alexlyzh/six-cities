@@ -6,6 +6,7 @@ import {FavoriteButton} from '../favorite-button/favorite-button';
 
 type OfferCardProps = {
   offer: Offer,
+  nearsAnchorId?: number,
   className: string,
   imageClassName: string,
   infoClassName?: string,
@@ -16,7 +17,7 @@ type OfferCardProps = {
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const { id, previewImage, isFavorite, isPremium, price, title, type, rating } = props.offer;
-  const { className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
+  const { className, nearsAnchorId, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
 
   return (
     <article
@@ -31,7 +32,9 @@ function OfferCard(props: OfferCardProps): JSX.Element {
         </div>}
 
       <div className={`${imageClassName} place-card__image-wrapper`}>
-        <Link to={generatePath(AppRoute.OFFER,{id})}>
+        <Link to={generatePath(AppRoute.OFFER,{id})}
+          data-testid="offer-image-link"
+        >
           <img className="place-card__image" src={previewImage} width={imageWidth} height={imageHeight} alt="Place"/>
         </Link>
       </div>
@@ -43,6 +46,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
           <FavoriteButton
             id={id}
+            nearsAnchorId={nearsAnchorId}
             isFavorite={isFavorite}
             buttonClassName="place-card__bookmark-button"
             iconClassName="place-card__bookmark-icon"
@@ -57,7 +61,11 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={generatePath(AppRoute.OFFER,{id})}>{title}</Link>
+          <Link to={generatePath(AppRoute.OFFER,{id})}
+            data-testid="offer-title-link"
+          >
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{ OfferType[type] }</p>
       </div>

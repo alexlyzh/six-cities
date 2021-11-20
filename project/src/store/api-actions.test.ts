@@ -174,16 +174,10 @@ describe('Async actions', () => {
     ]);
   });
 
-  it('should dispatch loadFavorites and loadOffers when POST/favorite/:hotel_id/:status', async () => {
+  describe('API action when requesting POST/favorite/:hotel_id/:status', () => {
     const offerBackend = Mock.getOfferBackend();
     const offerClient = {...Adapter.offerToClient(offerBackend), isFavorite: !offerBackend['is_favorite']};
     const isFavorite = offerBackend['is_favorite'];
-
-    const store = mockStore({
-      DATA: {
-        offers: [offerClient],
-      },
-    });
 
     mockApi
       .onPost(generatePath(APIRoute.PostFavorite, {
@@ -192,13 +186,48 @@ describe('Async actions', () => {
       }))
       .reply(HttpCode.OK, offerBackend);
 
-    expect(store.getActions()).toEqual([]);
+    it('should dispatch loadFavorites, loadOffers, loadNearOffers from "near offers" block', async () => {
+      const fakeAnchorOffer = {...offerClient};
+      fakeAnchorOffer.id++;
 
-    await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite));
+      const store = mockStore({
+        DATA: {
+          offers: [offerClient],
+          nearOffers: {
+            [fakeAnchorOffer.id]: {
+              requestStatus: 'SUCCESS',
+              data: [offerClient],
+            },
+          },
+        },
+      });
 
-    expect(store.getActions()).toEqual([
-      ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
-      ActionCreator.loadFavorites(isFavorite ? [Adapter.offerToClient(offerBackend)] : []),
-    ]);
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite, fakeAnchorOffer.id));
+
+      expect(store.getActions()).toEqual([
+        ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
+        ActionCreator.loadNearOffers(fakeAnchorOffer.id, [Adapter.offerToClient(offerBackend)]),
+        ActionCreator.loadFavorites(isFavorite ? [Adapter.offerToClient(offerBackend)] : []),
+      ]);
+    });
+
+    it('should dispatch loadFavorites and loadOffers from NOT "near offers" block', async () => {
+      const store = mockStore({
+        DATA: {
+          offers: [offerClient],
+        },
+      });
+
+      expect(store.getActions()).toEqual([]);
+
+      await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite));
+
+      expect(store.getActions()).toEqual([
+        ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
+        ActionCreator.loadFavorites(isFavorite ? [Adapter.offerToClient(offerBackend)] : []),
+      ]);
+    });
   });
 });

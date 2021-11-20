@@ -1,6 +1,6 @@
-import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../constants';
+import {AuthorizationStatus} from '../../constants';
 import Header from '../header/header';
+import {Logo} from '../logo/logo';
 import Favorites from '../favorites/favorites';
 import {useDispatch, useSelector} from 'react-redux';
 import {ActionsAPI} from '../../store/api-actions';
@@ -9,6 +9,8 @@ import {getAuthStatus} from '../../store/reducer/user/selectors';
 import {useEffect} from 'react';
 import LoadingComponent from '../loading-component/loading-component';
 import './favorites-page.css';
+
+const LOADING_COMPONENT_WIDTH = '60vh';
 
 function FavoritesPage(): JSX.Element {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ function FavoritesPage(): JSX.Element {
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           {
-            favorites.requestStatus === 'PENDING' ? <LoadingComponent/> : <Favorites offers={favorites.data}/>
+            favorites.requestStatus === 'PENDING' ? <LoadingComponent height={LOADING_COMPONENT_WIDTH}/> : <Favorites offers={favorites.data}/>
           }
         </div>
       </main>
@@ -38,9 +40,7 @@ function FavoritesPage(): JSX.Element {
         className="footer container"
         style={{marginTop: 'auto'}}
       >
-        <Link to={AppRoute.ROOT} className="footer__logo-link">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </Link>
+        <Logo className={'footer__logo'} imageWidth={64} imageHeight={33}/>
       </footer>
     </div>
   );

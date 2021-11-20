@@ -32,6 +32,7 @@ function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
         evt.preventDefault();
         dispatch(ActionsAPI.postReview(review, setReview));
       }}
+      data-testid="feedback-form"
     >
       <label className="reviews__label form__label" htmlFor="comment">Your review</label>
       <div className="reviews__rating-form form__rating">
@@ -95,6 +96,7 @@ function FeedbackForm({id}: FeedbackFormProps): JSX.Element {
         value={review.comment}
         onChange={handleFormChange}
         disabled={isSubmitting}
+        data-testid="review-textarea"
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

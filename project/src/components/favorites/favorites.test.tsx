@@ -40,5 +40,3 @@ describe('Component: Favorites', () => {
     expect(screen.queryAllByTestId('favorite-location').length).toEqual(cities.length);
   });
 });
-
-export {};

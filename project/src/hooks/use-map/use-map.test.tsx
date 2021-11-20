@@ -13,8 +13,3 @@ describe('Hook: useMap', () => {
     expect(map).toBe(null);
   });
 });
-
-// Что тут еще можно протестировать?
-// В useMap параметр mapRef должен иметь тип MutableRefObject<HTMLElement | null>
-// Создать HTMLElement в node.js нельзя
-// Нужно ли как-то иначе мокать mapRef?

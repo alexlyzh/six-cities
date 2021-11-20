@@ -30,7 +30,10 @@ function SortForm(): JSX.Element {
           <use xlinkHref="#icon-arrow-select"/>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
+      <ul
+        className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}
+        data-testid="sort-option-list"
+      >
 
         {sortTypes.map((sortType) => (
           <SortOption

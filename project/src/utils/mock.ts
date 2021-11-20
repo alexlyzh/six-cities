@@ -42,7 +42,7 @@ const getOffer = (): Offer => ({
   bedrooms: datatype.number(),
   city: getCity(),
   description: datatype.string(),
-  goods: new Array(FAKE_ARRAY_LENGTH).fill(null).map(datatype.string),
+  goods: ['fake-good'],
   host: getUser(),
   images: new Array(FAKE_ARRAY_LENGTH).fill(null).map(image.image),
   isFavorite: Boolean(getRandomInteger()),

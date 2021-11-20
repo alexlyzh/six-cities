@@ -6,6 +6,7 @@ import {ActionCreator} from '../../store/actions';
 
 type FavoriteButtonType = {
   id: number,
+  nearsAnchorId?: number
   isFavorite: boolean,
   buttonClassName: string,
   iconClassName: string,
@@ -14,7 +15,7 @@ type FavoriteButtonType = {
 }
 
 function FavoriteButton(props: FavoriteButtonType): JSX.Element {
-  const {id, isFavorite, buttonClassName, iconClassName, iconHeight, iconWidth} = props;
+  const {id, nearsAnchorId, isFavorite, buttonClassName, iconClassName, iconHeight, iconWidth} = props;
 
   const dispatch = useDispatch();
   const authorizationStatus = useSelector(getAuthStatus);
@@ -27,7 +28,7 @@ function FavoriteButton(props: FavoriteButtonType): JSX.Element {
       type="button"
       onClick={() => {
         if (isAuthorized) {
-          dispatch(ActionsAPI.postFavorite(id, !isFavorite));
+          dispatch(ActionsAPI.postFavorite(id, !isFavorite, nearsAnchorId));
           return;
         }
         dispatch(ActionCreator.redirectToRoute(AppRoute.LOGIN));

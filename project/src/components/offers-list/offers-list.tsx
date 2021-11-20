@@ -3,6 +3,7 @@ import {Offer} from '../../types/types';
 
 type OffersListProps = {
   offers: Offer[],
+  nearsAnchorId?: number,
   className: string,
   imageClassName: string,
   infoClassName?: string,
@@ -12,7 +13,7 @@ type OffersListProps = {
 }
 
 function OffersList(props: OffersListProps): JSX.Element {
-  const { offers, className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
+  const { offers, nearsAnchorId, className, imageClassName, infoClassName, imageWidth, imageHeight, onChangeHighlightedOffer } = props;
 
   return (
     <>
@@ -20,6 +21,7 @@ function OffersList(props: OffersListProps): JSX.Element {
         <OfferCard
           key={offer.id}
           offer={offer}
+          nearsAnchorId={nearsAnchorId}
           className={className}
           imageClassName={imageClassName}
           infoClassName={infoClassName}
