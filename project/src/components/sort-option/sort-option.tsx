@@ -3,15 +3,15 @@ import {SortType} from '../../constants';
 type SortOptionProps = {
   className: string,
   sortType: string,
-  clickHandler: () => void,
+  onSortOptionClick: () => void,
 }
 
-function SortOption({className, sortType, clickHandler}: SortOptionProps): JSX.Element {
+function SortOption({className, sortType, onSortOptionClick}: SortOptionProps): JSX.Element {
   return (
     <li
       key={sortType}
       className={className}
-      onClick={clickHandler}
+      onClick={onSortOptionClick}
       tabIndex={0}
       data-testid="sort-option"
     >

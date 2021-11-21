@@ -40,7 +40,7 @@ function SortForm(): JSX.Element {
             key={sortType}
             className={`places__option ${currentSort === SortType[sortType] ? 'places__option--active' : ''}`}
             sortType={sortType}
-            clickHandler={() => onSortOptionClick(SortType[sortType])}
+            onSortOptionClick={() => onSortOptionClick(SortType[sortType])}
           />
         ))}
 
