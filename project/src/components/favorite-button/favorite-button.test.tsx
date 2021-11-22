@@ -41,27 +41,4 @@ describe('Component: FavoriteButton', () => {
 
     expect(screen.getByTestId('favorite-btn')).toBeInTheDocument();
   });
-
-  // it('should dispatch ActionsAPI.postFavorite() when clicked', () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <FavoriteButton
-  //         id={id}
-  //         isFavorite={isFavorite}
-  //         buttonClassName={buttonClassName}
-  //         iconClassName={iconClassName}
-  //         iconWidth={iconWidth}
-  //         iconHeight={iconHeight}
-  //       />
-  //     </Provider>);
-  //
-  //   expect(store.getActions()).toEqual([]);
-  //
-  //   const button = screen.getByRole('button');
-  //   userEvent.click(button);
-  //
-  //   expect(store.getActions()).toEqual([
-  //     ActionsAPI.postFavorite(id, !isFavorite),
-  //   ]); //как проверить, что происходит диспатч по клику?
-  // });
 });

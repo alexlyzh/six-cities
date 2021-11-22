@@ -11,7 +11,7 @@ describe('Component: SortOption', () => {
       <SortOption
         className={'some'}
         sortType={SortType.POPULAR}
-        clickHandler={onSortOptionClick}
+        onSortOptionClick={onSortOptionClick}
       />);
 
     userEvent.click(screen.getByTestId('sort-option'));

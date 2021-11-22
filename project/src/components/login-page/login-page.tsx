@@ -7,7 +7,17 @@ import {getRandomCityName} from '../../utils/utils';
 import {ActionCreator} from '../../store/actions';
 
 const checkPasswordValidity = ({target}: ChangeEvent<HTMLInputElement>) => {
-  const validity = /\s/g.test(target.value) ? 'Enter a password without spaces' : '';
+  let validity = '';
+
+  switch (true) {
+    case /\s/g.test(target.value):
+      validity = 'Enter a password without spaces';
+      break;
+    case !(/(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+/.test(target.value)):
+      validity = 'Enter at least one letter and one digit';
+      break;
+  }
+
   target.setCustomValidity(validity);
   target.reportValidity();
 };
