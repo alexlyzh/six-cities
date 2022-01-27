@@ -1,8 +1,7 @@
 import {ActionCreator, ThunkActionResult} from './actions';
 import {APIRoute, AppRoute, AuthorizationStatus, ErrorMessage, FavoritePathname} from '../constants';
 import {dropToken, saveToken} from '../services/token';
-import Adapter from '../services/adapter';
-import {Offer, OfferBackend, ReviewBackend, UserBackend} from '../types/types';
+import {Offer, Review, User} from '../types/types';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {Dispatch, SetStateAction} from 'react';
@@ -32,9 +31,8 @@ const replaceElementInArray = (element: Offer, elements: Offer[]) => {
 const ActionsAPI = {
   getOffers: (): ThunkActionResult =>
     async (dispatch, _getState, api): Promise<void> => {
-      const {data} = await api.get<OfferBackend[]>(APIRoute.GetOffers);
-      const offers = data.map(Adapter.offerToClient);
-      dispatch(ActionCreator.loadOffers(offers));
+      const {data} = await api.get<Offer[]>(APIRoute.GetOffers);
+      dispatch(ActionCreator.loadOffers(data));
     },
 
   getReviews: (id: number): ThunkActionResult =>
@@ -42,9 +40,8 @@ const ActionsAPI = {
       dispatch(ActionCreator.startLoadingReviews(id));
 
       try {
-        const {data} = await api.get<ReviewBackend[]>(generatePath(APIRoute.GetReviews,{'hotel_id': id}));
-        const reviews = data.map(Adapter.reviewToClient);
-        dispatch(ActionCreator.loadReviews(id, reviews));
+        const {data} = await api.get<Review[]>(generatePath(APIRoute.GetReviews,{'hotel_id': id}));
+        dispatch(ActionCreator.loadReviews(id, data));
       } catch (err) {
         dispatch(ActionCreator.setReviewsLoadingError(id));
         toast.error(ErrorMessage.GetReviews);
@@ -56,9 +53,8 @@ const ActionsAPI = {
       dispatch(ActionCreator.startLoadingNearOffers(id));
 
       try {
-        const {data} = await api.get<OfferBackend[]>(generatePath(APIRoute.GetNearOffers, {'hotel_id': id}));
-        const nearOffers = data.map(Adapter.offerToClient);
-        dispatch(ActionCreator.loadNearOffers(id, nearOffers));
+        const {data} = await api.get<Offer[]>(generatePath(APIRoute.GetNearOffers, {'hotel_id': id}));
+        dispatch(ActionCreator.loadNearOffers(id, data));
       } catch (err) {
         dispatch(ActionCreator.setNearOffersLoadingError(id));
         toast.error(ErrorMessage.GetNearOffers);
@@ -71,7 +67,7 @@ const ActionsAPI = {
         .then((response) => {
           if (response && response.data) {
             saveToken(response.data.token);
-            dispatch(ActionCreator.setUser(Adapter.userToClient(response.data)));
+            dispatch(ActionCreator.setUser(response.data));
             dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
           } else {
             dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
@@ -85,9 +81,9 @@ const ActionsAPI = {
   login: ({email, password}: AuthData): ThunkActionResult =>
     async (dispatch, _getState, api): Promise<void> => {
       try {
-        const {data} = await api.post<UserBackend>(APIRoute.Login, {email, password});
+        const {data} = await api.post<User>(APIRoute.Login, {email, password});
         saveToken(data.token);
-        dispatch(ActionCreator.setUser(Adapter.userToClient(data)));
+        dispatch(ActionCreator.setUser(data));
         dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
         dispatch(ActionCreator.redirectToRoute(AppRoute.ROOT));
       } catch (err) {
@@ -113,9 +109,8 @@ const ActionsAPI = {
       dispatch(ActionCreator.setSubmittingState(true));
 
       try {
-        const {data} = await api.post<ReviewBackend[]>(generatePath(APIRoute.PostReview, {'hotel_id': id}), {comment, rating});
-        const reviews = data.map(Adapter.reviewToClient);
-        dispatch(ActionCreator.loadReviews(id, reviews));
+        const {data} = await api.post<Review[]>(generatePath(APIRoute.PostReview, {'hotel_id': id}), {comment, rating});
+        dispatch(ActionCreator.loadReviews(id, data));
         setReview({id, rating: null, comment: ''});
       } catch (err) {
         toast.error(ErrorMessage.PostReview);
@@ -129,9 +124,8 @@ const ActionsAPI = {
       dispatch(ActionCreator.startLoadingFavorites());
 
       try {
-        const {data} = await api.get<OfferBackend[]>(APIRoute.GetFavorites);
-        const favorites = data ? data.map(Adapter.offerToClient) : [];
-        dispatch(ActionCreator.loadFavorites(favorites));
+        const {data} = await api.get<Offer[]>(APIRoute.GetFavorites);
+        dispatch(ActionCreator.loadFavorites(data));
       } catch (err) {
         dispatch(ActionCreator.setFavoritesLoadingError());
         toast.error(ErrorMessage.GetFavorites);
@@ -142,19 +136,18 @@ const ActionsAPI = {
   postFavorite: (offerId: number, isFavorite: boolean, anchorOfferId: number | null = null): ThunkActionResult =>
     async (dispatch, getState, api): Promise<void> => {
       try {
-        const {data} = await api.post<OfferBackend>(generatePath(APIRoute.PostFavorite,{
+        const {data} = await api.post<Offer>(generatePath(APIRoute.PostFavorite,{
           'hotel_id': offerId,
           status: isFavorite ? FavoritePathname.addToFavorites : FavoritePathname.removeFromFavorites,
         }));
 
-        const updatedOffer = Adapter.offerToClient(data);
         const offers = [...getState().DATA.offers];
-        replaceElementInArray(updatedOffer, offers);
+        replaceElementInArray(data, offers);
         dispatch(ActionCreator.loadOffers(offers));
 
         if (anchorOfferId !== null) {
           const dataNearOffers = [...getState().DATA.nearOffers[anchorOfferId].data];
-          replaceElementInArray(updatedOffer, dataNearOffers);
+          replaceElementInArray(data, dataNearOffers);
           dispatch(ActionCreator.loadNearOffers(anchorOfferId, dataNearOffers));
         }
 

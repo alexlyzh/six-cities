@@ -24,7 +24,7 @@ describe('Async actions', () => {
   describe('On app start actions', () => {
     it('should set user & authorization to "AUTH" when GET/login', async () => {
       const store = mockStore();
-      const user = Mock.getUserBackend();
+      const user = Mock.getUser();
       mockApi.onGet(APIRoute.Login).reply(HttpCode.OK, user);
 
       expect(store.getActions()).toEqual([]);
@@ -32,33 +32,33 @@ describe('Async actions', () => {
       await store.dispatch(ActionsAPI.checkAuth());
 
       expect(store.getActions()).toEqual([
-        ActionCreator.setUser(Adapter.userToClient(user)),
+        ActionCreator.setUser(user),
         ActionCreator.requireAuthorization(AuthorizationStatus.AUTH),
       ]);
     });
 
     it('should dispatch loadOffers when GET/offers', async () => {
       const store = mockStore();
-      const backendOffers = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getOfferBackend);
+      const offers = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getOffer);
 
-      mockApi.onGet(APIRoute.GetOffers).reply(HttpCode.OK, backendOffers);
+      mockApi.onGet(APIRoute.GetOffers).reply(HttpCode.OK, offers);
 
       expect(store.getActions()).toEqual([]);
 
       await store.dispatch(ActionsAPI.getOffers());
 
-      expect(store.getActions()).toEqual([ActionCreator.loadOffers(backendOffers.map(Adapter.offerToClient))]);
+      expect(store.getActions()).toEqual([ActionCreator.loadOffers(offers)]);
     });
   });
 
   describe('On OfferPage open', () => {
     it('should dispatch loadNearOffers when GET/hotels/:hotel_id/nearby', async () => {
       const store = mockStore();
-      const backendOffers = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getOfferBackend);
+      const offer = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getOffer);
 
       mockApi
         .onGet(generatePath(APIRoute.GetNearOffers,{'hotel_id': FAKE_ID}))
-        .reply(HttpCode.OK, backendOffers);
+        .reply(HttpCode.OK, offer);
 
       expect(store.getActions()).toEqual([]);
 
@@ -66,13 +66,13 @@ describe('Async actions', () => {
 
       expect(store.getActions()).toEqual([
         ActionCreator.startLoadingNearOffers(FAKE_ID),
-        ActionCreator.loadNearOffers(FAKE_ID, backendOffers.map(Adapter.offerToClient)),
+        ActionCreator.loadNearOffers(FAKE_ID, offer),
       ]);
     });
 
     it('should dispatch loadReviews when GET/comments/:hotel_id', async () => {
       const store = mockStore();
-      const reviews = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReviewBackend);
+      const reviews = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReview);
 
       mockApi
         .onGet(generatePath(APIRoute.GetReviews, {'hotel_id': FAKE_ID}))
@@ -84,7 +84,7 @@ describe('Async actions', () => {
 
       expect(store.getActions()).toEqual([
         ActionCreator.startLoadingReviews(FAKE_ID),
-        ActionCreator.loadReviews(FAKE_ID, reviews.map(Adapter.reviewToClient)),
+        ActionCreator.loadReviews(FAKE_ID, reviews),
       ]);
     });
   });
@@ -93,11 +93,11 @@ describe('Async actions', () => {
     const store = mockStore();
     const setReview = jest.fn();
     const review = Mock.getReview();
-    const backendReview = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReviewBackend);
+    const backendReviews = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getReview);
 
     mockApi
       .onPost(generatePath(APIRoute.PostReview, {'hotel_id': review.id}))
-      .reply(HttpCode.OK, backendReview);
+      .reply(HttpCode.OK, backendReviews);
 
     expect(store.getActions()).toEqual([]);
 
@@ -105,7 +105,7 @@ describe('Async actions', () => {
 
     expect(store.getActions()).toEqual([
       ActionCreator.setSubmittingState(true),
-      ActionCreator.loadReviews(review.id, backendReview.map(Adapter.reviewToClient)),
+      ActionCreator.loadReviews(review.id, backendReviews),
       ActionCreator.setSubmittingState(false),
     ]);
 
@@ -119,7 +119,7 @@ describe('Async actions', () => {
 
   it('should set user, authorization "AUTH", redirect to "ROOT" when POST/login', async () => {
     const store = mockStore();
-    const user = Mock.getUserBackend();
+    const user = Mock.getUser();
     const authData: AuthData = {email: 'some@mail.com', password: 'password'};
     Storage.prototype.setItem = jest.fn();
 
@@ -130,7 +130,7 @@ describe('Async actions', () => {
     await store.dispatch(ActionsAPI.login(authData));
 
     expect(store.getActions()).toEqual([
-      ActionCreator.setUser(Adapter.userToClient(user)),
+      ActionCreator.setUser(user),
       ActionCreator.requireAuthorization(AuthorizationStatus.AUTH),
       ActionCreator.redirectToRoute(AppRoute.ROOT),
     ]);
@@ -160,9 +160,9 @@ describe('Async actions', () => {
 
   it('should dispatch loadFavorites when GET/favorite', async () => {
     const store = mockStore();
-    const backendOffers = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getOfferBackend);
+    const offers = new Array(FAKE_ARRAY_LENGTH).fill(null).map(Mock.getOffer);
 
-    mockApi.onGet(APIRoute.GetFavorites).reply(HttpCode.OK, backendOffers);
+    mockApi.onGet(APIRoute.GetFavorites).reply(HttpCode.OK, offers);
 
     expect(store.getActions()).toEqual([]);
 
@@ -170,14 +170,14 @@ describe('Async actions', () => {
 
     expect(store.getActions()).toEqual([
       ActionCreator.startLoadingFavorites(),
-      ActionCreator.loadFavorites(backendOffers.map(Adapter.offerToClient)),
+      ActionCreator.loadFavorites(offers),
     ]);
   });
 
   describe('API action when requesting POST/favorite/:hotel_id/:status', () => {
-    const offerBackend = Mock.getOfferBackend();
-    const offerClient = {...Adapter.offerToClient(offerBackend), isFavorite: !offerBackend['is_favorite']};
-    const isFavorite = offerBackend['is_favorite'];
+    const offerBackend = Mock.getOffer();
+    const offerClient = {...offerBackend, isFavorite: !offerBackend.isFavorite};
+    const isFavorite = offerBackend.isFavorite;
 
     mockApi
       .onPost(generatePath(APIRoute.PostFavorite, {
@@ -207,9 +207,9 @@ describe('Async actions', () => {
       await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite, fakeAnchorOffer.id));
 
       expect(store.getActions()).toEqual([
-        ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
-        ActionCreator.loadNearOffers(fakeAnchorOffer.id, [Adapter.offerToClient(offerBackend)]),
-        ActionCreator.loadFavorites(isFavorite ? [Adapter.offerToClient(offerBackend)] : []),
+        ActionCreator.loadOffers([offerBackend]),
+        ActionCreator.loadNearOffers(fakeAnchorOffer.id, [offerBackend]),
+        ActionCreator.loadFavorites(isFavorite ? [offerBackend] : []),
       ]);
     });
 
@@ -225,8 +225,8 @@ describe('Async actions', () => {
       await store.dispatch(ActionsAPI.postFavorite(offerBackend.id, isFavorite));
 
       expect(store.getActions()).toEqual([
-        ActionCreator.loadOffers([Adapter.offerToClient(offerBackend)]),
-        ActionCreator.loadFavorites(isFavorite ? [Adapter.offerToClient(offerBackend)] : []),
+        ActionCreator.loadOffers([offerBackend]),
+        ActionCreator.loadFavorites(isFavorite ? [offerBackend] : []),
       ]);
     });
   });
