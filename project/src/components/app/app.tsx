@@ -26,7 +26,7 @@ function App(): JSX.Element {
         <MainPage/>
       </Route>
       <Route exact path={AppRoute.LOGIN}>
-        {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT}/>: <LoginPage/>}
+        {authorizationStatus === AuthorizationStatus.AUTH ? <Redirect to={AppRoute.ROOT}/> : <LoginPage/>}
       </Route>
       <PrivateRoute
         exact
